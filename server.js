@@ -6,6 +6,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
+const ADMIN_ID = '7217447824';
 
 function maskPhone(phone) {
   if (!phone || phone.length < 8) return phone;
@@ -50,6 +51,7 @@ async function dbPatch(table, filter, data) {
 }
 
 const mainKeyboard = [['💰 Withdraw', '👤 Profile']];
+const userState = {};
 
 app.post('/webhook', async (req, res) => {
   try {
@@ -67,28 +69,56 @@ app.post('/webhook', async (req, res) => {
         const u = users[0];
         await sendMsg(chat_id, `👤 Profile\n\n🧑 User: ${u.name} ⚡\n💰 Balance: ₹${u.balance}\n🔁 Lifetime Earnings: ₹${u.lifetime_earnings}\n📱 Phone: ${u.phone}`, mainKeyboard);
       }
+
     } else if (/^[6-9]\d{9}$/.test(text)) {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length === 0) {
         await dbPost('users', { telegram_id: chat_id, name, phone: text, balance: 0, lifetime_earnings: 0 });
         await sendMsg(chat_id, `✅ Registration successful! You can now use the bot.\n\n👤 Profile\n\n🧑 User: ${name} ⚡\n💰 Balance: ₹0.00\n🔁 Lifetime Earnings: ₹0.00\n📱 Phone: ${text}`, mainKeyboard);
       } else {
-        await sendMsg(chat_id, `✅ Already registered!\n\nType /start to see profile.`, mainKeyboard);
+        await sendMsg(chat_id, `✅ Already registered!`, mainKeyboard);
       }
+
     } else if (text === '👤 Profile') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0) {
         const u = users[0];
         await sendMsg(chat_id, `👤 Profile\n\n🧑 User: ${u.name} ⚡\n💰 Balance: ₹${u.balance}\n🔁 Lifetime Earnings: ₹${u.lifetime_earnings}\n📱 Phone: ${u.phone}`, mainKeyboard);
       }
+
     } else if (text === '💰 Withdraw') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
-      if (users.length > 0 && users[0].balance >= 50) {
+      if (users.length > 0 && parseFloat(users[0].balance) >= 50) {
+        userState[chat_id] = 'withdraw_amount';
         await sendMsg(chat_id, `💸 Enter withdrawal amount (Minimum ₹50):`);
       } else {
-        await sendMsg(chat_id, `❌ Minimum ₹50 chahiye withdraw karne ke liye!`);
+        await sendMsg(chat_id, `❌ Minimum ₹50 chahiye withdraw karne ke liye!`, mainKeyboard);
+      }
+
+    } else if (userState[chat_id] === 'withdraw_amount' && /^\d+$/.test(text)) {
+      const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
+      if (users.length > 0 && parseFloat(users[0].balance) >= parseInt(text)) {
+        userState[chat_id] = { state: 'withdraw_upi', amount: text };
+        await sendMsg(chat_id, `🏦 Enter your UPI ID:`);
+      } else {
+        await sendMsg(chat_id, `❌ Insufficient balance!`, mainKeyboard);
+        delete userState[chat_id];
+      }
+
+    } else if (userState[chat_id] && userState[chat_id].state === 'withdraw_upi') {
+      const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
+      if (users.length > 0) {
+        const u = users[0];
+        const amount = userState[chat_id].amount;
+        const upi = text;
+        const now = getTime();
+        await dbPost('withdrawals', { telegram_id: chat_id, amount: parseFloat(amount), upi_id: upi, status: 'pending' });
+        await sendMsg(chat_id, `⏳ Withdrawal Request Submitted\n\n💰 Amount: ₹${amount}\n📅 Date: ${now}\n🟡 Status: Pending`, mainKeyboard);
+        await sendMsg(ADMIN_ID, `💸 New Withdraw Request!\n\n🧑 User: ${u.name}\n📱 Phone: ${u.phone}\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Time: ${now}`);
+        delete userState[chat_id];
       }
     }
+
   } catch(e) {
     console.error(e);
   }
@@ -121,7 +151,4 @@ app.get('/postback', async (req, res) => {
   res.send('OK');
 });
 
-app.get('/', (req, res) => res.send('TrackFlix Wallet Bot Running! ✅'));
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Running on port ${PORT}`));
+app.get('/', (req, res) => res.send('TrackFlix Wallet Bot Running!
