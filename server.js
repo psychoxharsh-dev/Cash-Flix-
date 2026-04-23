@@ -127,7 +127,8 @@ app.post('/webhook', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
-    const { click_id = 'N/A', event = 'N/A', amount = '0', offer = 'TrackFlix' } = req.query;
+    const { click_id = 'N/A', event = 'N/A', amount = '0', offer, aff_sub } = req.query;
+let offerName = offer || aff_sub || "Unknown";
     const runTime = getTime();
     const amt = parseFloat(amount);
 
