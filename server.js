@@ -69,45 +69,28 @@ app.post('/webhook', async (req, res) => {
         const u = users[0];
         await sendMsg(chat_id, `👤 Profile\n\n🧑 User: ${u.name} ⚡\n💰 Balance: ₹${u.balance}\n🔁 Lifetime Earnings: ₹${u.lifetime_earnings}\n📱 Phone: ${u.phone}`, mainKeyboard);
       }
-
     } else if (/^[6-9]\d{9}$/.test(text)) {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length === 0) {
         await dbPost('users', { telegram_id: chat_id, name, phone: text, balance: 0, lifetime_earnings: 0 });
-        await sendMsg(chat_id, `✅ Registration successful! You can now use the bot.\n\n👤 Profile\n\n🧑 User: ${name} ⚡\n💰 Balance: ₹0.00\n🔁 Lifetime Earnings: ₹0.00\n📱 Phone: ${text}`, mainKeyboard);
+        await sendMsg(chat_id, `✅ Registration successful!\n\n👤 Profile\n\n🧑 User: ${name} ⚡\n💰 Balance: ₹0.00\n🔁 Lifetime Earnings: ₹0.00\n📱 Phone: ${text}`, mainKeyboard);
       } else {
         await sendMsg(chat_id, `✅ Already registered!`, mainKeyboard);
       }
-
     } else if (text === '👤 Profile') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0) {
         const u = users[0];
         await sendMsg(chat_id, `👤 Profile\n\n🧑 User: ${u.name} ⚡\n💰 Balance: ₹${u.balance}\n🔁 Lifetime Earnings: ₹${u.lifetime_earnings}\n📱 Phone: ${u.phone}`, mainKeyboard);
       }
-
     } else if (text === '💰 Withdraw') {
-  const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
-  if (users.length > 0 && parseFloat(users[0].balance) >= 50) {
-    await sendMsg(chat_id, `💸 Apna UPI ID bhejo withdraw ke liye:\n\n💰 Available Balance: ₹${users[0].balance}`);
-    userState[chat_id] = { state: 'withdraw_upi', amount: users[0].balance };
-  } else {
-    await sendMsg(chat_id, `❌ Minimum ₹50 chahiye withdraw karne ke liye!`, mainKeyboard);
-  }
-} else if (userState[chat_id] && userState[chat_id].state === 'withdraw_upi') {
-  const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
-  if (users.length > 0) {
-    const u = users[0];
-    const amount = userState[chat_id].amount;
-    const upi = text;
-    const now = getTime();
-    await dbPost('withdrawals', { telegram_id: chat_id, amount: parseFloat(amount), upi_id: upi, status: 'pending' });
-    await sendMsg(chat_id, `⏳ Withdrawal Request Submitted\n\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Date: ${now}\n🟡 Status: Pending`, mainKeyboard);
-    await sendMsg(ADMIN_ID, `💸 New Withdraw Request!\n\n🧑 User: ${u.name}\n📱 Phone: ${u.phone}\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Time: ${now}`);
-    delete userState[chat_id];
-  }
-    }
-
+      const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
+      if (users.length > 0 && parseFloat(users[0].balance) >= 50) {
+        userState[chat_id] = { state: 'withdraw_upi', amount: users[0].balance };
+        await sendMsg(chat_id, `💸 Apna UPI ID bhejo:\n\n💰 Available Balance: ₹${users[0].balance}`);
+      } else {
+        await sendMsg(chat_id, `❌ Minimum ₹50 chahiye withdraw karne ke liye!`, mainKeyboard);
+      }
     } else if (userState[chat_id] && userState[chat_id].state === 'withdraw_upi') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0) {
@@ -116,12 +99,11 @@ app.post('/webhook', async (req, res) => {
         const upi = text;
         const now = getTime();
         await dbPost('withdrawals', { telegram_id: chat_id, amount: parseFloat(amount), upi_id: upi, status: 'pending' });
-        await sendMsg(chat_id, `⏳ Withdrawal Request Submitted\n\n💰 Amount: ₹${amount}\n📅 Date: ${now}\n🟡 Status: Pending`, mainKeyboard);
+        await sendMsg(chat_id, `⏳ Withdrawal Request Submitted\n\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Date: ${now}\n🟡 Status: Pending`, mainKeyboard);
         await sendMsg(ADMIN_ID, `💸 New Withdraw Request!\n\n🧑 User: ${u.name}\n📱 Phone: ${u.phone}\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Time: ${now}`);
         delete userState[chat_id];
       }
     }
-
   } catch(e) {
     console.error(e);
   }
@@ -130,8 +112,7 @@ app.post('/webhook', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
-    const { click_id = 'N/A', event = 'N/A', amount = '25', offer, aff_sub } = req.query;
-let offerName = offer || aff_sub || "Unknown";
+    const { click_id = 'N/A', event = 'N/A', amount = '0', offer = 'StoryTv2' } = req.query;
     const runTime = getTime();
     const amt = parseFloat(amount);
 
@@ -155,10 +136,11 @@ let offerName = offer || aff_sub || "Unknown";
   res.send('OK');
 });
 
-app.get('/', (req, res) => res.send('TrackFlix Wallet Bot Running!
+app.get('/', (req, res) => res.send('TrackFlix Wallet Bot Running! ✅'));
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Running on port ${PORT}`));
 
 setInterval(async () => {
   try { await fetch('https://cash-flix-dytv.onrender.com/'); } catch(e) {}
-}, 14 * 60 * 1000);                                    
+}, 14 * 60 * 1000);
