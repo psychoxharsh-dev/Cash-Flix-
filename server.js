@@ -153,3 +153,9 @@ let offerName = offer || aff_sub || "Unknown";
 });
 
 app.get('/', (req, res) => res.send('TrackFlix Wallet Bot Running!
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Running on port ${PORT}`));
+
+setInterval(async () => {
+  try { await fetch('https://cash-flix-dytv.onrender.com/'); } catch(e) {}
+}, 14 * 60 * 1000);                                    
