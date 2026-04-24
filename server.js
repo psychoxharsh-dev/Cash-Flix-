@@ -87,13 +87,26 @@ app.post('/webhook', async (req, res) => {
       }
 
     } else if (text === '💰 Withdraw') {
-      const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
-      if (users.length > 0 && parseFloat(users[0].balance) >= 50) {
-        userState[chat_id] = 'withdraw_amount';
-        await sendMsg(chat_id, `💸 Enter withdrawal amount (Minimum ₹50):`);
-      } else {
-        await sendMsg(chat_id, `❌ Minimum ₹50 chahiye withdraw karne ke liye!`, mainKeyboard);
-      }
+  const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
+  if (users.length > 0 && parseFloat(users[0].balance) >= 50) {
+    await sendMsg(chat_id, `💸 Apna UPI ID bhejo withdraw ke liye:\n\n💰 Available Balance: ₹${users[0].balance}`);
+    userState[chat_id] = { state: 'withdraw_upi', amount: users[0].balance };
+  } else {
+    await sendMsg(chat_id, `❌ Minimum ₹50 chahiye withdraw karne ke liye!`, mainKeyboard);
+  }
+} else if (userState[chat_id] && userState[chat_id].state === 'withdraw_upi') {
+  const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
+  if (users.length > 0) {
+    const u = users[0];
+    const amount = userState[chat_id].amount;
+    const upi = text;
+    const now = getTime();
+    await dbPost('withdrawals', { telegram_id: chat_id, amount: parseFloat(amount), upi_id: upi, status: 'pending' });
+    await sendMsg(chat_id, `⏳ Withdrawal Request Submitted\n\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Date: ${now}\n🟡 Status: Pending`, mainKeyboard);
+    await sendMsg(ADMIN_ID, `💸 New Withdraw Request!\n\n🧑 User: ${u.name}\n📱 Phone: ${u.phone}\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Time: ${now}`);
+    delete userState[chat_id];
+  }
+    }
 
     } else if (userState[chat_id] === 'withdraw_amount' && /^\d+$/.test(text)) {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
