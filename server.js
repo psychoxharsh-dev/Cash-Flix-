@@ -115,7 +115,15 @@ app.get('/postback', async (req, res) => {
   try {
     const { click_id = 'N/A', event = 'N/A', amount = '0', offer = 'StoryTv2' } = req.query;
     const runTime = getTime();
-    const amt = parseFloat(amount);
+    let amt = parseFloat(amount);
+
+if (event === 'initial' && (!amt || amt == 0)) {
+  amt = 0.1;
+}
+
+if (event === 'trial') {
+  amt = 25;
+}
 
     await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount: amt, event });
 
