@@ -108,16 +108,6 @@ app.post('/webhook', async (req, res) => {
   }
     }
 
-    } else if (userState[chat_id] === 'withdraw_amount' && /^\d+$/.test(text)) {
-      const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
-      if (users.length > 0 && parseFloat(users[0].balance) >= parseInt(text)) {
-        userState[chat_id] = { state: 'withdraw_upi', amount: text };
-        await sendMsg(chat_id, `🏦 Enter your UPI ID:`);
-      } else {
-        await sendMsg(chat_id, `❌ Insufficient balance!`, mainKeyboard);
-        delete userState[chat_id];
-      }
-
     } else if (userState[chat_id] && userState[chat_id].state === 'withdraw_upi') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0) {
