@@ -113,31 +113,43 @@ app.post('/webhook', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
-    const { click_id = 'N/A', event = 'N/A', amount = '0', offer = 'StoryTv2' } = req.query;
+    const { click_id = 'N/A', event = 'N/A', offer = 'StoryTv2' } = req.query;
+
+    // Amount event ke hisaab se
+    let amount;
+    if (event === 'initial') {
+      amount = '0.1';
+    } else if (event === 'Trial') {
+      amount = '25';
+    } else {
+      amount = req.query.amount || '0';
+    }
+
     const runTime = getTime();
-    let amt = parseFloat(amount);
-
-if (event === 'initial' && (!amt || amt == 0)) {
-  amt = 0.1;
-}
-
-if (event === 'trial') {
-  amt = 25;
-}
+    const amt = parseFloat(amount);
 
     await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount: amt, event });
 
-    const users = await dbGet('users', `phone=eq.${click_id}`);
-    if (users.length > 0) {
-      const u = users[0];
-      const newBal = parseFloat(u.balance) + amt;
-      const newLife = parseFloat(u.lifetime_earnings) + amt;
-      await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
-      await sendMsg(u.telegram_id, `🔵 Cashback Credited 🔵\n\n💵 Amount = ${amount}\n💰 Updated Balance = ${newBal}\n💡 Comment = ${offer}`);
+    // Sirf Trial pe balance add karo
+    if (event === 'Trial') {
+      const users = await dbGet('users', `phone=eq.${click_id}`);
+      if (users.length > 0) {
+        const u = users[0];
+        const newBal = parseFloat(u.balance) + amt;
+        const newLife = parseFloat(u.lifetime_earnings) + amt;
+        await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
+        await sendMsg(u.telegram_id, `🔵 Cashback Credited 🔵\n\n💵 Amount = ₹${amount}\n💰 Updated Balance = ₹${newBal}\n💡 Comment = ${offer}`);
+      }
+    } else if (event === 'initial') {
+      const users = await dbGet('users', `phone=eq.${click_id}`);
+      if (users.length > 0) {
+        const u = users[0];
+        await sendMsg(u.telegram_id, `📱 App Install Ho Gaya!\n\n💡 Offer: ${offer}\n⚡ Ab Trial lo aur ₹25 pao!`);
+      }
     }
 
     const trackTime = getTime();
-    const msg = `Conversation Count 💝\n\n🎁 Offer Name - ${offer}\n\nUser Id : ${maskPhone(click_id)}\nUser Amount : ₹${amount}\n🤑 User Payment : ${event}\n\nRun Time - ${runTime}\nTrack Time - ${trackTime}\n\nPowered By - TrackFlix`;
+    const msg = `Conversation Count 💝\n\n🎁 Offer Name - ${offer}\n\nUser Id : ${maskPhone(click_id)}\nUser Amount : ₹${amount}\n🤑 User Payment : Success\n\nRun Time - ${runTime}\nTrack Time - ${trackTime}\n\nPowered By - TrackFlix`;
     await sendMsg(CHAT_ID, msg);
   } catch(e) {
     console.error(e);
