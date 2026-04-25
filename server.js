@@ -101,8 +101,25 @@ app.post('/webhook', async (req, res) => {
         await dbPost('withdrawals', { telegram_id: chat_id, amount: parseFloat(amount), upi_id: upi, status: 'pending' });
         await sendMsg(chat_id, `⏳ Withdrawal Request Submitted\n\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Date: ${now}\n🟡 Status: Pending`, mainKeyboard);
         await dbPatch('users', `telegram_id=eq.${chat_id}`, { balance: 0 });
-        await sendMsg(ADMIN_ID, `💸 New Withdraw Request!\n\n🧑 User: ${u.name}\n📱 Phone: ${u.phone}\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Time: ${now}`);
+        await sendMsg(ADMIN_ID, `💸 New Withdraw Request!\n\n🧑 User: ${u.name}\n📱 Phone: ${u.phone}\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Time: ${now}\n\nReply: /paid ${u.phone}`);
         delete userState[chat_id];
+      }
+    } else if (text.startsWith('/paid ') && chat_id === ADMIN_ID) {
+      const phone = text.split(' ')[1];
+      const users = await dbGet('users', `phone=eq.${phone}`);
+      if (users.length > 0) {
+        const u = users[0];
+        const withdrawals = await dbGet('withdrawals', `telegram_id=eq.${u.telegram_id}&status=eq.pending&order=created_at.desc&limit=1`);
+        if (withdrawals.length > 0) {
+          const w = withdrawals[0];
+          await dbPatch('withdrawals', `id=eq.${w.id}`, { status: 'paid' });
+          await sendMsg(u.telegram_id, `💸 Payment Credited Successfully 💸\n\n👤 User: ${u.name}\n💰 Amount: ₹${w.amount} Sent\n🏦 UPI: ${w.upi_id}\n🕒 Time: Payment Completed\n\n✅ Withdrawal request paid successfully.\nThanks for using CashFlix ⚡`);
+          await sendMsg(ADMIN_ID, `✅ Payment sent to ${u.name} (${u.phone}) — ₹${w.amount}`);
+        } else {
+          await sendMsg(ADMIN_ID, `❌ Koi pending withdrawal nahi mila ${phone} ke liye!`);
+        }
+      } else {
+        await sendMsg(ADMIN_ID, `❌ User nahi mila: ${phone}`);
       }
     }
   } catch(e) {
@@ -115,7 +132,6 @@ app.get('/postback', async (req, res) => {
   try {
     const { click_id = 'N/A', event = 'N/A', offer = 'StoryTv2' } = req.query;
 
-    // Amount event ke hisaab se
     let amount;
     if (event === 'initial') {
       amount = '0.1';
@@ -130,7 +146,6 @@ app.get('/postback', async (req, res) => {
 
     await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount: amt, event });
 
-    // Sirf Trial pe balance add karo
     if (event === 'Trial') {
       const users = await dbGet('users', `phone=eq.${click_id}`);
       if (users.length > 0) {
@@ -138,13 +153,13 @@ app.get('/postback', async (req, res) => {
         const newBal = parseFloat(u.balance) + amt;
         const newLife = parseFloat(u.lifetime_earnings) + amt;
         await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
-        await sendMsg(u.telegram_id, `🔵 Cashback Credited 🔵\n\n💵 Amount = ₹${amount}\n💰 Updated Balance = ₹${newBal}\n💡 Comment = ${offer}`);
+        await sendMsg(u.telegram_id, `🧿 Cashback Credited 🧿\n\n💶 Amount  = ${amount}\n💰 Updated Balance = ${newBal}\n\n💡 Comment = Story Tv Trial`);
       }
     } else if (event === 'initial') {
       const users = await dbGet('users', `phone=eq.${click_id}`);
       if (users.length > 0) {
         const u = users[0];
-        await sendMsg(u.telegram_id, `📱 App Install Ho Gaya!\n\n💡 Offer: ${offer}\n⚡ Ab Trial lo aur ₹25 pao!`);
+        await sendMsg(u.telegram_id, `🧿 Cashback Credited 🧿\n\n💶 Amount  = ${amount}\n💰 Updated Balance = ${u.balance}\n\n💡 Comment = Story Tv Install`);
       }
     }
 
