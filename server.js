@@ -170,8 +170,8 @@ app.get('/postback', async (req, res) => {
     }
 
     const trackTime = getTime();
-    const msg = `*Conversation Count 💝*\n\n🎁 *Offer Name* \\- ${offer}\n\n👤 *User Id* : ${maskPhone(click_id)}\n💰 *User Amount* : ₹${amount}\n🤑 *User Payment* : Success\n\n⏱ *Run Time* \\- ${runTime.replace(/[.]/g, '\\.')}\n⏰ *Track Time* \\- ${trackTime.replace(/[.]/g, '\\.')}\n\n🤖 *Powered By* \\- TrackFlix`;
-    await sendMsg(CHAT_ID, msg, null, 'MarkdownV2');
+    const msg = `Conversation Count 💝\n\n🎁 Offer Name - ${offer}\n\nUser Id : ${maskPhone(click_id)}\nUser Amount : ₹${amount}\n🤑 User Payment : Success\n\nRun Time - ${runTime}\nTrack Time - ${trackTime}\n\nPowered By - TrackFlix`;
+    await sendMsg(CHAT_ID, msg);
   } catch(e) {
     console.error(e);
   }
@@ -185,4 +185,4 @@ app.listen(PORT, () => console.log(`Running on port ${PORT}`));
 
 setInterval(async () => {
   try { await fetch('https://cash-flix-dytv.onrender.com/'); } catch(e) {}
-}, 14 * 60 * 1000);  
+}, 14 * 60 * 1000);
