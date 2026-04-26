@@ -17,9 +17,14 @@ function getTime() {
   return new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }).replace(',', '');
 }
 
-async function sendMsg(chat_id, text, keyboard) {
+function getRequestId() {
+  return Math.floor(10000 + Math.random() * 90000);
+}
+
+async function sendMsg(chat_id, text, keyboard, parse_mode) {
   const body = { chat_id, text };
   if (keyboard) body.reply_markup = { keyboard, resize_keyboard: true };
+  if (parse_mode) body.parse_mode = parse_mode;
   await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -98,10 +103,11 @@ app.post('/webhook', async (req, res) => {
         const amount = userState[chat_id].amount;
         const upi = text;
         const now = getTime();
+        const requestId = getRequestId();
         await dbPost('withdrawals', { telegram_id: chat_id, amount: parseFloat(amount), upi_id: upi, status: 'pending' });
-        await sendMsg(chat_id, `⏳ Withdrawal Request Submitted\n\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Date: ${now}\n🟡 Status: Pending`, mainKeyboard);
+        await sendMsg(chat_id, `⏳ Withdrawal Request Submitted for Manual Approval!\n\n📊 Request ID: ${requestId}\n💰 Amount: ₹${amount}\n📱 Method: UPI\n📅 Date: ${now}`, mainKeyboard);
         await dbPatch('users', `telegram_id=eq.${chat_id}`, { balance: 0 });
-        await sendMsg(ADMIN_ID, `💸 New Withdraw Request!\n\n🧑 User: ${u.name}\n📱 Phone: ${u.phone}\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Time: ${now}\n\nReply: /paid ${u.phone}`);
+        await sendMsg(ADMIN_ID, `💸 New Withdraw Request!\n\n🧑 User: ${u.name}\n📱 Phone: ${u.phone}\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Time: ${now}\n📊 Request ID: ${requestId}\n\nReply: /paid ${u.phone}`);
         delete userState[chat_id];
       }
     } else if (text.startsWith('/paid ') && chat_id === ADMIN_ID) {
@@ -113,7 +119,7 @@ app.post('/webhook', async (req, res) => {
         if (withdrawals.length > 0) {
           const w = withdrawals[0];
           await dbPatch('withdrawals', `id=eq.${w.id}`, { status: 'paid' });
-          await sendMsg(u.telegram_id, `💸 Payment Credited Successfully 💸\n\n👤 User: ${u.name}\n💰 Amount: ₹${w.amount} Sent\n🏦 UPI: ${w.upi_id}\n🕒 Time: Payment Completed\n\n✅ Withdrawal request paid successfully.\nThanks for using CashFlix ⚡`);
+          await sendMsg(u.telegram_id, `*Your withdrawal request of ₹${w.amount} has been approved\\! ✅  CashFlix ⚡*`, null, 'MarkdownV2');
           await sendMsg(ADMIN_ID, `✅ Payment sent to ${u.name} (${u.phone}) — ₹${w.amount}`);
         } else {
           await sendMsg(ADMIN_ID, `❌ Koi pending withdrawal nahi mila ${phone} ke liye!`);
@@ -164,8 +170,8 @@ app.get('/postback', async (req, res) => {
     }
 
     const trackTime = getTime();
-    const msg = `Conversation Count 💝\n\n🎁 Offer Name - ${offer}\n\nUser Id : ${maskPhone(click_id)}\nUser Amount : ₹${amount}\n🤑 User Payment : Success\n\nRun Time - ${runTime}\nTrack Time - ${trackTime}\n\nPowered By - TrackFlix`;
-    await sendMsg(CHAT_ID, msg);
+    const msg = `*Conversation Count 💝*\n\n🎁 *Offer Name* \\- ${offer}\n\n👤 *User Id* : ${maskPhone(click_id)}\n💰 *User Amount* : ₹${amount}\n🤑 *User Payment* : Success\n\n⏱ *Run Time* \\- ${runTime.replace(/[.]/g, '\\.')}\n⏰ *Track Time* \\- ${trackTime.replace(/[.]/g, '\\.')}\n\n🤖 *Powered By* \\- TrackFlix`;
+    await sendMsg(CHAT_ID, msg, null, 'MarkdownV2');
   } catch(e) {
     console.error(e);
   }
@@ -179,4 +185,4 @@ app.listen(PORT, () => console.log(`Running on port ${PORT}`));
 
 setInterval(async () => {
   try { await fetch('https://cash-flix-dytv.onrender.com/'); } catch(e) {}
-}, 14 * 60 * 1000);
+}, 14 * 60 * 1000);  
