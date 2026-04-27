@@ -91,7 +91,7 @@ function handleSubmit() {
   }
   errorMsg.style.display = 'none'; 
   const link = 'https://publisher.apnacashy.site/c/?o=17&a=15&aff_click_id=' + phone + '&sub_aff_id=' + phone + '&offer=StoryTv2&event=' + event + '&amount=' + (event === 'initial' ? '0.1' : event === 'trial' ? '25' : '0');
-  window.location.href = link;
+  window.open(link, '_blank');
 }
 document.getElementById('phoneInput').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') handleSubmit();
