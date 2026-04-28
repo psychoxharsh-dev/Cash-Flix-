@@ -174,7 +174,7 @@ app.get('/postback', async (req, res) => {
     }
 
     const trackTime = getTime();
-    const msg = `*Conversation Count 💝*\n\n*🎁 Offer Name \\- ${esc(offer)}*\n\n*👤 User Id : ${esc(maskPhone(click_id))}*\n*💰 User Amount : ₹${esc(amount)}*\n*🤑 User Payment : Success*\n\n*⏱ Run Time \\- ${esc(runTime)}*\n*⏰ Track Time \\- ${esc(trackTime)}*\n\n*🤖 Powered By \\- TrackFlix*`;
+    const msg = `*Conversation Count 💝*\n\n*🎁 Offer Name \\- ${esc(offer)}*\n\n*👤 User Id : ${esc(maskPhone(click_id))}*\n*💰 User Amount : ₹${esc(amount)}*\n*🥳 User Payment : Success*\n\n*⏱ Run Time \\- ${esc(runTime)}*\n* Track Time \\- ${esc(trackTime)}*\n\n* Powered By \\- TrackFlix*`;
     await sendMsg(CHAT_ID, msg, null, 'MarkdownV2');
   } catch(e) {
     console.error(e);
