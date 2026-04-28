@@ -21,7 +21,7 @@ function getRequestId() {
   return Math.floor(10000 + Math.random() * 90000);
 }
 
-async function sendMsg(chat_id, text, keyboard, parse_mode = 'Markdown') {
+async function sendMsg(chat_id, text, keyboard, parse_mode) {
   const body = { chat_id, text };
   if (keyboard) body.reply_markup = { keyboard, resize_keyboard: true };
   if (parse_mode) body.parse_mode = parse_mode;
