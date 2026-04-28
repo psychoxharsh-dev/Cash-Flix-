@@ -21,10 +21,6 @@ function getRequestId() {
   return Math.floor(10000 + Math.random() * 90000);
 }
 
-function esc(text) {
-  return String(text).replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
-}
-
 async function sendMsg(chat_id, text, keyboard, parse_mode) {
   const body = { chat_id, text };
   if (keyboard) body.reply_markup = { keyboard, resize_keyboard: true };
@@ -73,32 +69,32 @@ app.post('/webhook', async (req, res) => {
     if (text === '/start') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length === 0) {
-        await sendMsg(chat_id, `*👋 Welcome ${esc(name)}\\!*\n\nBot use karne ke liye apna phone number bhejo:`, null, 'MarkdownV2');
+        await sendMsg(chat_id, `👋 Welcome ${name}!\n\nBot use karne ke liye apna phone number bhejo:`);
       } else {
         const u = users[0];
-        await sendMsg(chat_id, `*👤 Profile*\n\n*🧑 User:* ${esc(u.name)} ⚡\n*💰 Balance:* ₹${esc(String(u.balance))}\n*🔁 Lifetime Earnings:* ₹${esc(String(u.lifetime_earnings))}\n*📱 Phone:* ${esc(u.phone)}`, mainKeyboard, 'MarkdownV2');
+        await sendMsg(chat_id, `👤 Profile\n\n🧑 User: ${u.name} ⚡\n💰 Balance: ₹${u.balance}\n🔁 Lifetime Earnings: ₹${u.lifetime_earnings}\n📱 Phone: ${u.phone}`, mainKeyboard);
       }
     } else if (/^[6-9]\d{9}$/.test(text)) {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length === 0) {
         await dbPost('users', { telegram_id: chat_id, name, phone: text, balance: 0, lifetime_earnings: 0 });
-        await sendMsg(chat_id, `*✅ Registration successful\\!*\n\n*👤 Profile*\n\n*🧑 User:* ${esc(name)} ⚡\n*💰 Balance:* ₹0\\.00\n*🔁 Lifetime Earnings:* ₹0\\.00\n*📱 Phone:* ${esc(text)}`, mainKeyboard, 'MarkdownV2');
+        await sendMsg(chat_id, `✅ Registration successful!\n\n👤 Profile\n\n🧑 User: ${name} ⚡\n💰 Balance: ₹0.00\n🔁 Lifetime Earnings: ₹0.00\n📱 Phone: ${text}`, mainKeyboard);
       } else {
-        await sendMsg(chat_id, `*✅ Already registered\\!*`, mainKeyboard, 'MarkdownV2');
+        await sendMsg(chat_id, `✅ Already registered!`, mainKeyboard);
       }
     } else if (text === '👤 Profile') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0) {
         const u = users[0];
-        await sendMsg(chat_id, `*👤 Profile*\n\n*🧑 User:* ${esc(u.name)} ⚡\n*💰 Balance:* ₹${esc(String(u.balance))}\n*🔁 Lifetime Earnings:* ₹${esc(String(u.lifetime_earnings))}\n*📱 Phone:* ${esc(u.phone)}`, mainKeyboard, 'MarkdownV2');
+        await sendMsg(chat_id, `👤 Profile\n\n🧑 User: ${u.name} ⚡\n💰 Balance: ₹${u.balance}\n🔁 Lifetime Earnings: ₹${u.lifetime_earnings}\n📱 Phone: ${u.phone}`, mainKeyboard);
       }
     } else if (text === '💰 Withdraw') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0 && parseFloat(users[0].balance) >= 50) {
         userState[chat_id] = { state: 'withdraw_upi', amount: users[0].balance };
-        await sendMsg(chat_id, `*💸 Apna UPI ID bhejo:*\n\n*💰 Available Balance:* ₹${esc(String(users[0].balance))}`, null, 'MarkdownV2');
+        await sendMsg(chat_id, `💸 Apna UPI ID bhejo:\n\n💰 Available Balance: ₹${users[0].balance}`);
       } else {
-        await sendMsg(chat_id, `*❌ Minimum ₹50 chahiye withdraw karne ke liye\\!*`, mainKeyboard, 'MarkdownV2');
+        await sendMsg(chat_id, `❌ Minimum ₹50 chahiye withdraw karne ke liye!`, mainKeyboard);
       }
     } else if (userState[chat_id] && userState[chat_id].state === 'withdraw_upi') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
@@ -109,9 +105,9 @@ app.post('/webhook', async (req, res) => {
         const now = getTime();
         const requestId = getRequestId();
         await dbPost('withdrawals', { telegram_id: chat_id, amount: parseFloat(amount), upi_id: upi, status: 'pending' });
-        await sendMsg(chat_id, `*⏳ Withdrawal Request Submitted for Manual Approval\\!*\n\n*📊 Request ID:* ${esc(String(requestId))}\n*💰 Amount:* ₹${esc(String(amount))}\n*📱 Method:* UPI\n*📅 Date:* ${esc(now)}`, mainKeyboard, 'MarkdownV2');
+        await sendMsg(chat_id, `⏳ Withdrawal Request Submitted for Manual Approval!\n\n📊 Request ID: ${requestId}\n💰 Amount: ₹${amount}\n📱 Method: UPI\n📅 Date: ${now}`, mainKeyboard);
         await dbPatch('users', `telegram_id=eq.${chat_id}`, { balance: 0 });
-        await sendMsg(ADMIN_ID, `*💸 New Withdraw Request\\!*\n\n*🧑 User:* ${esc(u.name)}\n*📱 Phone:* ${esc(u.phone)}\n*💰 Amount:* ₹${esc(String(amount))}\n*🏦 UPI:* ${esc(upi)}\n*📅 Time:* ${esc(now)}\n*📊 Request ID:* ${esc(String(requestId))}\n\nReply: /paid ${u.phone}`, null, 'MarkdownV2');
+        await sendMsg(ADMIN_ID, `💸 New Withdraw Request!\n\n🧑 User: ${u.name}\n📱 Phone: ${u.phone}\n💰 Amount: ₹${amount}\n🏦 UPI: ${upi}\n📅 Time: ${now}\n📊 Request ID: ${requestId}\n\nReply: /paid ${u.phone}`);
         delete userState[chat_id];
       }
     } else if (text.startsWith('/paid ') && chat_id === ADMIN_ID) {
@@ -123,7 +119,7 @@ app.post('/webhook', async (req, res) => {
         if (withdrawals.length > 0) {
           const w = withdrawals[0];
           await dbPatch('withdrawals', `id=eq.${w.id}`, { status: 'paid' });
-          await sendMsg(u.telegram_id, `*Your withdrawal request of ₹${esc(String(w.amount))} has been approved\\! ✅ CashFlix ⚡*`, null, 'MarkdownV2');
+          await sendMsg(u.telegram_id, `*Your withdrawal request of ₹${w.amount} has been approved\\! ✅  CashFlix ⚡*`, null, 'MarkdownV2');
           await sendMsg(ADMIN_ID, `✅ Payment sent to ${u.name} (${u.phone}) — ₹${w.amount}`);
         } else {
           await sendMsg(ADMIN_ID, `❌ Koi pending withdrawal nahi mila ${phone} ke liye!`);
@@ -163,19 +159,19 @@ app.get('/postback', async (req, res) => {
         const newBal = parseFloat(u.balance) + amt;
         const newLife = parseFloat(u.lifetime_earnings) + amt;
         await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
-        await sendMsg(u.telegram_id, `*🧿 Cashback Credited 🧿*\n\n*💶 Amount  \\= ${esc(amount)}*\n*💰 Updated Balance \\= ${esc(String(newBal))}*\n\n*💡 Comment \\= Story Tv Trial*`, null, 'MarkdownV2');
+        await sendMsg(u.telegram_id, `🧿 Cashback Credited 🧿\n\n💶 Amount  = ${amount}\n💰 Updated Balance = ${newBal}\n\n💡 Comment = Story Tv Trial`);
       }
     } else if (event === 'initial') {
       const users = await dbGet('users', `phone=eq.${click_id}`);
       if (users.length > 0) {
         const u = users[0];
-        await sendMsg(u.telegram_id, `*🧿 Cashback Credited 🧿*\n\n*💶 Amount  \\= ${esc(amount)}*\n*💰 Updated Balance \\= ${esc(String(u.balance))}*\n\n*💡 Comment \\= Story Tv Install*`, null, 'MarkdownV2');
+        await sendMsg(u.telegram_id, `🧿 Cashback Credited 🧿\n\n💶 Amount  = ${amount}\n💰 Updated Balance = ${u.balance}\n\n💡 Comment = Story Tv Install`);
       }
     }
 
     const trackTime = getTime();
-    const msg = `*Conversation Count 💝*\n\n*🎁 Offer Name \\- ${esc(offer)}*\n\n*👤 User Id : ${esc(maskPhone(click_id))}*\n*💰 User Amount : ₹${esc(amount)}*\n*🥳 User Payment : Success*\n\n*⏱ Run Time \\- ${esc(runTime)}*\n* Track Time \\- ${esc(trackTime)}*\n\n* Powered By \\- TrackFlix*`;
-    await sendMsg(CHAT_ID, msg, null, 'MarkdownV2');
+    const msg = `Conversation Count 💝\n\n🎁 Offer Name - ${offer}\n\nUser Id : ${maskPhone(click_id)}\nUser Amount : ₹${amount}\n🥳 User Payment : Success\n\nRun Time - ${runTime}\nTrack Time - ${trackTime}\n\nPowered By - TrackFlix`;
+    await sendMsg(CHAT_ID, msg);
   } catch(e) {
     console.error(e);
   }
