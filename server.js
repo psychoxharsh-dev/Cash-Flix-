@@ -68,32 +68,32 @@ app.post('/webhook', async (req, res) => {
     if (text === '/start') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length === 0) {
-        await sendMsg(chat_id, `👋 <b>Welcome ${name}!</b>\n\nBot use karne ke liye apna phone number bhejo:`);
+        await sendMsg(chat_id, `<b>👋 Welcome ${name}!</b>\n\n<b>Bot use karne ke liye apna phone number bhejo:</b>`);
       } else {
         const u = users[0];
-        await sendMsg(chat_id, `👤 <b>Profile</b>\n\n🧑 <b>User:</b> ${u.name} ⚡\n💰 <b>Balance:</b> ₹${u.balance}\n🔁 <b>Lifetime Earnings:</b> ₹${u.lifetime_earnings}\n📱 <b>Phone:</b> ${u.phone}`, mainKeyboard);
+        await sendMsg(chat_id, `<b>👤 Profile</b>\n\n<b>🧑 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${u.balance}</b>\n<b>🔁 Lifetime Earnings: ₹${u.lifetime_earnings}</b>\n<b>📱 Phone: ${u.phone}</b>`, mainKeyboard);
       }
     } else if (/^[6-9]\d{9}$/.test(text)) {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length === 0) {
         await dbPost('users', { telegram_id: chat_id, name, phone: text, balance: 0, lifetime_earnings: 0 });
-        await sendMsg(chat_id, `✅ <b>Registration successful!</b>\n\n👤 <b>Profile</b>\n\n🧑 <b>User:</b> ${name} ⚡\n💰 <b>Balance:</b> ₹0.00\n🔁 <b>Lifetime Earnings:</b> ₹0.00\n📱 <b>Phone:</b> ${text}`, mainKeyboard);
+        await sendMsg(chat_id, `<b>✅ Registration successful!</b>\n\n<b>👤 Profile</b>\n\n<b>🧑 User: ${name} ⚡</b>\n<b>💰 Balance: ₹0.00</b>\n<b>🔁 Lifetime Earnings: ₹0.00</b>\n<b>📱 Phone: ${text}</b>`, mainKeyboard);
       } else {
-        await sendMsg(chat_id, `✅ <b>Already registered!</b>`, mainKeyboard);
+        await sendMsg(chat_id, `<b>✅ Already registered!</b>`, mainKeyboard);
       }
     } else if (text === '👤 Profile') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0) {
         const u = users[0];
-        await sendMsg(chat_id, `👤 <b>Profile</b>\n\n🧑 <b>User:</b> ${u.name} ⚡\n💰 <b>Balance:</b> ₹${u.balance}\n🔁 <b>Lifetime Earnings:</b> ₹${u.lifetime_earnings}\n📱 <b>Phone:</b> ${u.phone}`, mainKeyboard);
+        await sendMsg(chat_id, `<b>👤 Profile</b>\n\n<b>🧑 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${u.balance}</b>\n<b>🔁 Lifetime Earnings: ₹${u.lifetime_earnings}</b>\n<b>📱 Phone: ${u.phone}</b>`, mainKeyboard);
       }
     } else if (text === '💰 Withdraw') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0 && parseFloat(users[0].balance) >= 50) {
         userState[chat_id] = { state: 'withdraw_upi', amount: users[0].balance };
-        await sendMsg(chat_id, `💸 <b>Apna UPI ID bhejo:</b>\n\n💰 <b>Available Balance:</b> ₹${users[0].balance}`);
+        await sendMsg(chat_id, `<b>💸 Apna UPI ID bhejo:</b>\n\n<b>💰 Available Balance: ₹${users[0].balance}</b>`);
       } else {
-        await sendMsg(chat_id, `❌ <b>Minimum ₹50 chahiye withdraw karne ke liye!</b>`, mainKeyboard);
+        await sendMsg(chat_id, `<b>❌ Minimum ₹50 chahiye withdraw karne ke liye!</b>`, mainKeyboard);
       }
     } else if (userState[chat_id] && userState[chat_id].state === 'withdraw_upi') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
@@ -104,9 +104,9 @@ app.post('/webhook', async (req, res) => {
         const now = getTime();
         const requestId = getRequestId();
         await dbPost('withdrawals', { telegram_id: chat_id, amount: parseFloat(amount), upi_id: upi, status: 'pending' });
-        await sendMsg(chat_id, `⏳ <b>Withdrawal Request Submitted for Manual Approval!</b>\n\n📊 <b>Request ID:</b> ${requestId}\n💰 <b>Amount:</b> ₹${amount}\n📱 <b>Method:</b> UPI\n📅 <b>Date:</b> ${now}`, mainKeyboard);
+        await sendMsg(chat_id, `<b>⏳ Withdrawal Request Submitted for Manual Approval!</b>\n\n<b>📊 Request ID: ${requestId}</b>\n<b>💰 Amount: ₹${amount}</b>\n<b>📱 Method: UPI</b>\n<b>📅 Date: ${now}</b>`, mainKeyboard);
         await dbPatch('users', `telegram_id=eq.${chat_id}`, { balance: 0 });
-        await sendMsg(ADMIN_ID, `💸 <b>New Withdraw Request!</b>\n\n🧑 <b>User:</b> ${u.name}\n📱 <b>Phone:</b> ${u.phone}\n💰 <b>Amount:</b> ₹${amount}\n🏦 <b>UPI:</b> ${upi}\n📅 <b>Time:</b> ${now}\n📊 <b>Request ID:</b> ${requestId}\n\nReply: /paid ${u.phone}`);
+        await sendMsg(ADMIN_ID, `<b>💸 New Withdraw Request!</b>\n\n<b>🧑 User: ${u.name}</b>\n<b>📱 Phone: ${u.phone}</b>\n<b>💰 Amount: ₹${amount}</b>\n<b>🏦 UPI: ${upi}</b>\n<b>📅 Time: ${now}</b>\n<b>📊 Request ID: ${requestId}</b>\n\nReply: /paid ${u.phone}`);
         delete userState[chat_id];
       }
     } else if (text.startsWith('/paid ') && chat_id === ADMIN_ID) {
@@ -119,12 +119,12 @@ app.post('/webhook', async (req, res) => {
           const w = withdrawals[0];
           await dbPatch('withdrawals', `id=eq.${w.id}`, { status: 'paid' });
           await sendMsg(u.telegram_id, `<b>Your withdrawal request of ₹${w.amount} has been approved! ✅ CashFlix ⚡</b>`);
-          await sendMsg(ADMIN_ID, `✅ Payment sent to ${u.name} (${u.phone}) — ₹${w.amount}`);
+          await sendMsg(ADMIN_ID, `<b>✅ Payment sent to ${u.name} (${u.phone}) — ₹${w.amount}</b>`);
         } else {
-          await sendMsg(ADMIN_ID, `❌ Koi pending withdrawal nahi mila ${phone} ke liye!`);
+          await sendMsg(ADMIN_ID, `<b>❌ Koi pending withdrawal nahi mila ${phone} ke liye!</b>`);
         }
       } else {
-        await sendMsg(ADMIN_ID, `❌ User nahi mila: ${phone}`);
+        await sendMsg(ADMIN_ID, `<b>❌ User nahi mila: ${phone}</b>`);
       }
     }
   } catch(e) {
@@ -158,18 +158,18 @@ app.get('/postback', async (req, res) => {
         const newBal = parseFloat(u.balance) + amt;
         const newLife = parseFloat(u.lifetime_earnings) + amt;
         await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
-        await sendMsg(u.telegram_id, `🧿 <b>Cashback Credited</b> 🧿\n\n💶 <b>Amount  =</b> ${amount}\n💰 <b>Updated Balance =</b> ${newBal}\n\n💡 <b>Comment =</b> Story Tv Trial`);
+        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal}</b>\n\n<b>💡 Comment = Story Tv Trial</b>`);
       }
     } else if (event === 'initial') {
       const users = await dbGet('users', `phone=eq.${click_id}`);
       if (users.length > 0) {
         const u = users[0];
-        await sendMsg(u.telegram_id, `🧿 <b>Cashback Credited</b> 🧿\n\n💶 <b>Amount  =</b> ${amount}\n💰 <b>Updated Balance =</b> ${u.balance}\n\n💡 <b>Comment =</b> Story Tv Install`);
+        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${u.balance}</b>\n\n<b>💡 Comment = Story Tv Install</b>`);
       }
     }
 
     const trackTime = getTime();
-    const msg = `<b>Conversation Count 💝</b>\n\n🎁 <b>Offer Name -</b> ${offer}\n\n<b>User Id :</b> ${maskPhone(click_id)}\n<b>User Amount :</b> ₹${amount}\n🤑 <b>User Payment :</b> Success\n\n<b>Run Time -</b> ${runTime}\n<b>Track Time -</b> ${trackTime}\n\n<b>Powered By - TrackFlix</b>`;
+    const msg = `<b>Conversation Count 💝</b>\n\n<b>🎁 Offer Name - ${offer}</b>\n\n<b>User Id : ${maskPhone(click_id)}</b>\n<b>User Amount : ₹${amount}</b>\n<b>🤑 User Payment : Success</b>\n\n<b>Run Time - ${runTime}</b>\n<b>Track Time - ${trackTime}</b>\n\n<b>Powered By - TrackFlix</b>`;
     await sendMsg(CHAT_ID, msg);
   } catch(e) {
     console.error(e);
