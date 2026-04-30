@@ -8,7 +8,7 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
-.card { background:#fff; border-radius:24px; padding:24px; max-width:420px; width:100%; box-shadow:0 8px 32px rgba(0,0,0,0.10); }
+.card { background:#fff; border-radius:24px; padding:24px; max-width:420px; width:100%; box-shadow:0 8px 32px rgba(0,0,0,0.10); position:relative; }
 .header { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
 .app-icon { width:64px; height:64px; border-radius:16px; background:linear-gradient(135deg,#e91e8c,#9c27b0); display:flex; align-items:center; justify-content:center; font-size:28px; flex-shrink:0; }
 .header-text h1 { font-size:22px; font-weight:900; color:#1a1a2e; }
@@ -38,82 +38,47 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .success-icon { font-size:60px; margin-bottom:16px; }
 .success-screen h2 { font-size:22px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
 .success-screen p { font-size:14px; color:#666; font-weight:600; margin-bottom:20px; }
-.offer-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#1976d2,#42a5f5); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:900; font-family:'Nunito',sans-serif; cursor:pointer; text-decoration:none; letter-spacing:0.5px; box-shadow:0 4px 16px rgba(25,118,210,0.35); transition:all 0.2s; text-align:center; }
-.offer-btn:hover { transform:translateY(-2px); }
+.offer-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#1976d2,#42a5f5); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:900; font-family:'Nunito',sans-serif; cursor:pointer; text-decoration:none; letter-spacing:0.5px; box-shadow:0 4px 16px rgba(25,118,210,0.35); transition:all 0.2s; }
 .powered { text-align:center; margin-top:20px; font-size:12px; color:#bbb; font-weight:700; }
 .powered span { color:#1976d2; }
 
-/* ----- TOAST NOTIFICATION STYLES ----- */
-.toast-notification {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  color: white;
-  padding: 14px 24px;
-  border-radius: 60px;
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.3px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  z-index: 1000;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.25);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.15);
-  font-family: 'Nunito', sans-serif;
-  transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
-  opacity: 0;
-  pointer-events: none;
+/* Campbolt Style Toast - White Background, Green Text */
+.toast {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    color: #10b981;
+    padding: 12px 24px;
+    border-radius: 40px;
+    font-size: 14px;
+    font-weight: 800;
+    text-align: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    border: 1px solid #e5e7eb;
 }
-.toast-notification.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-  pointer-events: auto;
+
+.toast.show {
+    opacity: 1;
+    visibility: visible;
 }
-.toast-icon {
-  background: #10b981;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-.toast-message {
-  flex: 1;
-}
-.toast-close {
-  background: rgba(255,255,255,0.2);
-  border-radius: 30px;
-  width: 26px;
-  height: 26px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.toast-close:hover {
-  background: rgba(255,255,255,0.35);
-}
-/* Different toast types */
-.toast-notification.success-toast { background: linear-gradient(135deg, #0f3b2c, #0a472e); border-left: 4px solid #2ecc71; }
-.toast-notification.info-toast { background: linear-gradient(135deg, #1e3a8a, #1e40af); border-left: 4px solid #3b82f6; }
-.toast-notification.warning-toast { background: linear-gradient(135deg, #7c2d12, #9a3412); border-left: 4px solid #f97316; }
 </style>
 </head>
 <body>
-
 <div class="card">
   <div id="formScreen">
     <div class="header">
-      <div class="app-icon"><img src="https://i.ibb.co/chVHHvZp/images.png" style="width:100%;height:100%;border-radius:16px;object-fit:cover;" alt="Story Tv 2"></div>
+      <div class="app-icon"><img src="https://i.ibb.co/chVHHvZp/images.png" style="width:100%;height:100%;border-radius:16px;object-fit:cover;"></div>
       <div class="header-text">
         <h1>Story Tv 2</h1>
         <p>Complete & earn instantly</p>
@@ -131,7 +96,7 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
     <div class="form-label"><span>💳</span> Wallet Number</div>
     <input type="tel" class="phone-input" id="phoneInput" placeholder="Enter 10 digit wallet number" maxlength="10">
     <div class="error-msg" id="errorMsg">⚠️ Please enter a valid 10 digit number!</div>
-    <button class="submit-btn" id="submitBtn">SUBMIT</button>
+    <button class="submit-btn" onclick="handleSubmit()">SUBMIT</button>
     <div class="divider"></div>
     <div class="steps-title">🕐 How to complete this offer?</div>
     <div class="step"><div class="step-num">1</div><div class="step-text">Enter Your Wallet Number & Submit.</div></div>
@@ -148,263 +113,36 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
   <div class="powered">Powered by <span>TrackFlix ⚡</span></div>
 </div>
 
-<!-- Toast Container -->
-<div id="toastRoot"></div>
+<!-- Campbolt Style Toast -->
+<div id="toastMessage" class="toast">
+    ✅ Success! Redirecting you now...
+</div>
 
 <script>
-// ---------- ADVANCED TOAST SYSTEM (SECCUS STYLE) ----------
-class ToastManager {
-  constructor() {
-    this.container = document.getElementById('toastRoot');
-    if (!this.container) {
-      this.container = document.createElement('div');
-      this.container.id = 'toastRoot';
-      document.body.appendChild(this.container);
-    }
-    this.activeToasts = [];
-  }
+const PUBLISHER_LINK = 'https://publisher.apnacashy.site/c/?o=17&a=15';
 
-  // Main method to show a toast
-  show(message, type = 'success', duration = 4000) {
-    const toastId = 'toast_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-    const toastDiv = document.createElement('div');
-    toastDiv.className = `toast-notification ${type}-toast`;
-    toastDiv.id = toastId;
-    
-    // Icon based on type
-    let iconSymbol = '✓';
-    if (type === 'success') iconSymbol = '✓';
-    else if (type === 'info') iconSymbol = 'ℹ️';
-    else if (type === 'warning') iconSymbol = '⚠️';
-    
-    toastDiv.innerHTML = `
-      <div class="toast-icon">${iconSymbol}</div>
-      <div class="toast-message">${message}</div>
-      <div class="toast-close">✕</div>
-    `;
-    
-    this.container.appendChild(toastDiv);
-    
-    // Trigger animation after small delay
-    setTimeout(() => {
-      toastDiv.classList.add('show');
-    }, 10);
-    
-    // Close button handler
-    const closeBtn = toastDiv.querySelector('.toast-close');
-    closeBtn.addEventListener('click', () => {
-      this.dismissToast(toastDiv);
-    });
-    
-    // Auto dismiss after duration
-    const timeoutId = setTimeout(() => {
-      this.dismissToast(toastDiv);
-    }, duration);
-    
-    // Store reference for cleanup
-    this.activeToasts.push({ id: toastId, element: toastDiv, timeout: timeoutId });
-    
-    return toastId;
-  }
-  
-  dismissToast(toastElement) {
-    if (!toastElement || !toastElement.parentNode) return;
-    toastElement.classList.remove('show');
-    setTimeout(() => {
-      if (toastElement.parentNode) toastElement.remove();
-    }, 300);
-    // Clear timeout if any
-    const existing = this.activeToasts.find(t => t.element === toastElement);
-    if (existing && existing.timeout) {
-      clearTimeout(existing.timeout);
-      this.activeToasts = this.activeToasts.filter(t => t.element !== toastElement);
-    }
-  }
-}
-
-const toast = new ToastManager();
-
-// ---------- CORE LOGIC ----------
-let currentPhone = '';
-let isTransitioning = false;
-
-// Helper to generate secure redirect link with tracking (maintains original trackers)
-function generateRedirectLink(phone, eventType = 'initial') {
-  // Use original link structure but dynamic phone + event for accurate tracking
-  // Make sure to encode the click id properly
-  const baseLink = 'https://publisher.apnacashy.site/c/?o=17&a=15';
-  // For tracking: sub_aff_id and aff_click_id as phone number, event param to differentiate flow
-  // Passing event = 'initial' when user submits phone and redirects to install page
-  // Also passing amount logic based on event type (for completeness)
-  let amountParam = '0.1';
-  if (eventType === 'trial') amountParam = '25';
-  const finalLink = `${baseLink}&aff_click_id=${encodeURIComponent(phone)}&sub_aff_id=${encodeURIComponent(phone)}&offer=StoryTv2&event=${eventType}&amount=${amountParam}`;
-  return finalLink;
-}
-
-// Show success screen with smooth transition and success toast
-function showSuccessScreen(phoneNumber) {
-  if (isTransitioning) return;
-  isTransitioning = true;
-  
-  // First show a "Success" toast — Success Redirecting style
-  toast.show(`✅ Wallet ${phoneNumber} linked successfully! Redirecting to offer...`, 'success', 2800);
-  
-  // Slight delay to show the success toast and then switch screens & redirect
-  setTimeout(() => {
-    // Hide form, show success screen
-    document.getElementById('formScreen').style.display = 'none';
-    const successDiv = document.getElementById('successScreen');
-    successDiv.style.display = 'block';
-    
-    // Update the "Install App & Earn" button with dynamic redirect link (without auto redirect yet - user clicks)
-    const offerBtn = document.getElementById('offerLink');
-    if (offerBtn) {
-      // The final partner link: when user clicks, we open the same tracking link but with 'initial' event so partner gets conversion.
-      const trackingLink = generateRedirectLink(phoneNumber, 'initial');
-      offerBtn.setAttribute('href', trackingLink);
-      offerBtn.setAttribute('target', '_blank'); // open in new tab to keep our page active
-      
-      // Also attach a click handler to show a toast "Redirecting to partner app"
-      offerBtn.addEventListener('click', (e) => {
-        // Show "Secus redirecting toast" style message when they proceed to install
-        toast.show('🚀 Secus: Redirecting to partner app & offer page...', 'info', 3000);
-        // Slight delay to allow toast to appear but we don't block navigation; it's async
-        // The actual redirect happens via href but we ensure toast shows first.
-        setTimeout(() => {
-          // Minor extra user friendly: nothing needed
-        }, 50);
-      });
-    }
-    
-    // Also show a second toast specifically for the user to click install
-    toast.show('🎁 Click on Install App button to claim ₹30 cashback!', 'info', 4000);
-    
-    isTransitioning = false;
-  }, 1200);
-}
-
-// Handle form submission with validation & toast feedback for error
 function handleSubmit() {
-  const phoneInput = document.getElementById('phoneInput');
-  let phone = phoneInput.value.trim();
-  const errorMsgDiv = document.getElementById('errorMsg');
-  
-  // Validation
+  const phone = document.getElementById('phoneInput').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
   if (!/^[6-9]\d{9}$/.test(phone)) {
-    errorMsgDiv.style.display = 'block';
-    // Show error toast (seccus style)
-    toast.show('⚠️ Invalid wallet number! Must be 10 digits starting with 6-9.', 'warning', 3500);
-    // Also shake effect on input for better UX
-    const inputField = phoneInput;
-    inputField.style.borderColor = '#e53935';
-    setTimeout(() => { inputField.style.borderColor = '#e8ecf4'; }, 600);
+    errorMsg.style.display = 'block';
     return;
   }
-  
-  errorMsgDiv.style.display = 'none';
-  currentPhone = phone;
-  
-  // Disable submit button temporarily to avoid double click
-  const submitBtn = document.getElementById('submitBtn');
-  submitBtn.disabled = true;
-  submitBtn.style.opacity = '0.7';
-  submitBtn.innerText = 'PROCESSING...';
-  
-  // Show an initial toast: "validating & securing redirect"
-  toast.show('🔐 Secus: Validating wallet & preparing secure redirect...', 'info', 2000);
-  
-  // Store submission in localStorage (just for demo UX)
-  try {
-    localStorage.setItem('storyTvLastPhone', phone);
-  } catch(e) {}
-  
-  // Simulate small delay (micro redirection preparation) + success toast
-  setTimeout(() => {
-    // Additional "Success redirecting toast" inside showSuccessScreen
-    showSuccessScreen(phone);
-    submitBtn.disabled = false;
-    submitBtn.style.opacity = '1';
-    submitBtn.innerText = 'SUBMIT';
-  }, 800);
+  errorMsg.style.display = 'none';
+  const finalLink = PUBLISHER_LINK + '&aff_click_id=' + phone + '&sub_aff_id=' + phone + '&offer=StoryTv2';
+  const toast = document.getElementById('toastMessage');
+  toast.classList.add('show');
+  setTimeout(function() {
+    window.location.href = finalLink;
+  }, 2500);
 }
 
-// Event listener for enter key
 document.getElementById('phoneInput').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    handleSubmit();
-  }
+  if (e.key === 'Enter') handleSubmit();
 });
-
 document.getElementById('phoneInput').addEventListener('input', function() {
   this.value = this.value.replace(/\D/g, '');
-  // reset error border if typing
-  document.getElementById('errorMsg').style.display = 'none';
-  this.style.borderColor = '#e8ecf4';
 });
-
-// Button click binding
-document.getElementById('submitBtn').addEventListener('click', handleSubmit);
-
-// Prefill if previously entered (optional)
-const savedPhone = localStorage.getItem('storyTvLastPhone');
-if (savedPhone && /^[6-9]\d{9}$/.test(savedPhone)) {
-  document.getElementById('phoneInput').value = savedPhone;
-}
-
-// Additional Toast Example: On page load, show a "Welcome Cashback" toast to improve UX
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    toast.show('🔥 Limited Offer: Get ₹25 cashback on first install!', 'info', 4500);
-  }, 800);
-});
-
-// Also, provide more "seccus redirecting" feeling: when user clicks Install App & Earn,
-// we already have toast inside the click handler, but ensure that if someone clicks from success screen right away
-// we give a smooth toast. Also handle potential redirection errors gracefully.
-const originalOfferHandler = () => {};
-document.getElementById('offerLink') && document.getElementById('offerLink').addEventListener('click', (e) => {
-  // Additional toast to confirm redirect is happening (if not already triggered by dynamic handler)
-  // The previous listener will also fire because we added in showSuccessScreen; to avoid double toast,
-  // we can remove duplication by flag check, but it's fine—both toasts can appear once.
-  // Prevent potential double 'seccus' but let it be.
-  const existingMsg = '🚀 Secus: Redirecting to partner app & offer page...';
-  toast.show(existingMsg, 'success', 2800);
-});
-
-// Additional fallback: if any tracking redirection event occurs from original script dynamic,
-// we can add a global interceptor but not required. For completeness, add redirect simulation for demo.
-// However, the main requirement: "seccus redirecting toast" meaning a stylish toast indicating redirection
-// when the user is about to be redirected or after successful submission. We've added in multiple stages:
-// 1- After submit -> Secus validating
-// 2- After validation & success -> Success redirecting toast with ₹
-// 3- On install click -> Secus redirecting toast with rocket
-// All are modern, matching the description "Isme seccus redirecting toast add kar de"
-
-// Also ensure that the original link redirection behaviour is intact: when user clicks the final Install button 
-// it redirects to partner link (opens new tab). I've used target="_blank" to respect both the toast & redirection.
-// Make the toast robust to any redirect scenario
-
-// For enhancing visual: add custom effect to the card when toast pops
-const originalStyle = document.createElement('style');
-originalStyle.textContent = `
-  .toast-notification.show {
-    animation: subtlePop 0.4s ease;
-  }
-  @keyframes subtlePop {
-    0% { transform: translateX(-50%) scale(0.9); opacity: 0; }
-    80% { transform: translateX(-50%) scale(1.02); }
-    100% { transform: translateX(-50%) scale(1); opacity: 1; }
-  }
-`;
-document.head.appendChild(originalStyle);
-
-// Add a special redirect safety net: If the user fails to click install button we can re-prompt.
-// Small improvement: on success screen we also add a "Copy phone" but not needed.
-// Entire flow matches original design but with extra Secus styling toast!
 </script>
-
-<!-- Additional micro fix: ensure the original cashback box and dynamic layout works perfectly on mobile -->
 </body>
 </html>
