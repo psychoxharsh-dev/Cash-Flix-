@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Story Tv 2 - TrackFlix ⚡</title>
+<title>Story Tv 2 - CashFlix ⚡</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -39,10 +39,10 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .success-screen h2 { font-size:22px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
 .success-screen p { font-size:14px; color:#666; font-weight:600; margin-bottom:20px; }
 .offer-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#1976d2,#42a5f5); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:900; font-family:'Nunito',sans-serif; cursor:pointer; text-decoration:none; letter-spacing:0.5px; box-shadow:0 4px 16px rgba(25,118,210,0.35); transition:all 0.2s; }
-.loading-screen { display:none; text-align:center; padding:40px 0; }
-.loading-screen .icon { font-size:60px; margin-bottom:16px; }
-.loading-screen h3 { font-size:22px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
-.loading-screen p { font-size:14px; color:#666; font-weight:600; }
+.redirect-screen { display:none; text-align:center; padding:40px 0; }
+.redirect-screen .icon { font-size:64px; margin-bottom:16px; }
+.redirect-screen h2 { font-size:24px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
+.redirect-screen p { font-size:14px; color:#888; font-weight:600; }
 .powered { text-align:center; margin-top:20px; font-size:12px; color:#bbb; font-weight:700; }
 .powered span { color:#1976d2; }
 </style>
@@ -83,10 +83,10 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
     <p>Ab neeche button click karke app install karo aur ₹25 pao!</p>
     <a href="#" class="offer-btn" id="offerLink">📲 Install App & Earn ₹30</a>
   </div>
-  <div class="loading-screen" id="loadingScreen">
+  <div class="redirect-screen" id="redirectScreen">
     <div class="icon">✅</div>
-    <h3>Success!</h3>
-    <p>Redirecting you now...</p>
+    <h2>Success!</h2>
+    <p>Redirecting you now…</p>
   </div>
   <div class="powered">Powered by <span>CashFlix ⚡</span></div>
 </div>
@@ -101,7 +101,7 @@ function handleSubmit() {
   errorMsg.style.display = 'none';
   const link = 'https://publisher.apnacashy.site/c/?o=17&a=15&aff_click_id=' + phone + '&sub_aff_id=' + phone + '&offer=StoryTv2&event=' + event + '&amount=' + (event === 'initial' ? '0.1' : event === 'trial' ? '25' : '0');
   document.getElementById('formScreen').style.display = 'none';
-  document.getElementById('loadingScreen').style.display = 'block';
+  document.getElementById('redirectScreen').style.display = 'block';
   setTimeout(() => {
     window.location.replace(link);
   }, 1500);
@@ -114,4 +114,4 @@ document.getElementById('phoneInput').addEventListener('input', function() {
 });
 </script>
 </body>
-      </html>
+</html>
