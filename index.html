@@ -4,495 +4,454 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Story Tv 2 - CashFlix ⚡</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
+* { margin:0; padding:0; box-sizing:border-box; }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
+body {
   font-family:'Nunito',sans-serif;
-  background:#eef4ff;
+  background:#f0f4ff;
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:18px;
-  overflow-x:hidden;
+  padding:20px;
 }
 
-/* TOP BLUE LINE */
-
-.top-line{
-  position:fixed;
-  top:118px;
-  left:0;
-  width:110px;
-  height:5px;
-  background:#1976ff;
-  border-radius:20px;
-}
-
-/* CARD */
-
-.card{
-  position:relative;
+.card {
   background:#fff;
-  border-radius:30px;
-  padding:22px;
+  border-radius:24px;
+  padding:24px;
   max-width:420px;
   width:100%;
-  box-shadow:
-  0 15px 40px rgba(25,118,255,0.08),
-  0 4px 10px rgba(0,0,0,0.04);
+  box-shadow:0 8px 32px rgba(0,0,0,0.10);
 }
 
-/* HEADER */
-
-.header{
+.header {
   display:flex;
   align-items:center;
-  gap:15px;
-  margin-top:22px;
+  gap:14px;
   margin-bottom:20px;
 }
 
-.app-icon{
-  width:72px;
-  height:72px;
-  border-radius:22px;
-  overflow:hidden;
+.app-icon {
+  width:64px;
+  height:64px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#e91e8c,#9c27b0);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
   flex-shrink:0;
-  box-shadow:0 10px 24px rgba(25,118,255,0.15);
 }
 
-.app-icon img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.header-text h1{
-  font-size:26px;
+.header-text h1 {
+  font-size:22px;
   font-weight:900;
-  color:#101828;
-  line-height:1;
+  color:#1a1a2e;
 }
 
-.header-text p{
-  margin-top:6px;
-  font-size:14px;
-  color:#7a8699;
-  font-weight:700;
+.header-text p {
+  font-size:13px;
+  color:#888;
+  font-weight:600;
 }
 
-/* CASHBACK BOX */
-
-.cashback-box{
-  background:linear-gradient(135deg,#006dff,#46b2ff);
-  border-radius:28px;
-  padding:24px;
-  margin-bottom:22px;
+.cashback-box {
+  background:linear-gradient(135deg,#1976d2,#42a5f5);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:20px;
   position:relative;
   overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,109,255,0.25);
 }
 
-.cashback-box::before{
+.cashback-box::after {
   content:'';
   position:absolute;
-  right:-35px;
-  top:-35px;
-  width:170px;
-  height:170px;
-  background:rgba(255,255,255,0.10);
+  right:-20px;
+  top:-20px;
+  width:120px;
+  height:120px;
+  background:rgba(255,255,255,0.1);
   border-radius:50%;
 }
 
-.cashback-label{
-  font-size:12px;
+.cashback-label {
+  font-size:11px;
   font-weight:800;
-  color:rgba(255,255,255,0.82);
-  letter-spacing:2px;
-  margin-bottom:10px;
+  color:rgba(255,255,255,0.8);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:6px;
 }
 
-.cashback-amount{
-  font-size:72px;
+.cashback-amount {
+  font-size:48px;
   font-weight:900;
   color:#fff;
   line-height:1;
-  margin-bottom:14px;
-}
-
-.cashback-amount span{
-  font-size:38px;
-}
-
-.badges{
-  display:flex;
-  gap:18px;
-  flex-wrap:wrap;
-}
-
-.badge{
-  color:#fff;
-  font-size:13px;
-  font-weight:800;
-}
-
-/* INPUT */
-
-.form-label{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:15px;
-  font-weight:900;
-  color:#172033;
   margin-bottom:12px;
 }
 
-.phone-input{
-  width:100%;
-  height:68px;
-  padding:0 22px;
-  border:3px solid #e4e9f2;
-  border-radius:22px;
-  font-size:18px;
-  font-weight:800;
-  color:#111827;
-  outline:none;
-  background:#fff;
-  transition:0.25s;
+.cashback-amount span {
+  font-size:28px;
 }
 
-.phone-input:focus{
-  border-color:#4da6ff;
-  box-shadow:0 0 0 5px rgba(77,166,255,0.12);
+.badges {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
 }
 
-.phone-input::placeholder{
-  color:#b4bcc9;
-}
-
-/* BUTTON */
-
-.submit-btn{
-  width:100%;
-  height:72px;
-  margin-top:18px;
-  border:none;
-  border-radius:24px;
-  background:linear-gradient(135deg,#1976ff,#56b6ff);
+.badge {
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:12px;
+  font-weight:700;
   color:#fff;
-  font-size:22px;
+}
+
+.badge::before {
+  content:'✓';
   font-weight:900;
-  letter-spacing:0.5px;
-  cursor:pointer;
-  box-shadow:
-  0 14px 28px rgba(25,118,255,0.26);
-  transition:0.2s;
 }
 
-.submit-btn:active{
-  transform:scale(.98);
-}
-
-/* ERROR */
-
-.error-msg{
-  color:#ff3b30;
-  font-size:13px;
+.form-label {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
   font-weight:800;
+  color:#1a1a2e;
+  margin-bottom:10px;
+}
+
+.phone-input {
+  width:100%;
+  padding:14px 18px;
+  border:2px solid #e8ecf4;
+  border-radius:14px;
+  font-size:15px;
+  font-family:'Nunito',sans-serif;
+  font-weight:700;
+  color:#1a1a2e;
+  outline:none;
+  transition:border-color 0.2s;
+  background:#f8f9ff;
+}
+
+.phone-input:focus {
+  border-color:#1976d2;
+  background:#fff;
+}
+
+.phone-input::placeholder {
+  color:#bbb;
+  font-weight:600;
+}
+
+.submit-btn {
+  width:100%;
+  padding:16px;
+  background:linear-gradient(135deg,#1976d2,#42a5f5);
+  color:#fff;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:900;
+  font-family:'Nunito',sans-serif;
+  cursor:pointer;
+  letter-spacing:1px;
+  transition:all 0.2s;
+  box-shadow:0 4px 16px rgba(25,118,210,0.35);
+  margin-top:12px;
+}
+
+.submit-btn:hover {
+  transform:translateY(-2px);
+}
+
+.error-msg {
+  color:#e53935;
+  font-size:13px;
+  font-weight:700;
   margin-top:8px;
   display:none;
 }
 
-/* STEPS */
-
-.steps-box{
-  background:#f8f9fc;
-  border-radius:24px;
-  padding:20px;
-  margin-top:24px;
+.divider {
+  height:1px;
+  background:#f0f0f0;
+  margin:20px 0;
 }
 
-.steps-title{
+.steps-title {
   display:flex;
   align-items:center;
-  gap:10px;
-  font-size:17px;
-  font-weight:900;
-  color:#101828;
-  margin-bottom:18px;
+  gap:8px;
+  font-size:15px;
+  font-weight:800;
+  color:#1a1a2e;
+  margin-bottom:16px;
 }
 
-.step{
+.step {
   display:flex;
   align-items:flex-start;
-  gap:14px;
-  margin-bottom:18px;
+  gap:12px;
+  margin-bottom:14px;
 }
 
-.step:last-child{
-  margin-bottom:0;
-}
-
-.step-num{
-  min-width:38px;
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  background:#1976ff;
+.step-num {
+  background:#1976d2;
   color:#fff;
+  width:28px;
+  height:28px;
+  border-radius:8px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:18px;
-  font-weight:900;
-  box-shadow:0 6px 16px rgba(25,118,255,0.25);
-}
-
-.step-text{
-  font-size:15px;
-  font-weight:800;
-  color:#273142;
-  line-height:1.5;
-}
-
-.highlight{
-  background:#e8f2ff;
-  color:#1976ff;
-  padding:3px 10px;
-  border-radius:20px;
-}
-
-/* POWERED */
-
-.powered{
-  text-align:center;
-  margin-top:22px;
   font-size:13px;
-  color:#b2b8c2;
+  font-weight:900;
+  flex-shrink:0;
+  margin-top:1px;
+}
+
+.step-text {
+  font-size:14px;
+  font-weight:700;
+  color:#333;
+  line-height:1.4;
+}
+
+.step-text .highlight {
+  background:#e3f2fd;
+  color:#1976d2;
+  padding:2px 8px;
+  border-radius:20px;
   font-weight:800;
 }
 
-.powered span{
-  color:#1976ff;
+.powered {
+  text-align:center;
+  margin-top:20px;
+  font-size:12px;
+  color:#bbb;
+  font-weight:700;
+}
+
+.powered span {
+  color:#1976d2;
 }
 
 /* SUCCESS TOAST */
 
 .success-toast{
   position:fixed;
-  top:-120px;
+  top:24px;
   left:50%;
-  transform:translateX(-50%);
-  width:calc(100% - 34px);
-  max-width:430px;
-  background:rgba(255,255,255,0.96);
-  backdrop-filter:blur(10px);
-  padding:18px 20px;
-  border-radius:24px;
+  transform:translateX(-50%) translateY(-100px);
+  background:#fff;
+  border-radius:18px;
+  padding:14px 18px;
   display:flex;
   align-items:center;
-  gap:16px;
-  box-shadow:
-  0 10px 30px rgba(0,0,0,0.12);
-  transition:0.45s cubic-bezier(.22,1,.36,1);
-  z-index:99999;
+  gap:14px;
+  min-width:280px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  z-index:9999;
+  opacity:0;
+  transition:all .45s cubic-bezier(.22,1,.36,1);
 }
 
 .success-toast.show{
-  top:18px;
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
 }
 
 .toast-icon{
-  min-width:56px;
-  width:56px;
-  height:56px;
-  border-radius:50%;
-  background:#21c87a;
-  color:#fff;
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#00c853,#43e97b);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:30px;
+  color:#fff;
+  font-size:20px;
   font-weight:900;
+  flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,200,83,0.35);
+}
+
+.toast-title{
+  font-size:15px;
+  font-weight:900;
+  color:#111;
+  line-height:1;
+  margin-bottom:4px;
 }
 
 .toast-text{
-  font-size:19px;
-  font-weight:900;
-  color:#101828;
-  line-height:1.3;
+  font-size:13px;
+  font-weight:700;
+  color:#666;
 }
 
+@keyframes toastPop{
+  0%{
+    transform:translateX(-50%) scale(.8);
+  }
+  60%{
+    transform:translateX(-50%) scale(1.05);
+  }
+  100%{
+    transform:translateX(-50%) scale(1);
+  }
+}
+
+.success-toast.show{
+  animation:toastPop .35s ease;
+}
 </style>
 </head>
 
 <body>
 
-<div class="top-line"></div>
+<div class="card">
 
-<div id="successToast" class="success-toast">
-  <div class="toast-icon">✓</div>
-  <div class="toast-text">
-    Success! Redirecting you now...
+  <div class="header">
+    <div class="app-icon">
+      <img src="https://i.ibb.co/chVHHvZp/images.png" style="width:100%;height:100%;border-radius:16px;object-fit:cover;">
+    </div>
+
+    <div class="header-text">
+      <h1>Story Tv 2</h1>
+      <p>Complete & earn instantly</p>
+    </div>
+  </div>
+
+  <div class="cashback-box">
+    <div class="cashback-label">TOTAL CASHBACK</div>
+    <div class="cashback-amount"><span>₹</span>25</div>
+
+    <div class="badges">
+      <div class="badge">Instant</div>
+      <div class="badge">Guaranteed</div>
+      <div class="badge">Secure</div>
+    </div>
+  </div>
+
+  <div class="form-label">
+    <span>💳</span> Wallet Number
+  </div>
+
+  <input type="tel"
+         class="phone-input"
+         id="phoneInput"
+         placeholder="Enter 10 digit wallet number"
+         maxlength="10">
+
+  <div class="error-msg" id="errorMsg">
+    ⚠️ Please enter a valid 10 digit number!
+  </div>
+
+  <button class="submit-btn" onclick="handleSubmit()">
+    SUBMIT
+  </button>
+
+  <div class="divider"></div>
+
+  <div class="steps-title">
+    🕐 How to complete this offer?
+  </div>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text">
+      Enter Your Wallet Number & Submit.
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text">
+      Install & Register Partner Application.
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text">
+      Then Active Trial By Paying Just (install).
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-text">
+      Done You Will Get <span class="highlight">₹30</span> Cashback in Your Wallet.
+    </div>
+  </div>
+
+  <div class="powered">
+    Powered by <span>TrackFlix ⚡</span>
   </div>
 </div>
 
-<div class="card">
+<!-- SUCCESS TOAST -->
 
-<div class="header">
+<div class="success-toast" id="successToast">
+  <div class="toast-icon">✓</div>
 
-<div class="app-icon">
-<img src="https://i.ibb.co/chVHHvZp/images.png">
-</div>
-
-<div class="header-text">
-<h1>Story Tv 2</h1>
-<p>Complete & earn instantly</p>
-</div>
-
-</div>
-
-<div class="cashback-box">
-
-<div class="cashback-label">
-TOTAL CASHBACK
-</div>
-
-<div class="cashback-amount">
-<span>₹</span>25
-</div>
-
-<div class="badges">
-<div class="badge">✓ Instant</div>
-<div class="badge">✓ Guaranteed</div>
-<div class="badge">✓ Secure</div>
-</div>
-
-</div>
-
-<div class="form-label">
-💳 Wallet Number
-</div>
-
-<input
-type="tel"
-class="phone-input"
-id="phoneInput"
-placeholder="Enter wallet number"
-maxlength="10">
-
-<div class="error-msg" id="errorMsg">
-⚠️ Please enter valid 10 digit number
-</div>
-
-<button class="submit-btn" onclick="handleSubmit()">
-SUBMIT
-</button>
-
-<div class="steps-box">
-
-<div class="steps-title">
-🕐 How to complete this offer?
-</div>
-
-<div class="step">
-<div class="step-num">1</div>
-<div class="step-text">
-Enter Your Wallet Number & Submit.
-</div>
-</div>
-
-<div class="step">
-<div class="step-num">2</div>
-<div class="step-text">
-Install & Register Partner Application.
-</div>
-</div>
-
-<div class="step">
-<div class="step-num">3</div>
-<div class="step-text">
-Then Active Trial By Paying Just ₹1.
-</div>
-</div>
-
-<div class="step">
-<div class="step-num">4</div>
-<div class="step-text">
-Done You Will Get
-<span class="highlight">₹25</span>
-Cashback in Your Wallet.
-</div>
-</div>
-
-</div>
-
-<div class="powered">
-Powered by <span>TrackFlix ⚡</span>
-</div>
-
+  <div class="toast-content">
+    <div class="toast-title">Success!</div>
+    <div class="toast-text">Wallet Number Submitted</div>
+  </div>
 </div>
 
 <script>
 
-function showSuccessToast(){
-
-  const toast = document.getElementById("successToast");
-
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  },2500);
-}
-
-function handleSubmit(){
+function handleSubmit() {
 
   const phone = document.getElementById('phoneInput').value.trim();
   const errorMsg = document.getElementById('errorMsg');
 
-  if(!/^[6-9]\d{9}$/.test(phone)){
+  if (!/^[6-9]\d{9}$/.test(phone)) {
     errorMsg.style.display = 'block';
     return;
   }
 
   errorMsg.style.display = 'none';
 
-  showSuccessToast();
+  // SHOW TOAST
+  const toast = document.getElementById('successToast');
+  toast.classList.add('show');
 
-  /* LINK HIDDEN */
-
-  const encoded =
-  "aHR0cHM6Ly9wdWJsaXNoZXIuYXBuYWNhc2h5LnNpdGUvYy8/bz0xNyZhPTE1JmFmZl9jbGlja19pZD0=";
-
-  const base = atob(encoded);
-
-  const finalLink = base + phone;
-
+  // REDIRECT
   setTimeout(() => {
 
-    window.location.replace(finalLink);
+    const link =
+      'https://publisher.apnacashy.site/c/?o=17&a=15&aff_click_id='
+      + phone +
+      '&sub_aff_id=' + phone +
+      '&offer=StoryTv2';
 
-  },1800);
+    window.location.href = link;
+
+  }, 1800);
 }
 
-document.getElementById('phoneInput').addEventListener('keypress', function(e){
-  if(e.key === 'Enter') handleSubmit();
+document.getElementById('phoneInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') handleSubmit();
 });
 
-document.getElementById('phoneInput').addEventListener('input', function(){
-  this.value = this.value.replace(/\D/g,'');
+document.getElementById('phoneInput').addEventListener('input', function() {
+  this.value = this.value.replace(/\D/g, '');
 });
 
 </script>
