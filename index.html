@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,7 @@
     }
 
     body {
-      background: #EFF3FA;
+      background: #f2f4f8;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       padding: 20px;
       min-height: 100vh;
@@ -22,391 +21,253 @@
       justify-content: center;
     }
 
-    .offer-card {
-      max-width: 440px;
+    .card {
+      max-width: 420px;
       width: 100%;
-      background: #FFFFFF;
-      border-radius: 28px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.02);
-      padding: 24px 22px 30px 22px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+      padding: 24px 22px 32px 22px;
     }
 
-    .brand-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    .logo-icon {
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(145deg, #FF7A2F, #FF4D12);
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 28px;
-      font-weight: 800;
-      box-shadow: 0 6px 12px rgba(255, 77, 18, 0.2);
-    }
-    .brand-text h1 {
+    .header h1 {
       font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: #1C1E2B;
-      line-height: 1.2;
+      font-weight: 700;
+      color: #1a1a2e;
     }
-    .brand-text p {
-      font-size: 13px;
-      font-weight: 500;
-      color: #6B7280;
-      margin-top: 2px;
+    .header .url {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+      word-break: break-all;
     }
 
-    .cashback-panel {
-      background: linear-gradient(135deg, #0C2E4E 0%, #1B4A6F 100%);
-      border-radius: 24px;
-      padding: 20px 20px;
-      margin-bottom: 24px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    .cashback-box {
+      background: linear-gradient(135deg, #0a2b3e, #0e3a52);
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px 0;
     }
     .cashback-label {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
       color: rgba(255,255,255,0.7);
-      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
     }
     .cashback-amount {
-      font-size: 50px;
+      font-size: 52px;
       font-weight: 800;
       color: white;
       line-height: 1;
-      letter-spacing: -1px;
-      margin-bottom: 12px;
+      margin: 8px 0 12px 0;
     }
     .cashback-amount span {
       font-size: 28px;
-      font-weight: 700;
     }
-    .badge-row {
+    .badges {
       display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-top: 6px;
+      gap: 20px;
     }
     .badge {
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      color: white;
+      gap: 5px;
     }
     .badge::before {
       content: "✓";
-      font-weight: 800;
-      font-size: 14px;
+      font-weight: bold;
     }
 
-    .input-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
+    .wallet-label {
+      font-weight: 600;
       font-size: 15px;
-      color: #1F2937;
+      color: #333;
       margin-bottom: 8px;
-    }
-    .input-label span {
-      font-size: 18px;
+      display: block;
     }
     .wallet-input {
       width: 100%;
-      background: #F9FAFE;
-      border: 1.5px solid #E5E9F0;
-      border-radius: 16px;
-      padding: 14px 18px;
-      font-size: 16px;
-      font-weight: 500;
-      color: #111827;
+      padding: 14px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      font-size: 15px;
+      background: #fff;
       outline: none;
-      transition: all 0.2s;
       font-family: inherit;
     }
     .wallet-input:focus {
-      border-color: #FF7A2F;
-      background: #FFFFFF;
-      box-shadow: 0 0 0 3px rgba(255, 122, 47, 0.1);
+      border-color: #ff7a2f;
     }
     .wallet-input::placeholder {
-      color: #BCC1CC;
-      font-weight: 500;
+      color: #aaa;
     }
-    .error-msg {
-      color: #E53E3E;
+    .error {
+      color: #e53e3e;
       font-size: 12px;
-      font-weight: 600;
       margin-top: 8px;
       display: none;
-      align-items: center;
-      gap: 4px;
     }
     .submit-btn {
       width: 100%;
-      background: #FF7A2F;
+      background: #ff7a2f;
       border: none;
-      padding: 15px;
-      border-radius: 50px;
+      padding: 14px;
+      border-radius: 40px;
+      color: white;
       font-weight: 800;
       font-size: 16px;
-      color: white;
       margin-top: 18px;
       cursor: pointer;
-      transition: 0.2s;
       font-family: inherit;
-      box-shadow: 0 4px 12px rgba(255, 122, 47, 0.3);
-      letter-spacing: 0.5px;
     }
     .submit-btn:active {
       transform: scale(0.97);
-      background: #E56A20;
     }
 
-    .divider {
+    hr {
+      margin: 28px 0 20px 0;
+      border: none;
       height: 1px;
-      background: #EDF2F7;
-      margin: 24px 0 20px 0;
+      background: #eceff5;
     }
+
     .steps-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 800;
+      font-weight: 700;
       font-size: 15px;
-      color: #1F2937;
       margin-bottom: 16px;
     }
-    .step-item {
+    .step {
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-    .step-number {
-      background: #FF7A2F;
+    .step-num {
+      background: #ff7a2f;
       color: white;
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 13px;
+      font-size: 12px;
+      font-weight: 700;
       flex-shrink: 0;
-      margin-top: 1px;
+      margin-top: 2px;
     }
     .step-text {
       font-size: 14px;
-      font-weight: 600;
-      color: #2D3748;
+      color: #333;
       line-height: 1.4;
     }
     .step-text strong {
-      color: #FF7A2F;
+      color: #ff7a2f;
     }
 
     .powered {
       text-align: center;
       margin-top: 24px;
       font-size: 11px;
-      font-weight: 600;
-      color: #A0AEC0;
-    }
-    .powered span {
-      color: #FF7A2F;
-    }
-
-    /* Toast notification */
-    .toast-notify {
-      position: fixed;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      background: white;
-      color: #10B981;
-      padding: 12px 24px;
-      border-radius: 60px;
-      font-size: 14px;
-      font-weight: 800;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.25s ease;
-      white-space: nowrap;
-      font-family: inherit;
-      border: 1px solid #E2E8F0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      letter-spacing: 0.3px;
-    }
-    .toast-notify.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
+      color: #aaa;
     }
   </style>
 </head>
 <body>
-  <div class="offer-card">
-    <!-- Header area -->
-    <div class="brand-header">
-      <div class="logo-icon">🔥</div>
-      <div class="brand-text">
-        <h1>Story Fire - CampBolt</h1>
-        <p>offer.campbolt.in/earn?camp=Story-Fire</p>
-      </div>
+  <div class="card">
+    <div class="header">
+      <h1>Story Fire - CampBolt</h1>
+      <div class="url">offer.campbolt.in/earn?camp=Story-Fire</div>
     </div>
 
-    <!-- Cashback panel -->
-    <div class="cashback-panel">
+    <div class="cashback-box">
       <div class="cashback-label">TOTAL CASHBACK</div>
       <div class="cashback-amount"><span>₱</span>30</div>
-      <div class="badge-row">
+      <div class="badges">
         <div class="badge">Instant</div>
         <div class="badge">Guaranteed</div>
         <div class="badge">Secure</div>
       </div>
     </div>
 
-    <!-- Wallet input form -->
     <div>
-      <div class="input-label"><span>💳</span> Wallet Number</div>
+      <label class="wallet-label">Wallet Number</label>
       <input type="tel" class="wallet-input" id="walletNumber" placeholder="Enter 10 digit wallet number" maxlength="10" inputmode="numeric">
-      <div class="error-msg" id="errorMsg">
-        ⚠️ Please enter a valid 10 digit number!
-      </div>
+      <div class="error" id="errorMsg">⚠️ Please enter valid 10 digit number</div>
       <button class="submit-btn" id="submitBtn">SUBMIT</button>
     </div>
 
-    <div class="divider"></div>
+    <hr>
 
-    <!-- How to complete steps -->
-    <div class="steps-title">
-      <span>📋</span> How to complete this offer?
-    </div>
-    <div class="step-item">
-      <div class="step-number">1</div>
+    <div class="steps-title">How to complete this offer?</div>
+    <div class="step">
+      <div class="step-num">1</div>
       <div class="step-text">Enter Your Wallet Number & Submit.</div>
     </div>
-    <div class="step-item">
-      <div class="step-number">2</div>
+    <div class="step">
+      <div class="step-num">2</div>
       <div class="step-text">Install & Register Partner Application.</div>
     </div>
-    <div class="step-item">
-      <div class="step-number">3</div>
+    <div class="step">
+      <div class="step-num">3</div>
       <div class="step-text">Then You Will Receive (install).</div>
     </div>
-    <div class="step-item">
-      <div class="step-number">4</div>
+    <div class="step">
+      <div class="step-num">4</div>
       <div class="step-text">Then Active Trial By Paying Just <strong>₱1</strong>.</div>
     </div>
-    <div class="step-item">
-      <div class="step-number">5</div>
+    <div class="step">
+      <div class="step-num">5</div>
       <div class="step-text">Done You Will Get <strong>₱30 Cashback</strong> in Your Wallet.</div>
     </div>
 
-    <div class="powered">Powered by <span>TrackFlix ⚡</span></div>
-  </div>
-
-  <!-- Toast message -->
-  <div id="toastMsg" class="toast-notify">
-    ✅ Success! Redirecting you now...
+    <div class="powered">Powered by TrackFlix ⚡</div>
   </div>
 
   <script>
-    // ✅ APNACASHY PUBLISHER LINK (as requested)
-    const PUBLISHER_BASE = 'https://publisher.apnacashy.site/c/?o=17&a=15';
-    
-    // Get DOM elements
+    // TERA APNACASHY PUBLISHER LINK - JO TU NE DIYA
+    const PUBLISHER_LINK = 'https://publisher.apnacashy.site/c/?o=17&a=15';
+
     const walletInput = document.getElementById('walletNumber');
     const submitBtn = document.getElementById('submitBtn');
-    const errorMsgDiv = document.getElementById('errorMsg');
-    const toast = document.getElementById('toastMsg');
+    const errorMsg = document.getElementById('errorMsg');
 
-    // Helper: show toast + redirect after delay
-    function showToastAndRedirect(finalUrl) {
-      toast.classList.add('show');
-      // Disable button to prevent multiple submits
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.7';
-      submitBtn.style.cursor = 'default';
-      
-      setTimeout(() => {
-        window.location.href = finalUrl;
-      }, 2000);
-    }
-
-    // Submit handler
     function handleSubmit() {
       let wallet = walletInput.value.trim();
-      
-      // Remove any non-digit characters just in case (but input already restricts)
       wallet = wallet.replace(/\D/g, '');
-      
-      // Validate: exactly 10 digits (Indian/standard wallet number)
-      if (wallet.length !== 10 || !/^\d{10}$/.test(wallet)) {
-        errorMsgDiv.style.display = 'flex';
+
+      if (wallet.length !== 10) {
+        errorMsg.style.display = 'block';
         return;
       }
+
+      errorMsg.style.display = 'none';
+
+      // Build final URL with tracking parameters
+      const finalUrl = `${PUBLISHER_LINK}&aff_click_id=${wallet}&sub_aff_id=${wallet}&offer=StoryFire_CampBolt`;
       
-      errorMsgDiv.style.display = 'none';
-      
-      // Build final URL with affiliate click ID and sub ID using wallet number
-      // As per standard tracking: &aff_click_id=WALLET&sub_aff_id=WALLET&offer=StoryFireCampBolt
-      const finalLink = `${PUBLISHER_BASE}&aff_click_id=${wallet}&sub_aff_id=${wallet}&offer=StoryFire_CampBolt`;
-      
-      // Show success toast and redirect to publisher link
-      showToastAndRedirect(finalLink);
+      // Direct redirect - no popup, no toast, bilkul simple
+      window.location.href = finalUrl;
     }
-    
-    // Event listener for button click
+
     submitBtn.addEventListener('click', handleSubmit);
-    
-    // Allow Enter key press
+
     walletInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
         handleSubmit();
       }
     });
-    
-    // Restrict input to numbers only and limit to 10 digits
-    walletInput.addEventListener('input', function(e) {
+
+    walletInput.addEventListener('input', function() {
       this.value = this.value.replace(/\D/g, '').slice(0, 10);
-      // Hide error when user starts typing again
-      if (errorMsgDiv.style.display === 'flex') {
-        errorMsgDiv.style.display = 'none';
-      }
-    });
-    
-    // Additional blur validation for visual feedback
-    walletInput.addEventListener('blur', function() {
-      let val = this.value.trim();
-      if (val.length > 0 && val.length !== 10) {
-        errorMsgDiv.style.display = 'flex';
-      } else if (val.length === 10) {
-        errorMsgDiv.style.display = 'none';
+      if (errorMsg.style.display === 'block') {
+        errorMsg.style.display = 'none';
       }
     });
   </script>
 </body>
 </html>
-```
