@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Story Tv 2 - TrackFlix ⚡</title>
+<title>Story Tv 2 - CashFlix ⚡</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -23,13 +23,12 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .header-text h1 { font-size:22px; font-weight:900; color:#1a1a2e; }
 .header-text p { font-size:13px; color:#888; font-weight:600; }
 .cashback-box { 
-  background: linear-gradient(135deg, #0d47a1, #1565c0, #1976d2); 
+  background: linear-gradient(135deg, #1976d2, #42a5f5); 
   border-radius:18px; 
   padding:20px; 
   margin-bottom:20px; 
   position:relative; 
   overflow:hidden; 
-  box-shadow: 0 4px 15px rgba(13,71,161,0.3);
 }
 .cashback-box::after { 
   content:''; 
@@ -38,7 +37,7 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
   top:-20px; 
   width:120px; 
   height:120px; 
-  background:rgba(255,255,255,0.08); 
+  background:rgba(255,255,255,0.1); 
   border-radius:50%; 
 }
 .cashback-label { 
@@ -62,12 +61,12 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .badge::before { content:'✓'; font-weight:900; }
 .form-label { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:800; color:#1a1a2e; margin-bottom:10px; }
 .phone-input { width:100%; padding:14px 18px; border:2px solid #e8ecf4; border-radius:14px; font-size:15px; font-family:'Nunito',sans-serif; font-weight:700; color:#1a1a2e; outline:none; transition:border-color 0.2s; background:#f8f9ff; }
-.phone-input:focus { border-color:#1565c0; background:#fff; }
+.phone-input:focus { border-color:#1976d2; background:#fff; }
 .phone-input::placeholder { color:#bbb; font-weight:600; }
 .submit-btn { 
   width:100%; 
   padding:16px; 
-  background:linear-gradient(135deg, #0d47a1, #1565c0); 
+  background: linear-gradient(135deg, #1976d2, #42a5f5); 
   color:#fff; 
   border:none; 
   border-radius:14px; 
@@ -77,13 +76,13 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
   cursor:pointer; 
   letter-spacing:1px; 
   transition:all 0.2s; 
-  box-shadow:0 4px 16px rgba(13,71,161,0.4); 
+  box-shadow:0 4px 16px rgba(25,118,210,0.35); 
   margin-top:12px; 
 }
-.submit-btn:hover { transform:translateY(-2px); background:linear-gradient(135deg, #0b3d91, #0d47a1); }
+.submit-btn:hover { transform:translateY(-2px); }
 .submit-btn:disabled {
-  opacity: 0.8;
-  cursor: wait;
+  opacity: 0.7;
+  cursor: not-allowed;
   transform: none;
 }
 .error-msg { color:#e53935; font-size:13px; font-weight:700; margin-top:8px; display:none; }
@@ -97,12 +96,11 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .success-icon { font-size:60px; margin-bottom:16px; }
 .success-screen h2 { font-size:22px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
 .success-screen p { font-size:14px; color:#666; font-weight:600; margin-bottom:20px; }
-.offer-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg, #0d47a1, #1565c0); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:900; font-family:'Nunito',sans-serif; cursor:pointer; text-decoration:none; letter-spacing:0.5px; box-shadow:0 4px 16px rgba(13,71,161,0.4); transition:all 0.2s; }
-.offer-btn:hover { transform:translateY(-2px); }
+.offer-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#1976d2,#42a5f5); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:900; font-family:'Nunito',sans-serif; cursor:pointer; text-decoration:none; letter-spacing:0.5px; box-shadow:0 4px 16px rgba(25,118,210,0.35); transition:all 0.2s; }
 .powered { text-align:center; margin-top:20px; font-size:12px; color:#bbb; font-weight:700; }
 .powered span { color:#1976d2; }
 
-/* Campbolt Style Toast - White Background, Green Checkmark */
+/* Campbolt Style Toast */
 .toast {
     position: fixed;
     top: 30px;
@@ -170,10 +168,9 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
     <p>Ab neeche button click karke app install karo aur ₹25 pao!</p>
     <a href="#" class="offer-btn" id="offerLink">📲 Install App & Earn ₹30</a>
   </div>
-  <div class="powered">Powered by <span>TrackFlix ⚡</span></div>
+  <div class="powered">Powered by <span>CashFlix ⚡</span></div>
 </div>
 
-<!-- Campbolt Style Toast -->
 <div id="toastMessage" class="toast">
     ✅ Success! Redirecting you now...
 </div>
@@ -193,14 +190,12 @@ function handleSubmit() {
   
   errorMsg.style.display = 'none';
   
-  // Button pe "Please wait..." dikhao
-  const originalText = submitBtn.innerText;
-  submitBtn.innerText = '⏳ Please wait...';
+  // Please wait - without emoji
+  submitBtn.innerText = 'Please wait...';
   submitBtn.disabled = true;
   
   const finalLink = PUBLISHER_LINK + '&aff_click_id=' + phone + '&sub_aff_id=' + phone + '&offer=StoryTv2';
   
-  // Show toast
   const toast = document.getElementById('toastMessage');
   toast.classList.add('show');
   
@@ -217,4 +212,4 @@ document.getElementById('phoneInput').addEventListener('input', function() {
 });
 </script>
 </body>
-</html>
+  </html>
