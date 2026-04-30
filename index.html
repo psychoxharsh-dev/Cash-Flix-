@@ -4,12 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Story Tv 2 - TrackFlix ⚡</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
 
-body {
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
   font-family:'Nunito',sans-serif;
   background:#f0f4ff;
   min-height:100vh;
@@ -19,7 +25,7 @@ body {
   padding:20px;
 }
 
-.card {
+.card{
   background:#fff;
   border-radius:24px;
   padding:24px;
@@ -28,38 +34,40 @@ body {
   box-shadow:0 8px 32px rgba(0,0,0,0.10);
 }
 
-.header {
+.header{
   display:flex;
   align-items:center;
   gap:14px;
   margin-bottom:20px;
 }
 
-.app-icon {
+.app-icon{
   width:64px;
   height:64px;
   border-radius:16px;
-  background:linear-gradient(135deg,#e91e8c,#9c27b0);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
+  overflow:hidden;
   flex-shrink:0;
 }
 
-.header-text h1 {
+.app-icon img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.header-text h1{
   font-size:22px;
   font-weight:900;
   color:#1a1a2e;
 }
 
-.header-text p {
+.header-text p{
   font-size:13px;
   color:#888;
   font-weight:600;
 }
 
-.cashback-box {
+.cashback-box{
   background:linear-gradient(135deg,#1976d2,#42a5f5);
   border-radius:18px;
   padding:20px;
@@ -68,7 +76,7 @@ body {
   overflow:hidden;
 }
 
-.cashback-box::after {
+.cashback-box::after{
   content:'';
   position:absolute;
   right:-20px;
@@ -79,7 +87,7 @@ body {
   border-radius:50%;
 }
 
-.cashback-label {
+.cashback-label{
   font-size:11px;
   font-weight:800;
   color:rgba(255,255,255,0.8);
@@ -88,7 +96,7 @@ body {
   margin-bottom:6px;
 }
 
-.cashback-amount {
+.cashback-amount{
   font-size:48px;
   font-weight:900;
   color:#fff;
@@ -96,17 +104,17 @@ body {
   margin-bottom:12px;
 }
 
-.cashback-amount span {
+.cashback-amount span{
   font-size:28px;
 }
 
-.badges {
+.badges{
   display:flex;
   gap:12px;
   flex-wrap:wrap;
 }
 
-.badge {
+.badge{
   display:flex;
   align-items:center;
   gap:4px;
@@ -115,12 +123,12 @@ body {
   color:#fff;
 }
 
-.badge::before {
+.badge::before{
   content:'✓';
   font-weight:900;
 }
 
-.form-label {
+.form-label{
   display:flex;
   align-items:center;
   gap:8px;
@@ -130,7 +138,7 @@ body {
   margin-bottom:10px;
 }
 
-.phone-input {
+.phone-input{
   width:100%;
   padding:14px 18px;
   border:2px solid #e8ecf4;
@@ -144,17 +152,17 @@ body {
   background:#f8f9ff;
 }
 
-.phone-input:focus {
+.phone-input:focus{
   border-color:#1976d2;
   background:#fff;
 }
 
-.phone-input::placeholder {
+.phone-input::placeholder{
   color:#bbb;
   font-weight:600;
 }
 
-.submit-btn {
+.submit-btn{
   width:100%;
   padding:16px;
   background:linear-gradient(135deg,#1976d2,#42a5f5);
@@ -166,16 +174,11 @@ body {
   font-family:'Nunito',sans-serif;
   cursor:pointer;
   letter-spacing:1px;
-  transition:all 0.2s;
   box-shadow:0 4px 16px rgba(25,118,210,0.35);
   margin-top:12px;
 }
 
-.submit-btn:hover {
-  transform:translateY(-2px);
-}
-
-.error-msg {
+.error-msg{
   color:#e53935;
   font-size:13px;
   font-weight:700;
@@ -183,13 +186,13 @@ body {
   display:none;
 }
 
-.divider {
+.divider{
   height:1px;
   background:#f0f0f0;
   margin:20px 0;
 }
 
-.steps-title {
+.steps-title{
   display:flex;
   align-items:center;
   gap:8px;
@@ -199,14 +202,14 @@ body {
   margin-bottom:16px;
 }
 
-.step {
+.step{
   display:flex;
   align-items:flex-start;
   gap:12px;
   margin-bottom:14px;
 }
 
-.step-num {
+.step-num{
   background:#1976d2;
   color:#fff;
   width:28px;
@@ -221,14 +224,14 @@ body {
   margin-top:1px;
 }
 
-.step-text {
+.step-text{
   font-size:14px;
   font-weight:700;
   color:#333;
   line-height:1.4;
 }
 
-.step-text .highlight {
+.highlight{
   background:#e3f2fd;
   color:#1976d2;
   padding:2px 8px;
@@ -236,7 +239,7 @@ body {
   font-weight:800;
 }
 
-.powered {
+.powered{
   text-align:center;
   margin-top:20px;
   font-size:12px;
@@ -244,7 +247,7 @@ body {
   font-weight:700;
 }
 
-.powered span {
+.powered span{
   color:#1976d2;
 }
 
@@ -252,194 +255,211 @@ body {
 
 .success-toast{
   position: fixed;
-  top: -120px;
+  top: -150px;
   left: 50%;
   transform: translateX(-50%);
-  background: #fff;
-  padding: 16px 22px;
-  border-radius: 22px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 18px 22px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  gap: 16px;
+  box-shadow:
+    0 10px 35px rgba(0,0,0,0.12),
+    0 2px 8px rgba(0,0,0,0.06);
   z-index: 99999;
-  min-width: 310px;
-  transition: all 0.5s ease;
+  width: calc(100% - 40px);
+  max-width: 430px;
+  transition: all .45s cubic-bezier(.22,1,.36,1);
 }
 
 .success-toast.show{
-  top: 20px;
+  top: 18px;
 }
 
 .toast-icon{
-  width: 42px;
-  height: 42px;
-  background: #20c997;
+  min-width: 54px;
+  width: 54px;
+  height: 54px;
+  background: #21c87a;
   border-radius: 50%;
   display:flex;
   align-items:center;
   justify-content:center;
   color:#fff;
-  font-size:22px;
+  font-size:30px;
   font-weight:900;
+  box-shadow:0 6px 18px rgba(33,200,122,0.35);
 }
 
 .toast-text{
-  font-size:18px;
-  font-weight:800;
-  color:#222;
+  font-size:20px;
+  line-height:1.25;
+  font-weight:900;
+  color:#111827;
+  letter-spacing:-0.3px;
 }
+
 </style>
 </head>
 
 <body>
 
 <!-- SUCCESS TOAST -->
+
 <div id="successToast" class="success-toast">
   <div class="toast-icon">✓</div>
-  <div class="toast-text">Success! Redirecting you now...</div>
+  <div class="toast-text">
+    Success! Redirecting you now...
+  </div>
 </div>
 
 <div class="card">
 
-  <div id="formScreen">
+<div id="formScreen">
 
-    <div class="header">
-      <div class="app-icon">
-        <img src="https://i.ibb.co/chVHHvZp/images.png"
-        style="width:100%;height:100%;border-radius:16px;object-fit:cover;">
-      </div>
+<div class="header">
 
-      <div class="header-text">
-        <h1>Story Tv 2</h1>
-        <p>Complete & earn instantly</p>
-      </div>
-    </div>
+<div class="app-icon">
+<img src="https://i.ibb.co/chVHHvZp/images.png">
+</div>
 
-    <div class="cashback-box">
-      <div class="cashback-label">TOTAL CASHBACK</div>
+<div class="header-text">
+<h1>Story Tv 2</h1>
+<p>Complete & earn instantly</p>
+</div>
 
-      <div class="cashback-amount">
-        <span>₹</span>25
-      </div>
+</div>
 
-      <div class="badges">
-        <div class="badge">Instant</div>
-        <div class="badge">Guaranteed</div>
-        <div class="badge">Secure</div>
-      </div>
-    </div>
+<div class="cashback-box">
 
-    <div class="form-label">
-      <span>💳</span> Wallet Number
-    </div>
+<div class="cashback-label">
+TOTAL CASHBACK
+</div>
 
-    <input type="tel"
-    class="phone-input"
-    id="phoneInput"
-    placeholder="Enter 10 digit wallet number"
-    maxlength="10">
+<div class="cashback-amount">
+<span>₹</span>25
+</div>
 
-    <div class="error-msg" id="errorMsg">
-      ⚠️ Please enter a valid 10 digit number!
-    </div>
+<div class="badges">
+<div class="badge">Instant</div>
+<div class="badge">Guaranteed</div>
+<div class="badge">Secure</div>
+</div>
 
-    <button class="submit-btn" onclick="handleSubmit()">
-      SUBMIT
-    </button>
+</div>
 
-    <div class="divider"></div>
+<div class="form-label">
+<span>💳</span> Wallet Number
+</div>
 
-    <div class="steps-title">
-      🕐 How to complete this offer?
-    </div>
+<input
+type="tel"
+class="phone-input"
+id="phoneInput"
+placeholder="Enter 10 digit wallet number"
+maxlength="10">
 
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text">
-        Enter Your Wallet Number & Submit.
-      </div>
-    </div>
+<div class="error-msg" id="errorMsg">
+⚠️ Please enter a valid 10 digit number!
+</div>
 
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text">
-        Install & Register Partner Application.
-      </div>
-    </div>
+<button class="submit-btn" onclick="handleSubmit()">
+SUBMIT
+</button>
 
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text">
-        Then Active Trial By Paying Just (install).
-      </div>
-    </div>
+<div class="divider"></div>
 
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-text">
-        Done You Will Get
-        <span class="highlight">₹30</span>
-        Cashback in Your Wallet.
-      </div>
-    </div>
+<div class="steps-title">
+🕐 How to complete this offer?
+</div>
 
-  </div>
+<div class="step">
+<div class="step-num">1</div>
+<div class="step-text">
+Enter Your Wallet Number & Submit.
+</div>
+</div>
 
-  <div class="powered">
-    Powered by <span>TrackFlix ⚡</span>
-  </div>
+<div class="step">
+<div class="step-num">2</div>
+<div class="step-text">
+Install & Register Partner Application.
+</div>
+</div>
+
+<div class="step">
+<div class="step-num">3</div>
+<div class="step-text">
+Then Active Trial By Paying Just ₹1.
+</div>
+</div>
+
+<div class="step">
+<div class="step-num">4</div>
+<div class="step-text">
+Done You Will Get
+<span class="highlight">₹25</span>
+Cashback in Your Wallet.
+</div>
+</div>
+
+</div>
+
+<div class="powered">
+Powered by <span>TrackFlix ⚡</span>
+</div>
 
 </div>
 
 <script>
 
-function showSuccessToast() {
+function showSuccessToast(){
+
   const toast = document.getElementById("successToast");
 
   toast.classList.add("show");
 
   setTimeout(() => {
     toast.classList.remove("show");
-  }, 2500);
+  },2500);
 }
 
-function handleSubmit() {
+function handleSubmit(){
 
   const phone = document.getElementById('phoneInput').value.trim();
   const errorMsg = document.getElementById('errorMsg');
 
-  if (!/^[6-9]\d{9}$/.test(phone)) {
+  if(!/^[6-9]\d{9}$/.test(phone)){
     errorMsg.style.display = 'block';
     return;
   }
 
   errorMsg.style.display = 'none';
 
-  // SHOW SUCCESS TOAST
   showSuccessToast();
 
-  // REDIRECT AFTER 2 SEC
+  const link =
+  'https://publisher.apnacashy.site/c/?o=17&a=15&aff_click_id=' + phone;
+
   setTimeout(() => {
 
-    const link =
-    'https://publisher.apnacashy.site/c/?o=17&a=15&aff_click_id='
-    + phone;
+    window.open(link, "_self");
 
-    window.location.href = link;
-
-  }, 2000);
+  },2000);
 }
 
-document.getElementById('phoneInput').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') handleSubmit();
+document.getElementById('phoneInput').addEventListener('keypress', function(e){
+  if(e.key === 'Enter') handleSubmit();
 });
 
-document.getElementById('phoneInput').addEventListener('input', function() {
+document.getElementById('phoneInput').addEventListener('input', function(){
   this.value = this.value.replace(/\D/g, '');
 });
 
 </script>
 
 </body>
-  </html>  
+</html>
