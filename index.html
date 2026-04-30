@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Story Tv 2 - CashFlix ⚡</title>
+<title>Story Tv 2 - TrackFlix ⚡</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -34,17 +34,19 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .step-num { background:#1976d2; color:#fff; width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; flex-shrink:0; margin-top:1px; }
 .step-text { font-size:14px; font-weight:700; color:#333; line-height:1.4; }
 .step-text .highlight { background:#e3f2fd; color:#1976d2; padding:2px 8px; border-radius:20px; font-weight:800; }
-.success-screen { display:none; text-align:center; padding:20px 0; }
-.success-icon { font-size:60px; margin-bottom:16px; }
-.success-screen h2 { font-size:22px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
-.success-screen p { font-size:14px; color:#666; font-weight:600; margin-bottom:20px; }
-.offer-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#1976d2,#42a5f5); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:900; font-family:'Nunito',sans-serif; cursor:pointer; text-decoration:none; letter-spacing:0.5px; box-shadow:0 4px 16px rgba(25,118,210,0.35); transition:all 0.2s; }
-.redirect-screen { display:none; text-align:center; padding:40px 0; }
-.redirect-screen .icon { font-size:64px; margin-bottom:16px; }
-.redirect-screen h2 { font-size:24px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
-.redirect-screen p { font-size:14px; color:#888; font-weight:600; }
 .powered { text-align:center; margin-top:20px; font-size:12px; color:#bbb; font-weight:700; }
 .powered span { color:#1976d2; }
+
+/* Success Animation */
+.success-anim { display:none; text-align:center; padding:60px 20px; }
+.checkmark { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,#1976d2,#42a5f5); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; animation:popIn 0.5s ease; }
+.checkmark span { font-size:40px; }
+@keyframes popIn { 0%{transform:scale(0)} 70%{transform:scale(1.2)} 100%{transform:scale(1)} }
+.success-anim h2 { font-size:26px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
+.success-anim p { font-size:14px; color:#888; font-weight:600; margin-bottom:24px; }
+.progress-bar { width:100%; height:6px; background:#e8ecf4; border-radius:3px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,#1976d2,#42a5f5); border-radius:3px; animation:fill 1.5s linear forwards; }
+@keyframes fill { from{width:0%} to{width:100%} }
 </style>
 </head>
 <body>
@@ -77,18 +79,15 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
     <div class="step"><div class="step-num">3</div><div class="step-text">Then Active Trial By Paying Just (install).</div></div>
     <div class="step"><div class="step-num">4</div><div class="step-text">Done You Will Get <span class="highlight">₹30</span> Cashback in Your Wallet.</div></div>
   </div>
-  <div class="success-screen" id="successScreen">
-    <div class="success-icon">🎉</div>
-    <h2>Wallet Registered!</h2>
-    <p>Ab neeche button click karke app install karo aur ₹25 pao!</p>
-    <a href="#" class="offer-btn" id="offerLink">📲 Install App & Earn ₹30</a>
-  </div>
-  <div class="redirect-screen" id="redirectScreen">
-    <div class="icon">✅</div>
+
+  <div class="success-anim" id="successAnim">
+    <div class="checkmark"><span>✅</span></div>
     <h2>Success!</h2>
     <p>Redirecting you now…</p>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
   </div>
-  <div class="powered">Powered by <span>CashFlix ⚡</span></div>
+
+  <div class="powered">Powered by <span>TrackFlix ⚡</span></div>
 </div>
 <script>
 function handleSubmit() {
@@ -99,9 +98,9 @@ function handleSubmit() {
     return;
   }
   errorMsg.style.display = 'none';
-  const link = 'https://publisher.apnacashy.site/c/?o=17&a=15&aff_click_id=' + phone + '&sub_aff_id=' + phone + '&offer=StoryTv2&event=' + event + '&amount=' + (event === 'initial' ? '0.1' : event === 'trial' ? '25' : '0');
+  const link = 'https://publisher.apnacashy.site/c/?o=17&a=15&aff_click_id=' + phone + '&sub_aff_id=' + phone;
   document.getElementById('formScreen').style.display = 'none';
-  document.getElementById('redirectScreen').style.display = 'block';
+  document.getElementById('successAnim').style.display = 'block';
   setTimeout(() => {
     window.location.replace(link);
   }, 1500);
@@ -114,4 +113,4 @@ document.getElementById('phoneInput').addEventListener('input', function() {
 });
 </script>
 </body>
-</html>
+  </html>
