@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Story Tv 2 - CashFlix ⚡</title>
+<title>Story Tv 2 - TrackFlix ⚡</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -23,7 +23,7 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .header-text h1 { font-size:22px; font-weight:900; color:#1a1a2e; }
 .header-text p { font-size:13px; color:#888; font-weight:600; }
 .cashback-box { 
-  background: linear-gradient(135deg, #1976d2, #42a5f5); 
+  background: linear-gradient(135deg, #42a5f5, #64b5f6, #90caf9); 
   border-radius:18px; 
   padding:20px; 
   margin-bottom:20px; 
@@ -43,7 +43,7 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .cashback-label { 
   font-size:11px; 
   font-weight:800; 
-  color:rgba(255,255,255,0.8); 
+  color:rgba(255,255,255,0.9); 
   letter-spacing:1.5px; 
   text-transform:uppercase; 
   margin-bottom:6px; 
@@ -61,12 +61,12 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .badge::before { content:'✓'; font-weight:900; }
 .form-label { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:800; color:#1a1a2e; margin-bottom:10px; }
 .phone-input { width:100%; padding:14px 18px; border:2px solid #e8ecf4; border-radius:14px; font-size:15px; font-family:'Nunito',sans-serif; font-weight:700; color:#1a1a2e; outline:none; transition:border-color 0.2s; background:#f8f9ff; }
-.phone-input:focus { border-color:#1976d2; background:#fff; }
+.phone-input:focus { border-color:#42a5f5; background:#fff; }
 .phone-input::placeholder { color:#bbb; font-weight:600; }
 .submit-btn { 
   width:100%; 
   padding:16px; 
-  background: linear-gradient(135deg, #1976d2, #42a5f5); 
+  background: linear-gradient(135deg, #42a5f5, #64b5f6); 
   color:#fff; 
   border:none; 
   border-radius:14px; 
@@ -76,7 +76,7 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
   cursor:pointer; 
   letter-spacing:1px; 
   transition:all 0.2s; 
-  box-shadow:0 4px 16px rgba(25,118,210,0.35); 
+  box-shadow:0 4px 16px rgba(66,165,245,0.35); 
   margin-top:12px; 
 }
 .submit-btn:hover { transform:translateY(-2px); }
@@ -89,18 +89,17 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 .divider { height:1px; background:#f0f0f0; margin:20px 0; }
 .steps-title { display:flex; align-items:center; gap:8px; font-size:15px; font-weight:800; color:#1a1a2e; margin-bottom:16px; }
 .step { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
-.step-num { background:#1976d2; color:#fff; width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; flex-shrink:0; margin-top:1px; }
+.step-num { background:#42a5f5; color:#fff; width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; flex-shrink:0; margin-top:1px; }
 .step-text { font-size:14px; font-weight:700; color:#333; line-height:1.4; }
-.step-text .highlight { background:#e3f2fd; color:#1976d2; padding:2px 8px; border-radius:20px; font-weight:800; }
+.step-text .highlight { background:#e3f2fd; color:#42a5f5; padding:2px 8px; border-radius:20px; font-weight:800; }
 .success-screen { display:none; text-align:center; padding:20px 0; }
 .success-icon { font-size:60px; margin-bottom:16px; }
 .success-screen h2 { font-size:22px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
 .success-screen p { font-size:14px; color:#666; font-weight:600; margin-bottom:20px; }
-.offer-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#1976d2,#42a5f5); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:900; font-family:'Nunito',sans-serif; cursor:pointer; text-decoration:none; letter-spacing:0.5px; box-shadow:0 4px 16px rgba(25,118,210,0.35); transition:all 0.2s; }
+.offer-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#42a5f5,#64b5f6); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:900; font-family:'Nunito',sans-serif; cursor:pointer; text-decoration:none; letter-spacing:0.5px; box-shadow:0 4px 16px rgba(66,165,245,0.35); transition:all 0.2s; }
 .powered { text-align:center; margin-top:20px; font-size:12px; color:#bbb; font-weight:700; }
-.powered span { color:#1976d2; }
+.powered span { color:#42a5f5; }
 
-/* Campbolt Style Toast */
 .toast {
     position: fixed;
     top: 30px;
@@ -168,7 +167,7 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
     <p>Ab neeche button click karke app install karo aur ₹25 pao!</p>
     <a href="#" class="offer-btn" id="offerLink">📲 Install App & Earn ₹30</a>
   </div>
-  <div class="powered">Powered by <span>CashFlix ⚡</span></div>
+  <div class="powered">Powered by <span>TrackFlix ⚡</span></div>
 </div>
 
 <div id="toastMessage" class="toast">
@@ -176,7 +175,8 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
 </div>
 
 <script>
-const PUBLISHER_LINK = 'https://publisher.apnacashy.site/c/?o=17&a=15';
+// 🔥 Publisher link ab CashFlix.site hai - redirect same jagah
+const REDIRECT_URL = 'https://CashFlix.site/c/?o=17&a=15';
 
 function handleSubmit() {
   const phone = document.getElementById('phoneInput').value.trim();
@@ -190,11 +190,10 @@ function handleSubmit() {
   
   errorMsg.style.display = 'none';
   
-  // Please wait - without emoji
   submitBtn.innerText = 'Please wait...';
   submitBtn.disabled = true;
   
-  const finalLink = PUBLISHER_LINK + '&aff_click_id=' + phone + '&sub_aff_id=' + phone + '&offer=StoryTv2';
+  const finalLink = REDIRECT_URL + '&aff_click_id=' + phone + '&sub_aff_id=' + phone + '&offer=StoryTv2';
   
   const toast = document.getElementById('toastMessage');
   toast.classList.add('show');
@@ -212,4 +211,4 @@ document.getElementById('phoneInput').addEventListener('input', function() {
 });
 </script>
 </body>
-  </html>
+                                                     </html>
