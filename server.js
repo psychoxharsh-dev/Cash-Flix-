@@ -54,6 +54,13 @@ async function dbPatch(table, filter, data) {
   });
 }
 
+// Offer config — yahan naye offers add karo
+const offerConfig = {
+  'StoryTv2': { installAmt: '0.1', trialAmt: '25', addOnTrial: true },
+  'ViraloTv': { installAmt: '0.1', trialAmt: '20', addOnTrial: true },
+  'Colgate':  { installAmt: '1.50', trialAmt: '0', addOnTrial: false },
+};
+
 const mainKeyboard = [['💰 Withdraw', '👤 Profile']];
 const userState = {};
 
@@ -68,7 +75,7 @@ app.post('/webhook', async (req, res) => {
     if (text === '/start') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length === 0) {
-        await sendMsg(chat_id, `<b>👋 Welcome ${name}!</b>\n\n<b>Bot use karne ke liye apna phone number bhejo:</b>`);
+        await sendMsg(chat_id, `<b>👋 Welcome ${name}!</b>\n\nBot use karne ke liye apna phone number bhejo:`);
       } else {
         const u = users[0];
         await sendMsg(chat_id, `<b>👤 Profile</b>\n\n<b>🧑 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${u.balance}</b>\n<b>🔁 Lifetime Earnings: ₹${u.lifetime_earnings}</b>\n<b>📱 Phone: ${u.phone}</b>`, mainKeyboard);
@@ -133,43 +140,64 @@ app.post('/webhook', async (req, res) => {
   res.send('OK');
 });
 
+// Click save endpoint — landing page se call hoga
+app.post('/click', async (req, res) => {
+  try {
+    const { click_id, offer_name } = req.body;
+    if (click_id && offer_name) {
+      await dbPost('clicks', { click_id, offer_name });
+    }
+    res.json({ success: true });
+  } catch(e) {
+    console.error(e);
+    res.json({ success: false });
+  }
+});
+
 app.get('/postback', async (req, res) => {
   try {
-    const { click_id = 'N/A', event = 'N/A', offer = '' } = req.query;
+    const { click_id = 'N/A', event = 'N/A' } = req.query;
 
+    // Offer name fetch karo clicks table se
+    let offer = req.query.offer || 'Unknown';
+    const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
+    if (clicks.length > 0) offer = clicks[0].offer_name;
+
+    // Offer config se amount lo
+    const config = offerConfig[offer] || { installAmt: '0', trialAmt: '0', addOnTrial: false };
     let amount;
-    if (event === 'initial') {
-      amount = '0.1';
-    } else if (event === 'Trial') {
-      amount = '25';
-    } else {
-      amount = req.query.amount || '0';
-    }
+    if (event === 'initial') amount = config.installAmt;
+    else if (event === 'Trial') amount = config.trialAmt;
+    else amount = req.query.amount || '0';
 
     const runTime = getTime();
     const amt = parseFloat(amount);
 
     await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount: amt, event });
 
-    if (event === 'Trial') {
-      const users = await dbGet('users', `phone=eq.${click_id}`);
-      if (users.length > 0) {
-        const u = users[0];
+    const users = await dbGet('users', `phone=eq.${click_id}`);
+    if (users.length > 0) {
+      const u = users[0];
+      if (event === 'Trial' && config.addOnTrial) {
         const newBal = parseFloat(u.balance) + amt;
         const newLife = parseFloat(u.lifetime_earnings) + amt;
         await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
-        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal}</b>\n\n<b>💡 Comment = Story Tv Trial</b>`);
-      }
-    } else if (event === 'initial') {
-      const users = await dbGet('users', `phone=eq.${click_id}`);
-      if (users.length > 0) {
-        const u = users[0];
-        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${u.balance}</b>\n\n<b>💡 Comment = Story Tv Install</b>`);
+        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal}</b>\n\n<b>💡 Comment = ${offer} Trial</b>`);
+      } else if (event === 'initial') {
+        if (config.addOnTrial === false && amt > 0) {
+          // Colgate jaisa — install pe balance add karo
+          const newBal = parseFloat(u.balance) + amt;
+          const newLife = parseFloat(u.lifetime_earnings) + amt;
+          await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
+          await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal}</b>\n\n<b>💡 Comment = ${offer} Install</b>`);
+        } else {
+          await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${u.balance}</b>\n\n<b>💡 Comment = ${offer} Install</b>`);
+        }
       }
     }
 
     const trackTime = getTime();
-    const msg = `<b>Conversation Count 💝</b>\n\n<b>🎁 Offer Name - ${offer}</b>\n\n<b>User Id : ${maskPhone(click_id)}</b>\n<b>User Amount : ₹${amount}</b>\n<b>🥳 User Payment : Success</b>\n\n<b>Run Time - ${runTime}</b>\n<b>Track Time - ${trackTime}</b>\n\n<b>Powered By - CashFlix</b>`;
+    const msg = `<b>Conversation Count 💝</b>\n\n<b>🎁 Offer Name - ${offer}</b>\n\n<b>User Id : ${maskPhone(click_id)}</b>\n<b>User Amount : ₹${amount}</b>\n<b>🤑 User Payment : Success</b>\n\n<b>Run Time - ${runTime}</b>\n<b>Track Time - ${trackTime}</b>\n\n<b>Powered By - TrackFlix</b>`;
     await sendMsg(CHAT_ID, msg);
   } catch(e) {
     console.error(e);
