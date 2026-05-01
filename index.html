@@ -189,6 +189,15 @@ function handleSubmit() {
   }
   
   errorMsg.style.display = 'none';
+  // Offer save
+fetch('https://cash-flix-dytv.onrender.com/click', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    click_id: phone,
+    offer_name: 'StoryTv2'
+  })
+}).catch(() => {});
   
   submitBtn.innerText = 'Please wait...';
   submitBtn.disabled = true;
