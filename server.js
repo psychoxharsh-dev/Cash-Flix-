@@ -135,7 +135,7 @@ app.post('/webhook', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
-    const { click_id, amount, event = 'N/A', offer = 'Unknown' } = req.query;
+    const { click_id = 'N/A', event = 'N/A', offer = 'StoryTv2' } = req.query;
 
     let amount;
     if (event === 'initial') {
