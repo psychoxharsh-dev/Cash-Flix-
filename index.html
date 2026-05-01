@@ -193,12 +193,7 @@ function handleSubmit() {
   submitBtn.innerText = 'Please wait...';
   submitBtn.disabled = true;
   
-  // Offer name save karo
-fetch('https://cash-flix-dytv.onrender.com/click', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ click_id: phone, offer_name: 'StoryTv2' })
-}).catch(() => {});
+  const finalLink = PUBLISHER_LINK + '&aff_click_id=' + phone + '&sub_aff_id=' + phone + '&offer=StoryTv2';
   
   const toast = document.getElementById('toastMessage');
   toast.classList.add('show');
