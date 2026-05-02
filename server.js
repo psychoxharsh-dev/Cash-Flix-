@@ -58,7 +58,7 @@ async function dbPatch(table, filter, data) {
 const offerConfig = {
   'StoryTv2': { installAmt: '0.1', trialAmt: '25', addOnTrial: true },
   'ViraloTv': { installAmt: '0.1', trialAmt: '20', addOnTrial: true },
-  'Colgate':  { installAmt: '1.50', trialAmt: '0', addOnTrial: false },
+  'Colgate':  { installAmt: '2.50', trialAmt: '0', addOnTrial: false },
 };
 
 const mainKeyboard = [['💰 Withdraw', '👤 Profile']];
@@ -186,6 +186,18 @@ app.get('/postback', async (req, res) => {
       } else if (event === 'initial') {
         if (config.addOnTrial === false && amt > 0) {
           // Colgate jaisa — install pe balance add karo
+          } else if (event === 'initial') {
+  if (amt > 0) {
+    const newBal = parseFloat(u.balance) + amt;
+    const newLife = parseFloat(u.lifetime_earnings) + amt;
+    await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
+    const comment = config.comment || `${offer} Install`;
+    await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal}</b>\n\n<b>💡 Comment = ${comment}</b>`);
+  } else {
+    const comment = config.comment || `${offer} Install`;
+    await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${u.balance}</b>\n\n<b>💡 Comment = ${comment}</b>`);
+  }
+        }
           const newBal = parseFloat(u.balance) + amt;
           const newLife = parseFloat(u.lifetime_earnings) + amt;
           await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
