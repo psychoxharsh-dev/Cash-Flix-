@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Colgate - TrackFlix ⚡</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+.card { background:#fff; border-radius:24px; padding:24px; max-width:420px; width:100%; box-shadow:0 8px 32px rgba(0,0,0,0.10); }
+.header { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+.app-icon { width:64px; height:64px; border-radius:16px; background:linear-gradient(135deg,#e53935,#ef9a9a); display:flex; align-items:center; justify-content:center; font-size:28px; flex-shrink:0; }
+.header-text h1 { font-size:22px; font-weight:900; color:#1a1a2e; }
+.header-text p { font-size:13px; color:#888; font-weight:600; }
+.cashback-box { background:linear-gradient(135deg,#1976d2,#42a5f5); border-radius:18px; padding:20px; margin-bottom:20px; position:relative; overflow:hidden; }
+.cashback-box::after { content:''; position:absolute; right:-20px; top:-20px; width:120px; height:120px; background:rgba(255,255,255,0.1); border-radius:50%; }
+.cashback-label { font-size:11px; font-weight:800; color:rgba(255,255,255,0.8); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px; }
+.cashback-amount { font-size:48px; font-weight:900; color:#fff; line-height:1; margin-bottom:12px; }
+.cashback-amount span { font-size:28px; }
+.badges { display:flex; gap:12px; flex-wrap:wrap; }
+.badge { display:flex; align-items:center; gap:4px; font-size:12px; font-weight:700; color:#fff; }
+.badge::before { content:'✓'; font-weight:900; }
+.form-label { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:800; color:#1a1a2e; margin-bottom:10px; }
+.phone-input { width:100%; padding:14px 18px; border:2px solid #e8ecf4; border-radius:14px; font-size:15px; font-family:'Nunito',sans-serif; font-weight:700; color:#1a1a2e; outline:none; transition:border-color 0.2s; background:#f8f9ff; }
+.phone-input:focus { border-color:#1976d2; background:#fff; }
+.phone-input::placeholder { color:#bbb; font-weight:600; }
+.submit-btn { width:100%; padding:16px; background:linear-gradient(135deg,#1976d2,#42a5f5); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:900; font-family:'Nunito',sans-serif; cursor:pointer; letter-spacing:1px; transition:all 0.2s; box-shadow:0 4px 16px rgba(25,118,210,0.35); margin-top:12px; }
+.submit-btn:hover { transform:translateY(-2px); }
+.error-msg { color:#e53935; font-size:13px; font-weight:700; margin-top:8px; display:none; }
+.divider { height:1px; background:#f0f0f0; margin:20px 0; }
+.steps-title { display:flex; align-items:center; gap:8px; font-size:15px; font-weight:800; color:#1a1a2e; margin-bottom:16px; }
+.step { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
+.step-num { background:#1976d2; color:#fff; width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; flex-shrink:0; margin-top:1px; }
+.step-text { font-size:14px; font-weight:700; color:#333; line-height:1.4; }
+.step-text .highlight { background:#e3f2fd; color:#1976d2; padding:2px 8px; border-radius:20px; font-weight:800; }
+.powered { text-align:center; margin-top:20px; font-size:12px; color:#bbb; font-weight:700; }
+.powered span { color:#1976d2; }
+.success-anim { display:none; text-align:center; padding:60px 20px; }
+.checkmark { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,#1976d2,#42a5f5); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; animation:popIn 0.5s ease; }
+.checkmark span { font-size:40px; }
+@keyframes popIn { 0%{transform:scale(0)} 70%{transform:scale(1.2)} 100%{transform:scale(1)} }
+.success-anim h2 { font-size:26px; font-weight:900; color:#1a1a2e; margin-bottom:8px; }
+.success-anim p { font-size:14px; color:#888; font-weight:600; margin-bottom:24px; }
+.progress-bar { width:100%; height:6px; background:#e8ecf4; border-radius:3px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,#1976d2,#42a5f5); border-radius:3px; animation:fill 1.5s linear forwards; }
+@keyframes fill { from{width:0%} to{width:100%} }
+</style>
+</head>
+<body>
+<div class="card">
+  <div id="formScreen">
+    <div class="header">
+      <div class="app-icon">🦷</div>
+      <div class="header-text">
+        <h1>Colgate</h1>
+        <p>Complete & earn instantly</p>
+      </div>
+    </div>
+    <div class="cashback-box">
+      <div class="cashback-label">TOTAL CASHBACK</div>
+      <div class="cashback-amount"><span>₹</span>2.50</div>
+      <div class="badges">
+        <div class="badge">Instant</div>
+        <div class="badge">Guaranteed</div>
+        <div class="badge">Secure</div>
+      </div>
+    </div>
+    <div class="form-label"><span>💳</span> Wallet Number</div>
+    <input type="tel" class="phone-input" id="phoneInput" placeholder="Enter 10 digit wallet number" maxlength="10">
+    <div class="error-msg" id="errorMsg">⚠️ Please enter a valid 10 digit number!</div>
+    <button class="submit-btn" onclick="handleSubmit()">SUBMIT</button>
+    <div class="divider"></div>
+    <div class="steps-title">🕐 How to complete this offer?</div>
+    <div class="step"><div class="step-num">1</div><div class="step-text">Enter Your Wallet Number & Submit.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text">Register on Colgate Partner Application.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">Done You Will Get <span class="highlight">₹2.50</span> Cashback in Your Wallet.</div></div>
+  </div>
+  <div class="success-anim" id="successAnim">
+    <div class="checkmark"><span>✅</span></div>
+    <h2>Success!</h2>
+    <p>Redirecting you now…</p>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+  </div>
+  <div class="powered">Powered by <span>TrackFlix ⚡</span></div>
+</div>
+<script>
+function handleSubmit() {
+  const phone = document.getElementById('phoneInput').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+  if (!/^[6-9]\d{9}$/.test(phone)) {
+    errorMsg.style.display = 'block';
+    return;
+  }
+  errorMsg.style.display = 'none';
+  fetch('https://cash-flix-dytv.onrender.com/click', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ click_id: phone, offer_name: 'Colgate' })
+  }).catch(() => {});
+  const link = 'https://partnersnccamps.xyz/go?o=19&a=16&aff_click_id=' + phone + '&sub_aff_id=' + phone;
+  document.getElementById('formScreen').style.display = 'none';
+  document.getElementById('successAnim').style.display = 'block';
+  setTimeout(() => { window.location.replace(link); }, 1500);
+}
+document.getElementById('phoneInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') handleSubmit();
+});
+document.getElementById('phoneInput').addEventListener('input', function() {
+  this.value = this.value.replace(/\D/g, '');
+});
+</script>
+</body>
+  </html>
