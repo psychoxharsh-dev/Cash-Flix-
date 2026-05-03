@@ -18,13 +18,13 @@ const offerConfig = {
     installComment: 'Story Tv Install',
     trialComment: 'Story Tv Trial'
   },
-  'Colgate': {
-    installAmt: 2,
-    trialAmt: 0,
+  'Abcd Gold ': {
+    installAmt: 0.1,
+    trialAmt: 30,
     installBalance: true,   // register pe balance add hoga
     trialBalance: false,
-    installComment: 'Colgate Register',
-    trialComment: 'Colgate Register'
+    installComment: 'ABCD Install',
+    trialComment: 'Abc gold buy'
   }
 };
 
