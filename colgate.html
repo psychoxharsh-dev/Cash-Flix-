@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Colgate - TrackFlix ⚡</title>
+<title>Abcd - CashFlix ⚡</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -59,7 +59,7 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
     </div>
     <div class="cashback-box">
       <div class="cashback-label">TOTAL CASHBACK</div>
-      <div class="cashback-amount"><span>₹</span>2.50</div>
+      <div class="cashback-amount"><span>₹</span>35</div>
       <div class="badges">
         <div class="badge">Instant</div>
         <div class="badge">Guaranteed</div>
@@ -82,7 +82,7 @@ body { font-family:'Nunito',sans-serif; background:#f0f4ff; min-height:100vh; di
     <p>Redirecting you now…</p>
     <div class="progress-bar"><div class="progress-fill"></div></div>
   </div>
-  <div class="powered">Powered by <span>TrackFlix ⚡</span></div>
+  <div class="powered">Powered by <span>CashFlix ⚡</span></div>
 </div>
 <script>
 function handleSubmit() {
@@ -96,12 +96,12 @@ function handleSubmit() {
   fetch('https://cash-flix-dytv.onrender.com/click', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ click_id: phone, offer_name: 'Colgate' })
+    body: JSON.stringify({ click_id: phone, offer_name: 'Abcd' })
   }).catch(() => {});
-  const link = 'https://partnersnccamps.xyz/go?o=19&a=16&aff_click_id=' + phone + '&sub_aff_id=' + phone;
+  const link = 'https://track.inrflash.com/click/?offer_id=3&pub=114&aff_click_id=' + phone + '&sub_aff_id=' + phone;
   document.getElementById('formScreen').style.display = 'none';
   document.getElementById('successAnim').style.display = 'block';
-  setTimeout(() => { window.location.replace(link); }, 1500);
+  setTimeout(() => { window.location.replace(link); }, 500);
 }
 document.getElementById('phoneInput').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') handleSubmit();
