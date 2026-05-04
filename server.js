@@ -8,23 +8,22 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const ADMIN_ID = '7217447824';
 
-// ✅ OFFERS CONFIG — Yahan sirf offers add/remove karo
 const offerConfig = {
   'StoryTv2': {
     installAmt: 0.1,
     trialAmt: 25,
-    installBalance: false,  // install pe balance add nahi
-    trialBalance: true,     // trial pe balance add hoga
+    installBalance: false,
+    trialBalance: true,
     installComment: 'Story Tv Install',
     trialComment: 'Story Tv Trial'
   },
-  'Abcd Gold ': {
-    installAmt: 0.1,
-    trialAmt: 30,
-    installBalance: true,   // register pe balance add hoga
+  'Colgate': {
+    installAmt: 2,
+    trialAmt: 0,
+    installBalance: true,
     trialBalance: false,
-    installComment: 'ABCD Install',
-    trialComment: 'Abc gold buy'
+    installComment: 'Colgate Register',
+    trialComment: 'Colgate Register'
   }
 };
 
@@ -153,7 +152,6 @@ app.post('/webhook', async (req, res) => {
   res.send('OK');
 });
 
-// ✅ Click save — landing page se call hoga
 app.post('/click', async (req, res) => {
   try {
     const { click_id, offer_name } = req.body;
@@ -166,29 +164,23 @@ app.post('/click', async (req, res) => {
   }
 });
 
-// ✅ Postback — 1 URL sab offers ke liye
 app.get('/postback', async (req, res) => {
   try {
     const { click_id = 'N/A', event = 'N/A' } = req.query;
 
-    // Offer name auto detect
-    let offer = req.query.offer || 'Unknown';
+    let offer = 'Unknown';
     try {
       const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
       if (clicks.length > 0) offer = clicks[0].offer_name;
     } catch(e) {}
 
-    // Offer config
     const config = offerConfig[offer] || {
-      installAmt: parseFloat(req.query.amount || 0),
-      trialAmt: parseFloat(req.query.amount || 0),
-      installBalance: true,
-      trialBalance: true,
+      installAmt: 0, trialAmt: 0,
+      installBalance: false, trialBalance: false,
       installComment: `${offer} Install`,
       trialComment: `${offer} Trial`
     };
 
-    // Amount set karo
     let amount = 0;
     let comment = '';
     let addBalance = false;
@@ -211,7 +203,6 @@ app.get('/postback', async (req, res) => {
 
     await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount, event });
 
-    // User wallet update
     const users = await dbGet('users', `phone=eq.${click_id}`);
     if (users.length > 0) {
       const u = users[0];
@@ -228,7 +219,6 @@ app.get('/postback', async (req, res) => {
     const trackTime = getTime();
     const msg = `<b>Conversation Count 💝</b>\n\n<b>🎁 Offer Name - ${offer}</b>\n\n<b>User Id : ${maskPhone(click_id)}</b>\n<b>User Amount : ₹${amount}</b>\n<b>🤑 User Payment : Success</b>\n\n<b>Run Time - ${runTime}</b>\n<b>Track Time - ${trackTime}</b>\n\n<b>Powered By - TrackFlix</b>`;
     await sendMsg(CHAT_ID, msg);
-
   } catch(e) {
     console.error(e);
   }
