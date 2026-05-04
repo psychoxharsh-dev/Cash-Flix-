@@ -137,13 +137,14 @@ app.get('/postback', async (req, res) => {
   try {
     const { click_id = 'N/A', event = 'N/A', offer = 'StoryTv2' } = req.query;
 
-    let amount;
-    if (event === 'initial') {
-      amount = '0.1';
-    } else if (event === 'Trial') {
-      amount = '25';
-    } else {
-      amount = req.query.amount || '0';
+    if (offer === 'ViraloTv') {
+  if (event === 'initial') amount = '0.1';
+  else if (event === 'Trial') amount = '20';
+  else amount = req.query.amount || '0';
+} else {
+  if (event === 'initial') amount = '0.1';
+  else if (event === 'Trial') amount = '25';
+  else amount = req.query.amount || '0';
     }
 
     const runTime = getTime();
@@ -158,13 +159,13 @@ app.get('/postback', async (req, res) => {
         const newBal = parseFloat(u.balance) + amt;
         const newLife = parseFloat(u.lifetime_earnings) + amt;
         await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
-        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal}</b>\n\n<b>💡 Comment = Story Tv Trial</b>`);
+        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal}</b>\n\n<b>💡 Comment = ${offer === 'ViraloTv' ? 'Viralo Tv Trial' : 'Story Tv Trial'}</b>`);
       }
     } else if (event === 'initial') {
       const users = await dbGet('users', `phone=eq.${click_id}`);
       if (users.length > 0) {
         const u = users[0];
-        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${u.balance}</b>\n\n<b>💡 Comment = Story Tv Install</b>`);
+        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${u.balance}</b>\n\n<b>💡 Comment = ${offer === 'ViraloTv' ? 'Viralo Tv Install' : 'Story Tv Install'}</b>`);
       }
     }
 
