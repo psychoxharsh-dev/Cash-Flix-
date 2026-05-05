@@ -9,21 +9,21 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const ADMIN_ID = '7217447824';
 
 const offerConfig = {
+  'StoryTv2': {
+    installAmt: 0.1,
+    trialAmt: 25,
+    installBalance: false,
+    trialBalance: true,
+    installComment: 'Story Tv Install',
+    trialComment: 'Story Tv Trial'
+  },
   'Colgate': {
     installAmt: 3,
     trialAmt: 0,
     installBalance: true,
-    trialBalance: true,
+    trialBalance: false,
     installComment: 'Colgate Register',
-    trialComment: 'Story Tv Trial'
-  },
-  'Abcd Gold': {
-    installAmt: 0.1,
-    trialAmt: 35,
-    installBalance: false,
-    trialBalance: true,
-    installComment: 'AbcdGold Install',
-    trialComment: 'Abcd Gold buy'
+    trialComment: 'Colgate Register'
   }
 };
 
@@ -166,35 +166,16 @@ app.post('/click', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
-    const {
-  aff_click_id,
-  sub_aff_id,
-  click_id,
-  event = 'N/A'
-} = req.query;
+    const { click_id = 'N/A', event = 'N/A' } = req.query;
 
-const userId =
-  aff_click_id ||
-  sub_aff_id ||
-  click_id ||
-  'N/A';
-
-let offer = 'Unknown';
-
-try {
-  const clicks = await dbGet('clicks', `click_id=eq.${userId}&order=id.desc&limit=1`);
-
-  if (clicks.length > 0) {
-    offer = clicks[0].offer_name;
-  }
-
-} catch(e) {}
-    const config = offerConfig[offer] || {};
-
-const amount =
-  config.installAmt ||
-  config.trialAmt ||
-  0;
+// Offer — URL se lo pehle, phir clicks table se
+let offer = req.query.offer || 'Unknown';
+if (offer === 'Unknown') {
+  try {
+    const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
+    if (clicks.length > 0) offer = clicks[0].offer_name;
+  } catch(e) {}
+}
 
     const config = offerConfig[offer] || {
       installAmt: 0, trialAmt: 0,
