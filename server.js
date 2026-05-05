@@ -166,13 +166,29 @@ app.post('/click', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
-    const { click_id = 'N/A', event = 'N/A' } = req.query;
+    const {
+  aff_click_id,
+  sub_aff_id,
+  click_id,
+  event = 'N/A'
+} = req.query;
 
-    let offer = 'Unknown';
-    try {
-      const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
-      if (clicks.length > 0) offer = clicks[0].offer_name;
-    } catch(e) {}
+const userId =
+  aff_click_id ||
+  sub_aff_id ||
+  click_id ||
+  'N/A';
+
+let offer = 'Unknown';
+
+try {
+  const clicks = await dbGet('clicks', `click_id=eq.${userId}&order=id.desc&limit=1`);
+
+  if (clicks.length > 0) {
+    offer = clicks[0].offer_name;
+  }
+
+} catch(e) {}
 
     const config = offerConfig[offer] || {
       installAmt: 0, trialAmt: 0,
