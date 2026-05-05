@@ -9,12 +9,12 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const ADMIN_ID = '7217447824';
 
 const offerConfig = {
-  'StoryTv2': {
-    installAmt: 0.1,
+  'Waves': {
+    installAmt: 3,
     trialAmt: 25,
-    installBalance: false,
-    trialBalance: true,
-    installComment: 'Story Tv Install',
+    installBalance: true,
+    trialBalance: false,
+    installComment: 'Waves Registration',
     trialComment: 'Story Tv Trial'
   },
   'Colgate': {
