@@ -189,6 +189,12 @@ try {
   }
 
 } catch(e) {}
+    const config = offerConfig[offer] || {};
+
+const amount =
+  config.installAmt ||
+  config.trialAmt ||
+  0;
 
     const config = offerConfig[offer] || {
       installAmt: 0, trialAmt: 0,
