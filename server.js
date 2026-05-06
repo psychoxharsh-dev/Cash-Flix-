@@ -188,7 +188,7 @@ if (offer === 'Unknown') {
     let comment = '';
     let addBalance = false;
 
-    if (event === 'initial') {
+    if (event === 'web') {
       amount = config.installAmt;
       comment = config.installComment;
       addBalance = config.installBalance;
