@@ -188,15 +188,17 @@ if (offer === 'Unknown') {
     let comment = '';
     let addBalance = false;
 
-    if (event === 'web') {
-      amount = config.installAmt;
-      comment = config.installComment;
-      addBalance = config.installBalance;
-    } else if (event === 'Trial') {
-      amount = config.trialAmt;
-      comment = config.trialComment;
-      addBalance = config.trialBalance;
-    } else {
+    const eventName = event?.trim().toLowerCase();
+
+if (eventName === 'web') {
+  amount = config.installAmt || 0;
+  comment = config.installComment;
+  addBalance = config.installBalance;
+} else if (eventName === 'trial') {
+  amount = config.trialAmt || 0;
+  comment = config.trialComment;
+  addBalance = config.trialBalance;
+} else {
       amount = parseFloat(req.query.amount || 0);
       comment = `${offer} Complete`;
       addBalance = true;
