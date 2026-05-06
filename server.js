@@ -18,7 +18,7 @@ const offerConfig = {
     trialComment: 'Story Tv Trial'
   },
   'Colgate': {
-    installAmt: 3,
+    WebAmt: 3,
     trialAmt: 0,
     installBalance: true,
     trialBalance: false,
