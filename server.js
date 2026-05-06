@@ -190,15 +190,27 @@ if (offer === 'Unknown') {
 
     const eventName = event?.trim().toLowerCase();
 
-if (eventName === 'web') {
+if (['web', 'install'].includes(eventName)) {
   amount = config.installAmt || 0;
   comment = config.installComment;
   addBalance = config.installBalance;
+
+} else if (eventName === 'buy_gold') {
+  amount = config.saleAmt || 0;
+  comment = config.saleComment;
+  addBalance = config.saleBalance;
+
 } else if (eventName === 'trial') {
   amount = config.trialAmt || 0;
   comment = config.trialComment;
   addBalance = config.trialBalance;
+
 } else {
+  // fallback (safe)
+  amount = parseFloat(req.query.amount || 0);
+  comment = `${offer} Complete`;
+  addBalance = true;
+}
       amount = parseFloat(req.query.amount || 0);
       comment = `${offer} Complete`;
       addBalance = true;
