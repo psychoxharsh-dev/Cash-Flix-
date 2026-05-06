@@ -96,7 +96,7 @@ app.post('/webhook', async (req, res) => {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length === 0) {
         await dbPost('users', { telegram_id: chat_id, name, phone: text, balance: 0, lifetime_earnings: 0 });
-        await sendMsg(chat_id, `<b>✅ Registration successful!</b>\n\n<b>👤 Profile</b>\n\n<b>🧑 User: ${name} ⚡</b>\n<b>💰 Balance: ₹0.00</b>\n<b>🔁 Lifetime Earnings: ₹0.00</b>\n<b>📱 Phone: ${text}</b>`, mainKeyboard);
+        await sendMsg(chat_id, `<b>✅ Registration successful!</b>\n\n<b>👤 Profile</b>\n\n<b>🙌🏻 User: ${name} ⚡</b>\n<b>💰 Balance: ₹0.00</b>\n<b>🪢 Lifetime Earnings: ₹0.00</b>\n<b>📱 Phone: ${text}</b>`, mainKeyboard);
       } else {
         await sendMsg(chat_id, `<b>✅ Already registered!</b>`, mainKeyboard);
       }
@@ -104,7 +104,7 @@ app.post('/webhook', async (req, res) => {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0) {
         const u = users[0];
-        await sendMsg(chat_id, `<b>👤 Profile</b>\n\n<b>🧑 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${u.balance}</b>\n<b>🔁 Lifetime Earnings: ₹${u.lifetime_earnings}</b>\n<b>📱 Phone: ${u.phone}</b>`, mainKeyboard);
+        await sendMsg(chat_id, `<b>👤 Profile</b>\n\n<b>🙌🏻 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${u.balance}</b>\n<b>🪢 Lifetime Earnings: ₹${u.lifetime_earnings}</b>\n<b>📱 Phone: ${u.phone}</b>`, mainKeyboard);
       }
     } else if (text === '💰 Withdraw') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
