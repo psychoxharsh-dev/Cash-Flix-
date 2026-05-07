@@ -169,15 +169,8 @@ app.get('/postback', async (req, res) => {
     const { click_id = 'N/A', event = 'N/A' } = req.query;
 
 // Offer — URL se lo pehle, phir clicks table se
-let offer = req.query.offer;
-
-if (!offer) {
-  console.log("❌ Offer missing");
-  return res.send("Offer not found");
-}
-
-offer = decodeURIComponent(offer).trim();
-console.log("✔ Offer detected:", offer);
+let offer = req.query.offer || 'Unknown';
+if (offer === 'Unknown') {
   try {
     const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
     if (clicks.length > 0) offer = clicks[0].offer_name;
@@ -197,27 +190,15 @@ console.log("✔ Offer detected:", offer);
 
     const eventName = event?.trim().toLowerCase();
 
-if (['web', 'install'].includes(eventName)) {
+if (eventName === 'web') {
   amount = config.installAmt || 0;
   comment = config.installComment;
   addBalance = config.installBalance;
-
-} else if (eventName === 'buy_gold') {
-  amount = config.saleAmt || 0;
-  comment = config.saleComment;
-  addBalance = config.saleBalance;
-
 } else if (eventName === 'trial') {
   amount = config.trialAmt || 0;
   comment = config.trialComment;
   addBalance = config.trialBalance;
-
 } else {
-  // fallback (safe)
-  amount = parseFloat(req.query.amount || 0);
-  comment = `${offer} Complete`;
-  addBalance = true;
-}
       amount = parseFloat(req.query.amount || 0);
       comment = `${offer} Complete`;
       addBalance = true;
