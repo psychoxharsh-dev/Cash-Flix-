@@ -24,6 +24,14 @@ const offerConfig = {
     trialBalance: false,
     installComment: 'Colgate Register',
     trialComment: 'Colgate Register'
+  },
+  'ABCD GOLD': {
+  installAmt: 0.1,
+  trialAmt: 35,
+  installBalance: false,
+  trialBalance: true,
+  installComment: 'ABCD install',
+  trialComment: 'ABCD Buy'
   }
 };
 
