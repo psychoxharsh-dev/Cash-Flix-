@@ -151,15 +151,25 @@ app.post('/webhook', async (req, res) => {
   }
   res.send('OK');
 });
-
 app.post('/click', async (req, res) => {
   try {
-    const { click_id, offer_name } = req.body;
-    if (click_id && offer_name) {
-      await dbPost('clicks', { click_id, offer_name });
-    }
+    const { click_id, offer_name, amount, event } = req.body;
+
+    await supabase
+      .from('clicks')
+      .insert([
+        {
+          click_id: click_id,
+          offer_name: offer_name,
+          amount: amount || 0,
+          event: event || 'click'
+        }
+      ]);
+
     res.json({ success: true });
-  } catch(e) {
+
+  } catch (e) {
+    console.log(e);
     res.json({ success: false });
   }
 });
