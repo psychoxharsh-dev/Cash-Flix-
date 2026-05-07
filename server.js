@@ -169,8 +169,15 @@ app.get('/postback', async (req, res) => {
     const { click_id = 'N/A', event = 'N/A' } = req.query;
 
 // Offer — URL se lo pehle, phir clicks table se
-let offer = req.query.offer || 'Unknown';
-if (offer === 'Unknown') {
+let offer = req.query.offer;
+
+if (!offer) {
+  console.log("❌ Offer missing");
+  return res.send("Offer not found");
+}
+
+offer = decodeURIComponent(offer).trim();
+console.log("✔ Offer detected:", offer);
   try {
     const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
     if (clicks.length > 0) offer = clicks[0].offer_name;
