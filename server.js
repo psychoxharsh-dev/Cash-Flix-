@@ -9,13 +9,13 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const ADMIN_ID = '7217447824';
 
 const offerConfig = {
-  'Abcd Gold': {
+  'Waves': {
     installAmt: 0.1,
-    trialAmt: 35,
-    installBalance: true,
+    trialAmt: 3,
+    installBalance: false,
     trialBalance: true,
-    installComment: 'Abcd install',
-    trialComment: 'Abcd Gold Buy'
+    installComment: 'Waves install',
+    trialComment: 'Waves Singup'
   },
   'Colgate': {
     installAmt: 3,
