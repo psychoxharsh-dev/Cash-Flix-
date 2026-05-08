@@ -14,8 +14,8 @@ const offerConfig = {
     trialAmt: 3,
     installBalance: false,
     trialBalance: true,
-    installComment: 'Waves install',
-    trialComment: 'Waves Singup'
+    installComment: 'Waves Install',
+    trialComment: 'Waves Signup'
   },
   'Colgate': {
     installAmt: 3,
@@ -26,12 +26,12 @@ const offerConfig = {
     trialComment: 'Colgate Register'
   },
   'ABCD GOLD': {
-  installAmt: 0.1,
-  trialAmt: 35,
-  installBalance: false,
-  trialBalance: true,
-  installComment: 'ABCD install',
-  trialComment: 'ABCD Buy'
+    installAmt: 0.1,
+    trialAmt: 35,
+    installBalance: false,
+    trialBalance: true,
+    installComment: 'ABCD Install',
+    trialComment: 'ABCD Buy'
   }
 };
 
@@ -159,25 +159,17 @@ app.post('/webhook', async (req, res) => {
   }
   res.send('OK');
 });
+
+// ✅ FIXED — supabase ki jagah dbPost use kiya
 app.post('/click', async (req, res) => {
   try {
-    const { click_id, offer_name, amount, event } = req.body;
-
-    await supabase
-      .from('clicks')
-      .insert([
-        {
-          click_id: click_id,
-          offer_name: offer_name,
-          amount: amount || 0,
-          event: event || 'click'
-        }
-      ]);
-
+    const { click_id, offer_name } = req.body;
+    if (click_id && offer_name) {
+      await dbPost('clicks', { click_id, offer_name });
+    }
     res.json({ success: true });
-
-  } catch (e) {
-    console.log(e);
+  } catch(e) {
+    console.error(e);
     res.json({ success: false });
   }
 });
@@ -186,14 +178,13 @@ app.get('/postback', async (req, res) => {
   try {
     const { click_id = 'N/A', event = 'N/A' } = req.query;
 
-// Offer — URL se lo pehle, phir clicks table se
-let offer = req.query.offer || 'Unknown';
-if (offer === 'Unknown') {
-  try {
-    const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
-    if (clicks.length > 0) offer = clicks[0].offer_name;
-  } catch(e) {}
-}
+    let offer = req.query.offer || 'Unknown';
+    if (offer === 'Unknown') {
+      try {
+        const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
+        if (clicks.length > 0) offer = clicks[0].offer_name;
+      } catch(e) {}
+    }
 
     const config = offerConfig[offer] || {
       installAmt: 0, trialAmt: 0,
@@ -208,15 +199,15 @@ if (offer === 'Unknown') {
 
     const eventName = event?.trim().toLowerCase();
 
-if (eventName === 'web') {
-  amount = config.installAmt || 0;
-  comment = config.installComment;
-  addBalance = config.installBalance;
-} else if (eventName === 'trial') {
-  amount = config.trialAmt || 0;
-  comment = config.trialComment;
-  addBalance = config.trialBalance;
-} else {
+    if (eventName === 'web' || eventName === 'initial') {
+      amount = config.installAmt || 0;
+      comment = config.installComment;
+      addBalance = config.installBalance;
+    } else if (eventName === 'trial') {
+      amount = config.trialAmt || 0;
+      comment = config.trialComment;
+      addBalance = config.trialBalance;
+    } else {
       amount = parseFloat(req.query.amount || 0);
       comment = `${offer} Complete`;
       addBalance = true;
