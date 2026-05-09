@@ -32,6 +32,14 @@ const offerConfig = {
     trialBalance: true,
     installComment: 'ABCD Install',
     trialComment: 'ABCD Buy'
+  },
+  'Univest': {
+    installAmt: 0.1,
+    trialAmt: 10,
+    installBalance: false,
+    trialBalance: true,
+    installComment: 'Univest Install',
+    trialComment: 'Univest Siugup'
   }
 };
 
