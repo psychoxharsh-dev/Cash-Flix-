@@ -169,9 +169,9 @@ app.post('/webhook', async (req, res) => {
 });
 
 // ✅ FIXED — supabase ki jagah dbPost use kiya
-app.get('/click', async (req, res) => {
+app.post('/click', async (req, res) => {
   try {
-    const { click_id, offer_name } = req.query;
+    const { click_id, offer_name } = req.body;
     if (click_id && offer_name) {
       await dbPost('clicks', { click_id, offer_name });
     }
