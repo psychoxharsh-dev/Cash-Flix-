@@ -23,7 +23,7 @@ const offerConfig = {
     installBalance: false,
     trialBalance: true,
     installComment: 'Muthoot Install',
-    trialComment: 'Muthoot Register'
+    trialComment: 'Muthoot Siugup'
   },
   'ABCD GOLD': {
     installAmt: 0.1,
