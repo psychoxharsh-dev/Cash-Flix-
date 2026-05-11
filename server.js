@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
+
+// CORS fix
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -24,13 +26,13 @@ const offerConfig = {
     installComment: 'Waves Install',
     trialComment: 'Waves Signup'
   },
-  'Muthoot': {
-    installAmt: 0.1,
-    trialAmt: 10,
-    installBalance: false,
-    trialBalance: true,
-    installComment: 'Muthoot Install',
-    trialComment: 'Muthoot Siugup'
+  'Colgate': {
+    installAmt: 3,
+    trialAmt: 0,
+    installBalance: true,
+    trialBalance: false,
+    installComment: 'Colgate Register',
+    trialComment: 'Colgate Register'
   },
   'ABCD GOLD': {
     installAmt: 0.1,
@@ -39,14 +41,6 @@ const offerConfig = {
     trialBalance: true,
     installComment: 'ABCD Install',
     trialComment: 'ABCD Buy'
-  },
-  'Univest': {
-    installAmt: 0.1,
-    trialAmt: 10,
-    installBalance: false,
-    trialBalance: true,
-    installComment: 'Univest Install',
-    trialComment: 'Univest Siugup'
   }
 };
 
@@ -175,14 +169,15 @@ app.post('/webhook', async (req, res) => {
   res.send('OK');
 });
 
-// ✅ FIXED — supabase ki jagah dbPost use kiya
 app.post('/click', async (req, res) => {
   try {
     const { click_id, offer_name } = req.body;
     if (click_id && offer_name) {
       await dbPost('clicks', { click_id, offer_name });
+      res.json({ success: true });
+    } else {
+      res.json({ success: false, error: 'Missing click_id or offer_name' });
     }
-    res.json({ success: true });
   } catch(e) {
     console.error(e);
     res.json({ success: false });
