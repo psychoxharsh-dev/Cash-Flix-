@@ -26,13 +26,13 @@ const offerConfig = {
     installComment: 'Waves Install',
     trialComment: 'Waves Signup'
   },
-  'Colgate': {
-    installAmt: 3,
-    trialAmt: 0,
+  'Muthoot': {
+    installAmt: 0.1,
+    trialAmt: 10,
     installBalance: true,
-    trialBalance: false,
-    installComment: 'Colgate Register',
-    trialComment: 'Colgate Register'
+    trialBalance: true,
+    installComment: 'Muthoot Install',
+    trialComment: 'Muthoot Register'
   },
   'ABCD GOLD': {
     installAmt: 0.1,
