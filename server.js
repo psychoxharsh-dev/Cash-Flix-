@@ -41,6 +41,14 @@ const offerConfig = {
     trialBalance: true,
     installComment: 'ABCD Install',
     trialComment: 'ABCD Buy'
+  },
+  'incred': {
+    installAmt: 0.1,
+    trialAmt: 20,
+    installBalance: false,
+    trialBalance: true,
+    installComment: 'InCred Install',
+    trialComment: 'InCred Buy'
   }
 };
 
