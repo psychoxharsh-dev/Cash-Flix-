@@ -26,13 +26,13 @@ const offerConfig = {
     installComment: 'Waves Install',
     trialComment: 'Waves Signup'
   },
-  'Muthoot': {
+  'Research360': {
     installAmt: 0.1,
-    trialAmt: 10,
+    trialAmt: 170,
     installBalance: true,
     trialBalance: true,
-    installComment: 'Muthoot Install',
-    trialComment: 'Muthoot Register'
+    installComment: 'Research Install',
+    trialComment: 'Research Plan Buy'
   },
   'ABCD GOLD': {
     installAmt: 0.1,
