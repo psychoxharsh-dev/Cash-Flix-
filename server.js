@@ -34,7 +34,7 @@ const offerConfig = {
     installComment: 'Research Install',
     trialComment: 'Research Plan Buy'
   },
-  'Quick tv ': {
+  'Quicktv ': {
     installAmt: 0.1,
     trialAmt: 24,
     installBalance: false,
