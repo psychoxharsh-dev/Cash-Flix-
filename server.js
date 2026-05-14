@@ -42,12 +42,12 @@ const offerConfig = {
     installComment: 'ABCD Install',
     trialComment: 'ABCD Buy'
   },
-  'incred': {
-    installAmt: 0.1,
+  'bajaj': {
+    installAmt: 2,
     trialAmt: 20,
-    installBalance: false,
+    installBalance: true,
     trialBalance: true,
-    installComment: 'InCred Install',
+    installComment: 'Bajaj Install',
     trialComment: 'InCred Buy'
   }
 };
