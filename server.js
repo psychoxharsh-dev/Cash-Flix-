@@ -34,13 +34,13 @@ const offerConfig = {
     installComment: 'Research Install',
     trialComment: 'Research Plan Buy'
   },
-  'ABCD GOLD': {
+  'Quick tv ': {
     installAmt: 0.1,
-    trialAmt: 35,
+    trialAmt: 24,
     installBalance: false,
     trialBalance: true,
-    installComment: 'ABCD Install',
-    trialComment: 'ABCD Buy'
+    installComment: 'QuickTv Install',
+    trialComment: 'QuickTv Trial'
   },
   'bajaj': {
     installAmt: 2,
