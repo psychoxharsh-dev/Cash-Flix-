@@ -200,6 +200,7 @@ app.post('/click', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
+    console.log('POSTBACK RECEIVED:', req.query);
   
     const { click_id = 'N/A', event = 'N/A' } = req.query;
 
