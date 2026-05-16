@@ -31,7 +31,7 @@ const offerConfig = {
     installBalance: false,
     trialBalance: true,
     installComment: 'StoryMax Install',
-    trialComment: 'StoryMax Trail Buy'
+    trialComment: 'StoryMax Trial Buy'
   },
   'Quicktv': {
     installAmt: 0.1,
@@ -41,21 +41,22 @@ const offerConfig = {
     installComment: 'QuickTv Install',
     trialComment: 'QuickTv Trial'
   },
+  'bajaj': {
+    installAmt: 2,
+    trialAmt: 20,
+    installBalance: true,
+    trialBalance: true,
+    installComment: 'Bajaj Install',
+    trialComment: 'InCred Buy'
+  },
   'InCred': {
     installAmt: 0.1,
-    trialAmt: 23,
+    trialAmt: 0,
     installBalance: false,
-    trialBalance: true,
+    trialBalance: false,
     installComment: 'InCred Install',
-    trialComment: 'InCred Gold'
-  },
-  'meow': {
-    installAmt: 0.1,
-    trialAmt: 23,
-    installBalance: false,
-    trialBalance: true,
-    installComment: 'InCred Install',
-    trialComment: 'InCred Gold'
+    trialComment: 'InCred Install'
+  }
 };
 
 function maskPhone(phone) {
@@ -141,7 +142,7 @@ app.post('/webhook', async (req, res) => {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0 && parseFloat(users[0].balance) >= 50) {
         userState[chat_id] = { state: 'withdraw_upi', amount: users[0].balance };
-        await sendMsg(chat_id, `<b>💸 Enter Your UPI ID Here:</b>\n\n<b>💰 Available Balance: ₹${users[0].balance}</b>`);
+        await sendMsg(chat_id, `<b>💸 Apna UPI ID bhejo:</b>\n\n<b>💰 Available Balance: ₹${users[0].balance}</b>`);
       } else {
         await sendMsg(chat_id, `<b>❌ Minimum ₹50 chahiye withdraw karne ke liye!</b>`, mainKeyboard);
       }
@@ -186,6 +187,7 @@ app.post('/webhook', async (req, res) => {
 app.post('/click', async (req, res) => {
   try {
     const { click_id, offer_name } = req.body;
+    console.log('CLICK RECEIVED:', { click_id, offer_name });
     if (click_id && offer_name) {
       await dbPost('clicks', { click_id, offer_name });
       res.json({ success: true });
@@ -200,17 +202,20 @@ app.post('/click', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
-    console.log('POSTBACK RECEIVED:', req.query);
-  
     const { click_id = 'N/A', event = 'N/A' } = req.query;
+    console.log('POSTBACK RECEIVED:', req.query);
 
     let offer = req.query.offer || 'Unknown';
     if (offer === 'Unknown') {
       try {
         const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
+        console.log('CLICKS FOUND:', clicks);
         if (clicks.length > 0) offer = clicks[0].offer_name;
       } catch(e) {}
     }
+
+    console.log('OFFER DETECTED:', offer);
+    console.log('EVENT:', event);
 
     const config = offerConfig[offer] || {
       installAmt: 0, trialAmt: 0,
@@ -224,6 +229,7 @@ app.get('/postback', async (req, res) => {
     let addBalance = false;
 
     const eventName = event?.trim().toLowerCase();
+    console.log('EVENT NAME LOWERCASE:', eventName);
 
     if (['web', 'initial', 'install', 'e1'].includes(eventName)) {
       amount = config.installAmt || 0;
@@ -238,6 +244,8 @@ app.get('/postback', async (req, res) => {
       comment = `${offer} Complete`;
       addBalance = true;
     }
+
+    console.log('AMOUNT:', amount, 'COMMENT:', comment, 'ADD BALANCE:', addBalance);
 
     const runTime = getTime();
 
