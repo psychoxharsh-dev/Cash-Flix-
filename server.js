@@ -200,8 +200,8 @@ app.post('/click', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
+  
     const { click_id = 'N/A', event = 'N/A' } = req.query;
-    console.log('POSTBACK:', req.query);
 
     let offer = req.query.offer || 'Unknown';
     if (offer === 'Unknown') {
