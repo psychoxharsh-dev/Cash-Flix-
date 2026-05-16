@@ -26,13 +26,13 @@ const offerConfig = {
     installComment: 'Waves Install',
     trialComment: 'Waves Signup'
   },
-  'Research360': {
-    installAmt: 0.1,
-    trialAmt: 170,
-    installBalance: true,
+  'StoryMax': {
+    installAmt: 0.01,
+    trialAmt: 18,
+    installBalance: false,
     trialBalance: true,
-    installComment: 'Research Install',
-    trialComment: 'Research Plan Buy'
+    installComment: 'StoryMax Install',
+    trialComment: 'StoryMax Trail Buy'
   },
   'Quicktv ': {
     installAmt: 0.1,
