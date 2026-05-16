@@ -144,7 +144,7 @@ app.post('/webhook', async (req, res) => {
         userState[chat_id] = { state: 'withdraw_upi', amount: users[0].balance };
         await sendMsg(chat_id, `<b>💸 Enter Your UPI ID Here:</b>\n\n<b>💰 Available Balance: ₹${users[0].balance}</b>`);
       } else {
-        await sendMsg(chat_id, `<b>❌ Minimum ₹50 chahiye withdraw karne ke liye!</b>`, mainKeyboard);
+        await sendMsg(chat_id, `<b>❌ Minimum ₹50 Required To Withdraw!</b>`, mainKeyboard);
       }
     } else if (userState[chat_id] && userState[chat_id].state === 'withdraw_upi') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
