@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-// CORS fix
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -34,7 +33,7 @@ const offerConfig = {
     installComment: 'StoryMax Install',
     trialComment: 'StoryMax Trail Buy'
   },
-  'Quicktv ': {
+  'Quicktv': {
     installAmt: 0.1,
     trialAmt: 24,
     installBalance: false,
@@ -42,14 +41,21 @@ const offerConfig = {
     installComment: 'QuickTv Install',
     trialComment: 'QuickTv Trial'
   },
-  'bajaj': {
-    installAmt: 2,
-    trialAmt: 20,
-    installBalance: true,
+  'InCred': {
+    installAmt: 0.1,
+    trialAmt: 23,
+    installBalance: false,
     trialBalance: true,
-    installComment: 'Bajaj Install',
-    trialComment: 'InCred Buy'
-  }
+    installComment: 'InCred Install',
+    trialComment: 'InCred Gold'
+  },
+  'meow': {
+    installAmt: 0.1,
+    trialAmt: 23,
+    installBalance: false,
+    trialBalance: true,
+    installComment: 'InCred Install',
+    trialComment: 'InCred Gold'
 };
 
 function maskPhone(phone) {
@@ -184,7 +190,7 @@ app.post('/click', async (req, res) => {
       await dbPost('clicks', { click_id, offer_name });
       res.json({ success: true });
     } else {
-      res.json({ success: false, error: 'Missing click_id or offer_name' });
+      res.json({ success: false });
     }
   } catch(e) {
     console.error(e);
@@ -194,8 +200,8 @@ app.post('/click', async (req, res) => {
 
 app.get('/postback', async (req, res) => {
   try {
-  
     const { click_id = 'N/A', event = 'N/A' } = req.query;
+    console.log('POSTBACK:', req.query);
 
     let offer = req.query.offer || 'Unknown';
     if (offer === 'Unknown') {
@@ -218,11 +224,11 @@ app.get('/postback', async (req, res) => {
 
     const eventName = event?.trim().toLowerCase();
 
-    if (eventName === 'web' || eventName === 'initial') {
+    if (['web', 'initial', 'install', 'e1'].includes(eventName)) {
       amount = config.installAmt || 0;
       comment = config.installComment;
       addBalance = config.installBalance;
-    } else if (eventName === 'trial' || eventName === 'register') {
+    } else if (['trial', 'purchase', 'e2', 'complete', 'signup'].includes(eventName)) {
       amount = config.trialAmt || 0;
       comment = config.trialComment;
       addBalance = config.trialBalance;
