@@ -235,7 +235,7 @@ app.get('/postback', async (req, res) => {
       amount = config.installAmt || 0;
       comment = config.installComment;
       addBalance = config.installBalance;
-    } else if (['trial', 'purchase', 'e2', 'complete', 'signup'].includes(eventName)) {
+    } else if (['trial', 'purchase', 'e2', 'complete', 'signup' 'goldbuy'].includes(eventName)) {
       amount = config.trialAmt || 0;
       comment = config.trialComment;
       addBalance = config.trialBalance;
