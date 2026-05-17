@@ -51,11 +51,11 @@ const offerConfig = {
   },
   'InCred': {
     installAmt: 0.1,
-    trialAmt: 0,
+    trialAmt: 20,
     installBalance: false,
-    trialBalance: false,
+    trialBalance: true,
     installComment: 'InCred Install',
-    trialComment: 'InCred Install'
+    trialComment: 'InCred GoldBuy'
   }
 };
 
