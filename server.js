@@ -41,13 +41,13 @@ const offerConfig = {
     installComment: 'QuickTv Install',
     trialComment: 'QuickTv Trial'
   },
-  'bajaj': {
-    installAmt: 2,
-    trialAmt: 20,
-    installBalance: true,
+  'Univest': {
+    installAmt: 0.1,
+    trialAmt: 10,
+    installBalance: false,
     trialBalance: true,
-    installComment: 'Bajaj Install',
-    trialComment: 'InCred Buy'
+    installComment: 'Univest Install',
+    trialComment: 'Univest Siugup'
   },
   'InCred': {
     installAmt: 0.1,
