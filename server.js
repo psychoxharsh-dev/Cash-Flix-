@@ -47,7 +47,7 @@ const offerConfig = {
     installBalance: false,
     trialBalance: true,
     installComment: 'Univest Install',
-    trialComment: 'Univest Siugup'
+    trialComment: 'Univest Register'
   },
   'InCred': {
     installAmt: 0.1,
