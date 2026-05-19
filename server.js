@@ -42,10 +42,10 @@ const offerConfig = {
     trialComment: 'QuickTv Trial'
   },
   'Univest': {
-    installAmt: 0.1,
+    installAmt: 2,
     trialAmt: 10,
-    installBalance: false,
-    trialBalance: true,
+    installBalance: true,
+    trialBalance: false,
     installComment: 'Univest Install',
     trialComment: 'Univest Register'
   },
