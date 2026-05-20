@@ -75,11 +75,19 @@ function getRequestId() {
 async function sendMsg(chat_id, text, keyboard) {
   const body = { chat_id, text, parse_mode: 'HTML' };
   if (keyboard) body.reply_markup = { keyboard, resize_keyboard: true };
-  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
+  for (let i = 0; i < 3; i++) {
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (res.ok) break;
+    } catch(e) {
+      if (i === 2) console.error('sendMsg failed:', e);
+      await new Promise(r => setTimeout(r, 1000));
+    }
+  }
 }
 
 async function dbGet(table, filter) {
@@ -205,14 +213,18 @@ app.get('/postback', async (req, res) => {
     const { click_id = 'N/A', event = 'N/A' } = req.query;
     console.log('POSTBACK RECEIVED:', req.query);
 
+    // ✅ Run Time — jab user ne submit kiya
+    let runTime = getTime();
     let offer = req.query.offer || 'Unknown';
-    if (offer === 'Unknown') {
-      try {
-        const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
-        console.log('CLICKS FOUND:', clicks);
-        if (clicks.length > 0) offer = clicks[0].offer_name;
-      } catch(e) {}
-    }
+
+    try {
+      const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
+      console.log('CLICKS FOUND:', clicks);
+      if (clicks.length > 0) {
+        offer = clicks[0].offer_name;
+        runTime = new Date(clicks[0].created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }).replace(',', '');
+      }
+    } catch(e) {}
 
     console.log('OFFER DETECTED:', offer);
     console.log('EVENT:', event);
@@ -246,8 +258,6 @@ app.get('/postback', async (req, res) => {
     }
 
     console.log('AMOUNT:', amount, 'COMMENT:', comment, 'ADD BALANCE:', addBalance);
-
-    const runTime = getTime();
 
     await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount, event });
 
