@@ -33,13 +33,13 @@ const offerConfig = {
     installComment: 'StoryMax Install',
     trialComment: 'StoryMax Trial Buy'
   },
-  'Quicktv': {
+  'WowTv': {
     installAmt: 0.1,
-    trialAmt: 24,
+    trialAmt: 18,
     installBalance: false,
     trialBalance: true,
-    installComment: 'QuickTv Install',
-    trialComment: 'QuickTv Trial'
+    installComment: 'WowTv Install',
+    trialComment: 'WowTv Trial'
   },
   'Univest': {
     installAmt: 2,
