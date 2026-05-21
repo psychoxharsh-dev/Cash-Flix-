@@ -230,7 +230,7 @@ app.post('/webhook', async (req, res) => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             chat_id,
-            text: `<b>👤 Profile</b>\n\n<b>🙌🏻 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${u.balance}</b>\n<b>🪢 Lifetime Earnings: ₹${u.lifetime_earnings}</b>\n<b>📱 Phone: ${u.phone}</b>\n<b>${upiStatus}</b>\n<b>${bankStatus}</b>`,
+            text: `<b>👤 Profile</b>\n\n<b>🙌🏻 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${u.balance}</b>\n<b>🪢 Lifetime Earnings: ₹${u.lifetime_earnings}</b>\n<b>📱 Phone: ${u.phone}</b>\n\n<b>💳 UPI</b>\n<b>${u.upi_id ? u.upi_id : 'Not Set'}</b>\n\n<b>🏦 Bank Details</b>\n<b>${u.bank_account ? u.bank_account + ' | ' + u.bank_ifsc : 'Not Set'}</b>`,
             parse_mode: 'HTML',
             reply_markup: {
               inline_keyboard: [
