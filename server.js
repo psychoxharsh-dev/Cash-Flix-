@@ -152,11 +152,11 @@ app.post('/webhook', async (req, res) => {
 
       if (data === 'set_upi') {
         userState[chat_id] = { state: 'set_upi' };
-        await sendMsg(chat_id, `<b>💳 Please enter your UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
+        await sendMsg(chat_id, `<b>Please enter your UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
 
       } else if (data === 'set_bank') {
         userState[chat_id] = { state: 'set_bank_account' };
-        await sendMsg(chat_id, `<b>🏦 Please enter your account number:</b>`);
+        await sendMsg(chat_id, `<b>Please enter your account number:</b>`);
 
       } else if (data === 'withdraw_upi') {
         const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
@@ -221,7 +221,7 @@ app.post('/webhook', async (req, res) => {
           delete userState[chat_id];
           await sendMsg(chat_id, `<b>✅ UPI Updated Successfully!</b>\n\n<b>💳 UPI ID: ${text}</b>`, mainKeyboard);
         } else {
-          await sendMsg(chat_id, `<b>❌ Invalid UPI format!</b>\n\n<b>💳 Please enter your UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
+          await sendMsg(chat_id, `<b>❌ Invalid UPI format!</b>\n\n<b>Please enter your UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
         }
         return res.send('OK');
 
