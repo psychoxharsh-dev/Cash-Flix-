@@ -18,11 +18,11 @@ const ADMIN_ID = '7217447824';
 
 const offerConfig = {
   'Waves': {
-    installAmt: 0.1,
+    installAmt: 3,
     trialAmt: 3,
-    installBalance: false,
-    trialBalance: true,
-    installComment: 'Waves Install',
+    installBalance: true,
+    trialBalance: false,
+    installComment: 'Waves Signup',
     trialComment: 'Waves Signup'
   },
   'StoryMax': {
