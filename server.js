@@ -49,7 +49,7 @@ const offerConfig = {
     installComment: 'Univest Install',
     trialComment: 'Univest Register'
   },
-  'incred Gold': {
+  'Incred Gold': {
     installAmt: 0.1,
     trialAmt: 25,
     installBalance: false,
