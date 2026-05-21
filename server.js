@@ -243,7 +243,7 @@ app.get('/postback', async (req, res) => {
     const eventName = event?.trim().toLowerCase();
     console.log('EVENT NAME LOWERCASE:', eventName);
 
-    if (['web', 'initial', 'install', 'e1'].includes(eventName)) {
+    if (['web', 'initial', 'install', 'e1', 'default'].includes(eventName)) {
       amount = config.installAmt || 0;
       comment = config.installComment;
       addBalance = config.installBalance;
