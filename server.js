@@ -98,6 +98,17 @@ async function sendMsg(chat_id, text, keyboard) {
   }
 }
 
+async function sendInlineMsg(chat_id, text, inline_keyboard) {
+  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id, text, parse_mode: 'HTML',
+      reply_markup: { inline_keyboard }
+    })
+  });
+}
+
 async function dbGet(table, filter) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${filter}`, {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
@@ -128,12 +139,11 @@ app.post('/webhook', async (req, res) => {
   try {
     const { message, callback_query } = req.body;
 
-    // ✅ Callback Query Handler
+    // ✅ Callback Query
     if (callback_query) {
       const chat_id = callback_query.from.id.toString();
       const data = callback_query.data;
 
-      // Answer callback
       await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -150,7 +160,7 @@ app.post('/webhook', async (req, res) => {
 
       } else if (data === 'withdraw_upi') {
         const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
-        if (users.length > 0 && users[0].upi_id) {
+        if (users.length > 0) {
           const u = users[0];
           if (parseFloat(u.balance) >= 50) {
             userState[chat_id] = { state: 'withdraw_amount', method: 'upi', payment: u.upi_id };
@@ -162,7 +172,7 @@ app.post('/webhook', async (req, res) => {
 
       } else if (data === 'withdraw_bank') {
         const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
-        if (users.length > 0 && users[0].bank_account) {
+        if (users.length > 0) {
           const u = users[0];
           if (parseFloat(u.balance) >= 50) {
             userState[chat_id] = { state: 'withdraw_amount', method: 'bank', payment: `${u.bank_account} | ${u.bank_ifsc}` };
@@ -201,13 +211,70 @@ app.post('/webhook', async (req, res) => {
     const text = message.text || '';
     const name = message.from.first_name || 'User';
 
+    // ✅ userState check PEHLE
+    if (userState[chat_id]) {
+      const state = userState[chat_id].state;
+
+      if (state === 'set_upi') {
+        if (isValidUPI(text)) {
+          await dbPatch('users', `telegram_id=eq.${chat_id}`, { upi_id: text });
+          delete userState[chat_id];
+          await sendMsg(chat_id, `<b>✅ UPI Updated Successfully!</b>\n\n<b>💳 UPI ID: ${text}</b>`, mainKeyboard);
+        } else {
+          await sendMsg(chat_id, `<b>❌ Invalid UPI format!</b>\n\n<b>💳 Please enter your UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
+        }
+        return res.send('OK');
+
+      } else if (state === 'set_bank_account') {
+        if (/^\d{9,18}$/.test(text)) {
+          userState[chat_id] = { state: 'set_bank_ifsc', account: text };
+          await sendMsg(chat_id, `<b>🏦 Please enter your IFSC code:</b>`);
+        } else {
+          await sendMsg(chat_id, `<b>❌ Invalid account number! Please enter again:</b>`);
+        }
+        return res.send('OK');
+
+      } else if (state === 'set_bank_ifsc') {
+        if (isValidIFSC(text)) {
+          const account = userState[chat_id].account;
+          await dbPatch('users', `telegram_id=eq.${chat_id}`, { bank_account: account, bank_ifsc: text.toUpperCase() });
+          delete userState[chat_id];
+          await sendMsg(chat_id, `<b>✅ Bank Updated Successfully!</b>\n\n<b>🏦 Account: ${account}</b>\n<b>📋 IFSC: ${text.toUpperCase()}</b>`, mainKeyboard);
+        } else {
+          await sendMsg(chat_id, `<b>❌ Invalid IFSC code format. Please enter a valid IFSC code (e.g., SBIN0001234). Please try again</b>`);
+        }
+        return res.send('OK');
+
+      } else if (state === 'withdraw_amount') {
+        const amt = parseFloat(text);
+        const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
+        if (users.length > 0) {
+          const u = users[0];
+          if (isNaN(amt) || amt < 50) {
+            await sendMsg(chat_id, `<b>❌ Minimum ₹50 Required! Please enter again:</b>`);
+          } else if (amt > parseFloat(u.balance)) {
+            await sendMsg(chat_id, `<b>❌ Insufficient balance! Available: ₹${u.balance}</b>`);
+          } else {
+            const method = userState[chat_id].method;
+            const payment = userState[chat_id].payment;
+            userState[chat_id] = { state: 'withdraw_confirm', amount: amt, method, payment };
+            await sendInlineMsg(chat_id,
+              `<b>⚠️ Confirm Withdrawal</b>\n\n<b>💰 Amount: ₹${amt}</b>\n<b>${method === 'upi' ? '💳 UPI' : '🏦 Bank'}: ${payment}</b>`,
+              [[{ text: '✅ Approve', callback_data: 'approve_withdraw' }, { text: '❌ Cancel', callback_data: 'cancel_withdraw' }]]
+            );
+          }
+        }
+        return res.send('OK');
+      }
+    }
+
     if (text === '/start') {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length === 0) {
         await sendMsg(chat_id, `<b>👋 Welcome ${name}!</b>\n\nBot use karne ke liye apna phone number bhejo:`);
       } else {
         const u = users[0];
-        await sendMsg(chat_id, `<b>👤 Profile</b>\n\n<b>🧑 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${u.balance}</b>\n<b>🔁 Lifetime Earnings: ₹${u.lifetime_earnings}</b>\n<b>📱 Phone: ${u.phone}</b>`, mainKeyboard);
+        await sendMsg(chat_id, `<b>👤 Profile</b>\n\n<b>🧑 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${parseFloat(u.balance).toFixed(2)}</b>\n<b>🔁 Lifetime Earnings: ₹${parseFloat(u.lifetime_earnings).toFixed(2)}</b>\n<b>📱 Phone: ${u.phone}</b>`, mainKeyboard);
       }
 
     } else if (/^[6-9]\d{9}$/.test(text)) {
@@ -223,22 +290,13 @@ app.post('/webhook', async (req, res) => {
       const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
       if (users.length > 0) {
         const u = users[0];
-        const upiStatus = u.upi_id ? `💳 UPI: ${u.upi_id}` : '💳 UPI: Not Set';
-        const bankStatus = u.bank_account ? `🏦 Bank: ${u.bank_account}` : '🏦 Bank: Not Set';
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id,
-            text: `<b>👤 Profile</b>\n\n<b>🙌🏻 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${u.balance}</b>\n<b>🪢 Lifetime Earnings: ₹${u.lifetime_earnings}</b>\n<b>📱 Phone: ${u.phone}</b>\n\n<b>💳 UPI</b>\n<b>${u.upi_id ? u.upi_id : 'Not Set'}</b>\n\n<b>🏦 Bank Details</b>\n<b>${u.bank_account ? u.bank_account + ' | ' + u.bank_ifsc : 'Not Set'}</b>`,
-            parse_mode: 'HTML',
-            reply_markup: {
-              inline_keyboard: [
-                [{ text: '💳 Update UPI', callback_data: 'set_upi' }, { text: '🏦 Update Bank', callback_data: 'set_bank' }]
-              ]
-            }
-          })
-        });
+        await sendInlineMsg(chat_id,
+          `<b>👤 Profile</b>\n\n<b>🙌🏻 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${parseFloat(u.balance).toFixed(2)}</b>\n<b>🪢 Lifetime Earnings: ₹${parseFloat(u.lifetime_earnings).toFixed(2)}</b>\n<b>📱 Phone: ${u.phone}</b>`,
+          [
+            [{ text: '💳 UPI', callback_data: 'set_upi' }],
+            [{ text: '🏦 Bank Details', callback_data: 'set_bank' }]
+          ]
+        );
       }
 
     } else if (text === '💰 Withdraw') {
@@ -248,101 +306,21 @@ app.post('/webhook', async (req, res) => {
         if (parseFloat(u.balance) < 50) {
           await sendMsg(chat_id, `<b>❌ Minimum ₹50 Required To Withdraw!</b>`, mainKeyboard);
         } else if (!u.upi_id && !u.bank_account) {
-          await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id,
-              text: `<b>⚠️ Choose Payment Method:</b>`,
-              parse_mode: 'HTML',
-              reply_markup: {
-                inline_keyboard: [
-                  [{ text: '💳 UPI', callback_data: 'set_upi' }, { text: '🏦 Bank', callback_data: 'set_bank' }]
-                ]
-              }
-            })
-          });
+          await sendInlineMsg(chat_id,
+            `<b>⚠️ Choose Payment Method:</b>`,
+            [
+              [{ text: '💳 UPI', callback_data: 'set_upi' }],
+              [{ text: '🏦 Bank', callback_data: 'set_bank' }]
+            ]
+          );
         } else {
-          await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id,
-              text: `<b>💸 Choose Payment Method:</b>\n\n<b>💰 Available Balance: ₹${u.balance}</b>`,
-              parse_mode: 'HTML',
-              reply_markup: {
-                inline_keyboard: [
-                  [
-                    u.upi_id ? { text: '💳 UPI', callback_data: 'withdraw_upi' } : { text: '💳 Set UPI', callback_data: 'set_upi' },
-                    u.bank_account ? { text: '🏦 Bank', callback_data: 'withdraw_bank' } : { text: '🏦 Set Bank', callback_data: 'set_bank' }
-                  ]
-                ]
-              }
-            })
-          });
-        }
-      }
-
-    } else if (userState[chat_id]) {
-      const state = userState[chat_id].state;
-
-      // UPI Set
-      if (state === 'set_upi') {
-        if (isValidUPI(text)) {
-          await dbPatch('users', `telegram_id=eq.${chat_id}`, { upi_id: text });
-          delete userState[chat_id];
-          await sendMsg(chat_id, `<b>✅ UPI Updated Successfully!</b>\n\n<b>💳 UPI ID: ${text}</b>`, mainKeyboard);
-        } else {
-          await sendMsg(chat_id, `<b>❌ Invalid UPI format!</b>\n\n<b>💳 Please enter your UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
-        }
-
-      // Bank Account Set
-      } else if (state === 'set_bank_account') {
-        if (/^\d{9,18}$/.test(text)) {
-          userState[chat_id] = { state: 'set_bank_ifsc', account: text };
-          await sendMsg(chat_id, `<b>🏦 Please enter your IFSC code:</b>`);
-        } else {
-          await sendMsg(chat_id, `<b>❌ Invalid account number! Please enter again:</b>`);
-        }
-
-      // Bank IFSC Set
-      } else if (state === 'set_bank_ifsc') {
-        if (isValidIFSC(text)) {
-          const account = userState[chat_id].account;
-          await dbPatch('users', `telegram_id=eq.${chat_id}`, { bank_account: account, bank_ifsc: text.toUpperCase() });
-          delete userState[chat_id];
-          await sendMsg(chat_id, `<b>✅ Bank Updated Successfully!</b>\n\n<b>🏦 Account: ${account}</b>\n<b>📋 IFSC: ${text.toUpperCase()}</b>`, mainKeyboard);
-        } else {
-          await sendMsg(chat_id, `<b>❌ Invalid IFSC code format. Please enter a valid IFSC code (e.g., SBIN0001234). Please try again</b>`);
-        }
-
-      // Withdraw Amount
-      } else if (state === 'withdraw_amount') {
-        const amt = parseFloat(text);
-        const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
-        if (users.length > 0) {
-          const u = users[0];
-          if (isNaN(amt) || amt < 50) {
-            await sendMsg(chat_id, `<b>❌ Minimum ₹50 Required! Please enter again:</b>`);
-          } else if (amt > parseFloat(u.balance)) {
-            await sendMsg(chat_id, `<b>❌ Insufficient balance! Available: ₹${u.balance}</b>`);
-          } else {
-            userState[chat_id] = { state: 'withdraw_confirm', amount: amt, method: userState[chat_id].method, payment: userState[chat_id].payment };
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                chat_id,
-                text: `<b>⚠️ Confirm Withdrawal</b>\n\n<b>💰 Amount: ₹${amt}</b>\n<b>${userState[chat_id].method === 'upi' ? '💳 UPI' : '🏦 Bank'}: ${userState[chat_id].payment}</b>`,
-                parse_mode: 'HTML',
-                reply_markup: {
-                  inline_keyboard: [
-                    [{ text: '✅ Approve', callback_data: 'approve_withdraw' }, { text: '❌ Cancel', callback_data: 'cancel_withdraw' }]
-                  ]
-                }
-              })
-            });
-          }
+          const buttons = [];
+          if (u.upi_id) buttons.push([{ text: '💳 UPI', callback_data: 'withdraw_upi' }]);
+          if (u.bank_account) buttons.push([{ text: '🏦 Bank', callback_data: 'withdraw_bank' }]);
+          await sendInlineMsg(chat_id,
+            `<b>💸 Choose Payment Method:</b>\n\n<b>💰 Available Balance: ₹${parseFloat(u.balance).toFixed(2)}</b>`,
+            buttons
+          );
         }
       }
 
@@ -397,15 +375,11 @@ app.get('/postback', async (req, res) => {
 
     try {
       const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
-      console.log('CLICKS FOUND:', clicks);
       if (clicks.length > 0) {
         offer = clicks[0].offer_name;
         runTime = new Date(clicks[0].created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }).replace(',', '');
       }
     } catch(e) {}
-
-    console.log('OFFER DETECTED:', offer);
-    console.log('EVENT:', event);
 
     const config = offerConfig[offer] || {
       installAmt: 0, trialAmt: 0,
@@ -419,7 +393,6 @@ app.get('/postback', async (req, res) => {
     let addBalance = false;
 
     const eventName = event?.trim().toLowerCase();
-    console.log('EVENT NAME LOWERCASE:', eventName);
 
     if (['web', 'initial', 'install', 'e1', 'default'].includes(eventName)) {
       amount = config.installAmt || 0;
@@ -435,8 +408,6 @@ app.get('/postback', async (req, res) => {
       addBalance = true;
     }
 
-    console.log('AMOUNT:', amount, 'COMMENT:', comment, 'ADD BALANCE:', addBalance);
-
     await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount, event });
 
     const users = await dbGet('users', `phone=eq.${click_id}`);
@@ -446,9 +417,9 @@ app.get('/postback', async (req, res) => {
         const newBal = parseFloat(u.balance) + amount;
         const newLife = parseFloat(u.lifetime_earnings) + amount;
         await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
-        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal}</b>\n\n<b>💡 Comment = ${comment}</b>`);
+        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal.toFixed(2)}</b>\n\n<b>💡 Comment = ${comment}</b>`);
       } else if (amount > 0) {
-        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${u.balance}</b>\n\n<b>💡 Comment = ${comment}</b>`);
+        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${parseFloat(u.balance).toFixed(2)}</b>\n\n<b>💡 Comment = ${comment}</b>`);
       }
     }
 
