@@ -327,7 +327,7 @@ app.post('/webhook', async (req, res) => {
         await sendInlineMsg(chat_id,
           `<b>👤 Profile</b>\n\n<b>🙌🏻 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${parseFloat(u.balance).toFixed(2)}</b>\n<b>🪢 Lifetime Earnings: ₹${parseFloat(u.lifetime_earnings).toFixed(2)}</b>\n<b>📱 Phone: ${u.phone}</b>`,
           [
-            [{ text: '💸 UPI', callback_data: 'set_upi' }],
+            [{ text: '💳 UPI', callback_data: 'set_upi' }],
             [{ text: '🏦 Bank Details', callback_data: 'set_bank' }]
           ]
         );
@@ -343,7 +343,7 @@ app.post('/webhook', async (req, res) => {
           await sendInlineMsg(chat_id,
             `<b>⚠️ Choose Payment Method:</b>`,
             [
-              [{ text: '💸 UPI', callback_data: 'set_upi' }],
+              [{ text: '💳 UPI', callback_data: 'set_upi' }],
               [{ text: '🏦 Bank', callback_data: 'set_bank' }]
             ]
           );
