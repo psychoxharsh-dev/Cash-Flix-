@@ -442,8 +442,7 @@ app.get('/postback', async (req, res) => {
       addBalance = true;
     }
 
-    await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount, event
-      
+    await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount, event 
     const users = await dbGet('users', `phone=eq.${click_id}`);
     if (users.length > 0) {
       const u = users[0];
