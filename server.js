@@ -383,7 +383,7 @@ app.post('/webhook', async (req, res) => {
             `<b>💸 Choose Payment Method:</b>\n\n<b>💰 Available Balance: ₹${parseFloat(u.balance).toFixed(2)}</b>`,
             [
               [{ text: '💸 UPI', callback_data: 'withdraw_upi' }],
-              [{ text: '🏦 Bank', callback_data: 'withdraw_bank' }]
+              [{ text: '🏦 Bank Transfer', callback_data: 'withdraw_bank' }]
             ]
           );
         } else if (u.upi_id) {
