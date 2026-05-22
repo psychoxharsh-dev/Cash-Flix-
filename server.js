@@ -427,4 +427,90 @@ app.post('/click', async (req, res) => {
     const { click_id, offer_name } = req.body;
     console.log('CLICK RECEIVED:', { click_id, offer_name });
     if (click_id && offer_name) {
+      await dbPost('clicks', { click_id, offer_name });
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
+  } catch(e) {
+    console.error(e);
+    res.json({ success: false });
+  }
+});
+
+app.get('/postback', async (req, res) => {
+  try {
+    const { click_id = 'N/A', event = 'N/A' } = req.query;
+    console.log('POSTBACK RECEIVED:', req.query);
+
+    let runTime = getTime();
+    let offer = req.query.offer || 'Unknown';
+
+    try {
+      const clicks = await dbGet('clicks', `click_id=eq.${click_id}&order=created_at.desc&limit=1`);
+      if (clicks.length > 0) {
+        offer = clicks[0].offer_name;
+        runTime = new Date(clicks[0].created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }).replace(',', '');
+      }
+    } catch(e) {}
+
+    const config = offerConfig[offer] || {
+      installAmt: 0, trialAmt: 0,
+      installBalance: false, trialBalance: false,
+      installComment: `${offer} Install`,
+      trialComment: `${offer} Trial`
+    };
+
+    let amount = 0;
+    let comment = '';
+    let addBalance = false;
+
+    const eventName = event?.trim().toLowerCase();
+
+    if (['web', 'initial', 'install', 'e1', 'default'].includes(eventName)) {
+      amount = config.installAmt || 0;
+      comment = config.installComment;
+      addBalance = config.installBalance;
+    } else if (['trial', 'purchase', 'e2', 'complete', 'signup', 'goldbuy', 'sign_up_success', 'af_complete_registration', 'gold_silver_successful_purchase'].includes(eventName)) {
+      amount = config.trialAmt || 0;
+      comment = config.trialComment;
+      addBalance = config.trialBalance;
+    } else {
+      amount = parseFloat(req.query.amount || 0);
+      comment = `${offer} Complete`;
+      addBalance = true;
+    }
+
+    await dbPost('conversions', { telegram_id: click_id, click_id, offer_name: offer, amount, event });
+
+    const users = await dbGet('users', `phone=eq.${click_id}`);
+    if (users.length > 0) {
+      const u = users[0];
+      if (addBalance && amount > 0) {
+        const newBal = parseFloat(u.balance) + amount;
+        const newLife = parseFloat(u.lifetime_earnings) + amount;
+        await dbPatch('users', `phone=eq.${click_id}`, { balance: newBal, lifetime_earnings: newLife });
+        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${newBal.toFixed(2)}</b>\n\n<b>💡 Comment = ${comment}</b>`);
+      } else if (amount > 0) {
+        await sendMsg(u.telegram_id, `<b>🧿 Cashback Credited 🧿</b>\n\n<b>💶 Amount  = ${amount}</b>\n<b>💰 Updated Balance = ${parseFloat(u.balance).toFixed(2)}</b>\n\n<b>💡 Comment = ${comment}</b>`);
+      }
+    }
+
+    const trackTime = getTime();
+    const msg = `<b>Conversation Count 💝</b>\n\n<b>🎁 Offer Name - ${offer}</b>\n\n<b>User Id : ${maskPhone(click_id)}</b>\n<b>User Amount : ₹${amount}</b>\n<b>🥳 User Payment : Success</b>\n\n<b>Run Time - ${runTime}</b>\n<b>Track Time - ${trackTime}</b>\n\n<b>Powered By - CashFlix</b>`;
+    await sendMsg(CHAT_ID, msg);
+  } catch(e) {
+    console.error(e);
+  }
+  res.send('OK');
+});
+
+app.get('/', (req, res) => res.send('TrackFlix Wallet Bot Running! ✅'));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Running on port ${PORT}`));
+
+setInterval(async () => {
+  try { await fetch('https://cash-flix-dytv.onrender.com/'); } catch(e) {}
+}, 14 * 60 * 1000);
     
