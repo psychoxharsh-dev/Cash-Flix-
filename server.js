@@ -160,13 +160,13 @@ app.post('/webhook', async (req, res) => {
           );
         } else {
           userState[chat_id] = { state: 'set_upi' };
-          await sendMsg(chat_id, `<b>💳 Please enter your UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
+          await sendMsg(chat_id, `<b> Please enter your UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
         }
 
       } else if (data === 'update_upi') {
         await answerAlert(callback_query.id, '');
         userState[chat_id] = { state: 'set_upi' };
-        await sendMsg(chat_id, `<b>💳 Please enter your new UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
+        await sendMsg(chat_id, `<b> Please enter your new UPI ID</b>\n<b>(format: alphanumeric@alphabets)</b>\n\n<b>Example: john.doe@okaxis</b>`);
 
       } else if (data === 'set_bank') {
         await answerAlert(callback_query.id, '');
@@ -178,13 +178,13 @@ app.post('/webhook', async (req, res) => {
           );
         } else {
           userState[chat_id] = { state: 'set_bank_account' };
-          await sendMsg(chat_id, `<b>🏦 Please enter your account number:</b>`);
+          await sendMsg(chat_id, `<b> Please enter your account number:</b>`);
         }
 
       } else if (data === 'update_bank') {
         await answerAlert(callback_query.id, '');
         userState[chat_id] = { state: 'set_bank_account' };
-        await sendMsg(chat_id, `<b>🏦 Please enter your new account number:</b>`);
+        await sendMsg(chat_id, `<b> Please enter your new account number:</b>`);
 
       } else if (data === 'withdraw_upi') {
         await answerAlert(callback_query.id, '');
@@ -383,7 +383,7 @@ app.post('/webhook', async (req, res) => {
         await sendInlineMsg(chat_id,
           `<b>👤 Profile</b>\n\n<b>🙌🏻 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${parseFloat(u.balance).toFixed(2)}</b>\n<b>🪢 Lifetime Earnings: ₹${parseFloat(u.lifetime_earnings).toFixed(2)}</b>\n<b>📱 Phone: ${u.phone}</b>`,
           [
-            [{ text: '💳 UPI', callback_data: 'set_upi' }],
+            [{ text: '💸 UPI', callback_data: 'set_upi' }],
             [{ text: '🏦 Bank Details', callback_data: 'set_bank' }]
           ]
         );
@@ -399,7 +399,7 @@ app.post('/webhook', async (req, res) => {
           await sendInlineMsg(chat_id,
             `<b>⚠️ Choose Payment Method:</b>`,
             [
-              [{ text: '💳 UPI', callback_data: 'set_upi' }],
+              [{ text: '💸 UPI', callback_data: 'set_upi' }],
               [{ text: '🏦 Bank', callback_data: 'set_bank' }]
             ]
           );
@@ -407,7 +407,7 @@ app.post('/webhook', async (req, res) => {
           await sendInlineMsg(chat_id,
             `<b>💸 Choose Payment Method:</b>\n\n<b>💰 Available Balance: ₹${parseFloat(u.balance).toFixed(2)}</b>`,
             [
-              [{ text: '💳 UPI', callback_data: 'withdraw_upi' }],
+              [{ text: '💸 UPI', callback_data: 'withdraw_upi' }],
               [{ text: '🏦 Bank', callback_data: 'withdraw_bank' }]
             ]
           );
