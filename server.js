@@ -329,7 +329,7 @@ app.post('/webhook', async (req, res) => {
           const account = userState[chat_id].account;
           await dbPatch('users', `telegram_id=eq.${chat_id}`, { bank_account: account, bank_ifsc: text.toUpperCase() });
           delete userState[chat_id];
-          await sendMsg(chat_id, `<b>✅ Bank Details updated successfully!</b>\n\n<b>🏦 Account: ${account}</b>\n<b>📋 IFSC: ${text.toUpperCase()}</b>`, mainKeyboard);
+          await sendMsg(chat_id, `<b>✅ Bank Details updated successfully!</b>\n\n<b>🏦 Account Number: ${account}</b>\n<b>📋 IFSC Code: ${text.toUpperCase()}</b>`, mainKeyboard);
         } else {
           await sendMsg(chat_id, `<b>❌ Invalid IFSC code format. Please enter a valid IFSC code (e.g., SBIN0001234). Please try again</b>`);
         }
