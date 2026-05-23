@@ -194,7 +194,7 @@ app.post('/webhook', async (req, res) => {
           if (parseFloat(u.balance) >= 50) {
             userState[chat_id] = { state: 'withdraw_amount', method: 'upi', payment: u.upi_id };
             await editMsg(chat_id, message_id,
-              `<b>💸 Please enter withdrawal amount</b>\n<b>(Minimum: ₹50.00):</b>`, []
+              `<b>Please enter withdrawal amount</b>\n<b>(Minimum: ₹50.00):</b>`, []
             );
           } else {
             await sendMsg(chat_id, `<b>❌ Minimum ₹50 Required To Withdraw!</b>`, mainKeyboard);
