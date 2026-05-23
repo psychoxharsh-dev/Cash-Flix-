@@ -173,7 +173,7 @@ app.post('/webhook', async (req, res) => {
         const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
         if (users.length > 0 && users[0].bank_account) {
           await editMsg(chat_id, message_id,
-            `<b>🏦 Bank Details:</b>\n\n<b>Account: ${users[0].bank_account}</b>\n<b>IFSC: ${users[0].bank_ifsc}</b>`,
+            `<b>🏦 Bank Details:</b>\n\n<b>Account Number: ${users[0].bank_account}</b>\n<b>IFSC Code: ${users[0].bank_ifsc}</b>`,
             [[{ text: '✏️ Update', callback_data: 'update_bank' }]]
           );
         } else {
@@ -209,7 +209,7 @@ app.post('/webhook', async (req, res) => {
           if (parseFloat(u.balance) >= 50) {
             userState[chat_id] = { state: 'withdraw_amount', method: 'bank', payment: `${u.bank_account} | ${u.bank_ifsc}` };
             await editMsg(chat_id, message_id,
-              `<b>💸 Please enter withdrawal amount</b>\n<b>(Minimum: ₹50.00):</b>`, []
+              `<b>Please enter withdrawal amount</b>\n<b>(Minimum: ₹50.00):</b>`, []
             );
           } else {
             await sendMsg(chat_id, `<b>❌ Minimum ₹50 Required To Withdraw!</b>`, mainKeyboard);
