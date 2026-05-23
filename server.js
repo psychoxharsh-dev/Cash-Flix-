@@ -416,7 +416,7 @@ app.post('/webhook', async (req, res) => {
           await sendMsg(chat_id, `<b>Please enter withdrawal amount</b>\n<b>(Minimum: ₹50.00):</b>`);
         } else if (u.bank_account) {
           userState[chat_id] = { state: 'withdraw_amount', method: 'bank', payment: `${u.bank_account} | ${u.bank_ifsc}` };
-          await sendMsg(chat_id, `<b>Please enter withdrawal amount (Minimum: ₹50.00):</b>`
+          await sendMsg(chat_id, `<b>Please enter withdrawal amount (Minimum: ₹50.00):</b>`);
         }
       }
 
