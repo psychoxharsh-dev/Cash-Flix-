@@ -253,7 +253,7 @@ app.post('/webhook', async (req, res) => {
           const w = withdrawals[0];
           const statusEmoji = w.status === 'paid' ? '✅' : w.status === 'cancelled' ? '❌' : '🕐';
           const statusText = w.status === 'paid' ? 'Paid' : w.status === 'cancelled' ? 'Cancelled' : 'Pending';
-          await answerAlert(callback_query.id, `CashFlix Wallet ⚡\n\n${statusEmoji} Status: ${statusText}`);
+          await answerAlert(callback_query.id, `Status: ${statusText} ${statusEmoji}`);
         }
 
       } else if (data.startsWith('admin_approve_')) {
