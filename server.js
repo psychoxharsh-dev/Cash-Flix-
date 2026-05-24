@@ -275,7 +275,7 @@ app.post('/webhook', async (req, res) => {
           const w = withdrawals[0];
           const statusEmoji = w.status === 'paid' ? '✅' : w.status === 'cancelled' ? '❌' : '🕐';
           const statusText = w.status === 'paid' ? 'Paid' : w.status === 'cancelled' ? 'Cancelled' : 'Pending';
-          await answerAlert(callback_query.id, `CashFlix Wallet ⚡\n\n${statusEmoji} Status: ${statusText}`);
+          await answerAlert(callback_query.id, `Status: ${statusText} ${statusEmoji}`);
         }
 
       } else if (data.startsWith('admin_approve_')) {
@@ -379,7 +379,7 @@ app.post('/webhook', async (req, res) => {
           if (mid) {
             await editMsg(chat_id, mid, `<b>✅ Bank Details updated successfully!</b>\n\n<b>🏦 Account: ${account}</b>\n<b>📋 IFSC: ${text.toUpperCase()}</b>`, []);
           } else {
-            await sendMsg(chat_id, `<b>✅ Bank Details updated successfully!</b>\n\n<b>🏦 Account: ${account}</b>\n<b>📋 IFSC: ${text.toUpperCase()}</b>`, mainKeyboard);
+            await sendMsg(chat_id, `<b>✅ Bank Details updated successfully!</b>\n\n<b>🏦 Account Number: ${account}</b>\n<b>📋 IFSC Code: ${text.toUpperCase()}</b>`, mainKeyboard);
           }
         } else {
           await sendMsg(chat_id, `<b>❌ Invalid IFSC code format. Please enter a valid IFSC code (e.g., SBIN0001234). Please try again</b>`);
@@ -441,7 +441,7 @@ app.post('/webhook', async (req, res) => {
         await sendInlineMsg(chat_id,
           `<b>👤 Profile</b>\n\n<b>🙌🏻 User: ${u.name} ⚡</b>\n<b>💰 Balance: ₹${parseFloat(u.balance).toFixed(2)}</b>\n<b>🪢 Lifetime Earnings: ₹${parseFloat(u.lifetime_earnings).toFixed(2)}</b>\n<b>📱 Phone: ${u.phone}</b>`,
           [
-            [{ text: '💳 UPI', callback_data: 'set_upi' }],
+            [{ text: '💸 UPI', callback_data: 'set_upi' }],
             [{ text: '🏦 Bank Details', callback_data: 'set_bank' }]
           ]
         );
@@ -457,7 +457,7 @@ app.post('/webhook', async (req, res) => {
           await sendInlineMsg(chat_id,
             `<b>⚠️ Choose Payment Method:</b>`,
             [
-              [{ text: '💳 UPI', callback_data: 'set_upi' }],
+              [{ text: '💸 UPI', callback_data: 'set_upi' }],
               [{ text: '🏦 Bank', callback_data: 'set_bank' }]
             ]
           );
@@ -465,7 +465,7 @@ app.post('/webhook', async (req, res) => {
           await sendInlineMsg(chat_id,
             `<b>💸 Choose Payment Method:</b>\n\n<b>💰 Available Balance: ₹${parseFloat(u.balance).toFixed(2)}</b>`,
             [
-              [{ text: '💳 UPI', callback_data: 'withdraw_upi' }],
+              [{ text: '💸 UPI', callback_data: 'withdraw_upi' }],
               [{ text: '🏦 Bank', callback_data: 'withdraw_bank' }]
             ]
           );
