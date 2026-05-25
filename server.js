@@ -20,7 +20,7 @@ const POSTBACK_TOKEN = process.env.POSTBACK_TOKEN || 'cash';
 const offerConfig = {
   'Waves': { installAmt: 3, trialAmt: 3, installBalance: true, trialBalance: false, installComment: 'Waves Signup', trialComment: 'Waves Signup' },
   'StoryMax': { installAmt: 0.01, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'StoryMax Install', trialComment: 'StoryMax Trial Buy' },
-  'WowTv': { installAmt: 0.1, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'WowTv Install', trialComment: 'WowTv Trial' },
+  'FS': { installAmt: 0.1, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'FS Install', trialComment: 'FS deposit' },
   'Univest': { installAmt: 2, trialAmt: 10, installBalance: true, trialBalance: false, installComment: 'Univest Install', trialComment: 'Univest Register' },
   'InCred': { installAmt: 0.1, trialAmt: 22, installBalance: false, trialBalance: true, installComment: 'InCred Install', trialComment: 'InCred GoldBuy' }
 };
@@ -611,7 +611,7 @@ app.get('/postback', async (req, res) => {
       amount = config.installAmt || 0;
       comment = config.installComment;
       addBalance = config.installBalance;
-    } else if (['trial', 'purchase', 'e2', 'complete', 'signup', 'goldbuy', 'sign_up_success', 'af_complete_registration', 'gold_silver_successful_purchase'].includes(eventName)) {
+    } else if (['trial', 'purchase', 'e2', 'complete', 'signup', 'goldbuy', 'sign_up_success', 'deposit', 'gold_silver_successful_purchase'].includes(eventName)) {
       amount = config.trialAmt || 0;
       comment = config.trialComment;
       addBalance = config.trialBalance;
