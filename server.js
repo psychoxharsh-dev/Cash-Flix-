@@ -20,7 +20,7 @@ const POSTBACK_TOKEN = process.env.POSTBACK_TOKEN || 'cash';
 const offerConfig = {
   'Waves': { installAmt: 4, trialAmt: 3, installBalance: true, trialBalance: false, installComment: 'Waves Signup', trialComment: 'Waves Signup' },
   'StoryMax': { installAmt: 0.01, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'StoryMax Install', trialComment: 'StoryMax Trial Buy' },
-  'Fanous': { installAmt: 2, trialAmt: 18, installBalance: true, trialBalance: false, installComment: 'Fanous Install', trialComment: 'FS deposit' },
+  'QUICK TV': { installAmt: 0.1, trialAmt: 20, installBalance: false, trialBalance: true, installComment: 'Quick Install', trialComment: 'Quick Trial Buy' },
   'Univest': { installAmt: 2, trialAmt: 10, installBalance: true, trialBalance: false, installComment: 'Univest Install', trialComment: 'Univest Register' },
   'InCred': { installAmt: 0.1, trialAmt: 22, installBalance: false, trialBalance: true, installComment: 'InCred Install', trialComment: 'InCred GoldBuy' }
 };
