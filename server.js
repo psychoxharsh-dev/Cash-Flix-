@@ -18,7 +18,7 @@ const ADMIN_ID = '7217447824';
 const POSTBACK_TOKEN = process.env.POSTBACK_TOKEN || 'cash';
 
 const offerConfig = {
-  'Waves': { installAmt: 4, trialAmt: 3, installBalance: true, trialBalance: false, installComment: 'Waves Signup', trialComment: 'Waves Signup' },
+  'STORY FIRE': { installAmt: 0.1, trialAmt: 25, installBalance: true, trialBalance: false, installComment: 'StoryTv Install', trialComment: 'StoryTv Trail' },
   'StoryMax': { installAmt: 0.01, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'StoryMax Install', trialComment: 'StoryMax Trial Buy' },
   'QUICK TV': { installAmt: 0.1, trialAmt: 20, installBalance: false, trialBalance: true, installComment: 'Quick Install', trialComment: 'Quick Trial Buy' },
   'Univest': { installAmt: 2, trialAmt: 10, installBalance: true, trialBalance: false, installComment: 'Univest Install', trialComment: 'Univest Register' },
