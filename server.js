@@ -18,7 +18,7 @@ const ADMIN_ID = '7217447824';
 const POSTBACK_TOKEN = process.env.POSTBACK_TOKEN || 'cash';
 
 const offerConfig = {
-  'Waves': { installAmt: 3, trialAmt: 3, installBalance: true, trialBalance: false, installComment: 'Waves Signup', trialComment: 'Waves Signup' },
+  'Waves': { installAmt: 4, trialAmt: 3, installBalance: true, trialBalance: false, installComment: 'Waves Signup', trialComment: 'Waves Signup' },
   'StoryMax': { installAmt: 0.01, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'StoryMax Install', trialComment: 'StoryMax Trial Buy' },
   'Fanous': { installAmt: 2, trialAmt: 18, installBalance: true, trialBalance: false, installComment: 'Fanous Install', trialComment: 'FS deposit' },
   'Univest': { installAmt: 2, trialAmt: 10, installBalance: true, trialBalance: false, installComment: 'Univest Install', trialComment: 'Univest Register' },
@@ -607,7 +607,7 @@ app.get('/postback', async (req, res) => {
     let addBalance = false;
     const eventName = event?.trim().toLowerCase();
 
-    if (['web', 'initial', 'install', 'e1', 'default'].includes(eventName)) {
+    if (['web', 'initial', 'install', 'e1', 'registration', 'default'].includes(eventName)) {
       amount = config.installAmt || 0;
       comment = config.installComment;
       addBalance = config.installBalance;
