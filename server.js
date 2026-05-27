@@ -19,7 +19,7 @@ const POSTBACK_TOKEN = process.env.POSTBACK_TOKEN || 'cash';
 
 const offerConfig = {
   'STORY FIRE': { installAmt: 0.1, trialAmt: 25, installBalance: true, trialBalance: false, installComment: 'StoryTv Install', trialComment: 'StoryTv Trail' },
-  'StoryMax': { installAmt: 0.01, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'StoryMax Install', trialComment: 'StoryMax Trial Buy' },
+  'StoryMax': { installAmt: 0.1, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'StoryMax Install', trialComment: 'StoryMax Trial Buy' },
   'FriendShip': { installAmt: 0.1, trialAmt: 43, installBalance: false, trialBalance: true, installComment: 'FS Install', trialComment: 'FS Deposit' },
   'QUICK TV': { installAmt: 0.1, trialAmt: 20, installBalance: false, trialBalance: true, installComment: 'Quick Install', trialComment: 'Quick Trial Buy' },
   'Waves': { installAmt: 5, trialAmt: 10, installBalance: true, trialBalance: false, installComment: 'Waves Registration', trialComment: 'Univest Register' },
