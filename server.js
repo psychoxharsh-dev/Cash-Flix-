@@ -22,7 +22,7 @@ const offerConfig = {
   'StoryMax': { installAmt: 0.01, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'StoryMax Install', trialComment: 'StoryMax Trial Buy' },
   'FriendShip': { installAmt: 0.1, trialAmt: 43, installBalance: false, trialBalance: true, installComment: 'FS Install', trialComment: 'FS Deposit' },
   'QUICK TV': { installAmt: 0.1, trialAmt: 20, installBalance: false, trialBalance: true, installComment: 'Quick Install', trialComment: 'Quick Trial Buy' },
-  'Univest': { installAmt: 2, trialAmt: 10, installBalance: true, trialBalance: false, installComment: 'Univest Install', trialComment: 'Univest Register' },
+  'Waves': { installAmt: 5, trialAmt: 10, installBalance: true, trialBalance: false, installComment: 'Waves Registration', trialComment: 'Univest Register' },
   'InCred': { installAmt: 0.1, trialAmt: 22, installBalance: false, trialBalance: true, installComment: 'InCred Install', trialComment: 'InCred GoldBuy' }
 };
 
