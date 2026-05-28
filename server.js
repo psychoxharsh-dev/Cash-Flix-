@@ -22,7 +22,7 @@ const offerConfig = {
   'StoryMax': { installAmt: 0.1, trialAmt: 15, installBalance: false, trialBalance: true, installComment: 'StoryMax Install', trialComment: 'StoryMax Trial Buy' },
   'WowTv': { installAmt: 0.1, trialAmt: 18, installBalance: false, trialBalance: true, installComment: 'WowTv Install', trialComment: 'WowTv Trial' },
   'Quick Tv': { installAmt: 0.1, trialAmt: 21, installBalance: false, trialBalance: true, installComment: 'QuickTv Install', trialComment: 'QuickTv Trail' },
-  'Story Tv': { installAmt: 0.1, trialAmt: 20, installBalance: false, trialBalance: true, installComment: 'StoryTv Install', trialComment: 'StoryTv Trail' }
+  'Story Tv': { installAmt: 0.1, trialAmt: 22, installBalance: false, trialBalance: true, installComment: 'StoryTv Install', trialComment: 'StoryTv Trail' }
 };
 
 const rateLimitMap = {};
