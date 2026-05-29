@@ -207,31 +207,31 @@ app.post('/webhook', async (req, res) => {
           );
         } else {
           userState[chat_id] = { state: 'set_upi', message_id: null, timestamp: Date.now() };
-          await sendMsg(chat_id, `<b>💳 Please enter your UPI ID (format: alphanumeric@alphabets)\n\nExample: john.doe@okaxis</b>`);
+          await sendMsg(chat_id, `<b>Please enter your UPI ID (format: alphanumeric@alphabets)\n\nExample: john.doe@okaxis</b>`);
         }
 
       } else if (data === 'update_upi') {
         await answerAlert(callback_query.id, '');
         userState[chat_id] = { state: 'set_upi', message_id: null, timestamp: Date.now() };
-        await sendMsg(chat_id, `<b>💳 Please enter your new UPI ID (format: alphanumeric@alphabets)\n\nExample: john.doe@okaxis</b>`);
+        await sendMsg(chat_id, `<b>Please enter your new UPI ID (format: alphanumeric@alphabets)\n\nExample: john.doe@okaxis</b>`);
 
       } else if (data === 'set_bank') {
         await answerAlert(callback_query.id, '');
         const users = await dbGet('users', `telegram_id=eq.${chat_id}`);
         if (users.length > 0 && users[0].bank_account) {
           await editMsg(chat_id, message_id,
-            `<b>🏦 Bank Details:</b>\n\n<b>Account: ${users[0].bank_account}</b>\n<b>IFSC: ${users[0].bank_ifsc}</b>`,
+            `<b>🏦 Bank Details:</b>\n\n<b>Account Number: ${users[0].bank_account}</b>\n<b>IFSC Code: ${users[0].bank_ifsc}</b>`,
             [[{ text: '✏️ Update', callback_data: 'update_bank' }]]
           );
         } else {
           userState[chat_id] = { state: 'set_bank_account', message_id: null, timestamp: Date.now() };
-          await sendMsg(chat_id, `<b>🏦 Please enter your account number:</b>`);
+          await sendMsg(chat_id, `<b>Please enter your account number:</b>`);
         }
 
       } else if (data === 'update_bank') {
         await answerAlert(callback_query.id, '');
         userState[chat_id] = { state: 'set_bank_account', message_id: null, timestamp: Date.now() };
-        await sendMsg(chat_id, `<b>🏦 Please enter your new account number:</b>`);
+        await sendMsg(chat_id, `<b>Please enter your new account number:</b>`);
 
       } else if (data === 'withdraw_upi') {
         await answerAlert(callback_query.id, '');
