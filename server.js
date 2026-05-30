@@ -646,7 +646,7 @@ app.get('/postback', async (req, res) => {
       amount = config.installAmt || 0;
       comment = config.installComment;
       addBalance = config.installBalance;
-    } else if (['trial', 'purchase', 'e2', 'complete', 'signup', 'goldbuy', 'sign_up_success', 'deposit', 'trial_payment_successful'].includes(eventName)) {
+    } else if (['trial', 'purchase', 'e2', 'complete', 'signup', 'purchase15', 'sign_up_success', 'deposit', 'trial_payment_successful'].includes(eventName)) {
       amount = config.trialAmt || 0;
       comment = config.trialComment;
       addBalance = config.trialBalance;
