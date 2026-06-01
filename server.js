@@ -18,7 +18,7 @@ const ADMIN_ID = '7217447824';
 const POSTBACK_TOKEN = process.env.POSTBACK_TOKEN || 'cashf';
 
 const offerConfig = {
-  'Waves': { installAmt: 3, trialAmt: 3, installBalance: true, trialBalance: false, installComment: 'Waves Signup', trialComment: 'Waves Signup' },
+  'Waves': { installAmt: 0.1, trialAmt: 3, installBalance: true, trialBalance: true, installComment: 'Waves install', trialComment: 'Waves Signup' },
   'StoryMax': { installAmt: 0.1, trialAmt: 15, installBalance: false, trialBalance: true, installComment: 'StoryMax Install', trialComment: 'StoryMax Trial Buy' },
   'Jigri Super': { installAmt: 0.1, trialAmt: 40, installBalance: false, trialBalance: true, installComment: 'JIGRI Install', trialComment: 'JIGRI Deposit' },
   'FRIENDSHIP': { installAmt: 0.1, trialAmt: 43, installBalance: false, trialBalance: true, installComment: 'FriendShip Install', trialComment: 'FriendShip Deposit' },
@@ -645,7 +645,7 @@ app.get('/postback', async (req, res) => {
       amount = config.installAmt || 0;
       comment = config.installComment;
       addBalance = config.installBalance;
-    } else if (['trial', 'purchase', 'e2', 'gold_buy', 'signup', 'purchase15', 'sign_up_success', 'deposit', 'trial_payment_successful'].includes(eventName)) {
+    } else if (['trial', 'purchase', 'e2', 'gold_buy', 'signup', 'purchase15', 'registration', 'deposit', 'trial_payment_successful'].includes(eventName)) {
       amount = config.trialAmt || 0;
       comment = config.trialComment;
       addBalance = config.trialBalance;
