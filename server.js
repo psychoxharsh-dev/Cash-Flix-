@@ -23,7 +23,7 @@ const offerConfig = {
   'Jigri Super': { installAmt: 0.1, trialAmt: 40, installBalance: false, trialBalance: true, installComment: 'JIGRI Install', trialComment: 'JIGRI Deposit' },
   'FRIENDSHIP': { installAmt: 0.1, trialAmt: 43, installBalance: false, trialBalance: true, installComment: 'FriendShip Install', trialComment: 'FriendShip Deposit' },
   'ABCD EXCLUSIVE': { installAmt: 0.1, trialAmt: 40, installBalance: false, trialBalance: true, installComment: 'Abcd Install', trialComment: 'Abcd Gold },
-  'Quick Tv': { installAmt: 0.1, trialAmt: 22, installBalance: false, trialBalance: true, installComment: 'QuickTv Install', trialComment: 'QuickTv Trail' },
+  'Quick Tv Fire': { installAmt: 0.1, trialAmt: 22, installBalance: false, trialBalance: true, installComment: 'QuickTv Install', trialComment: 'QuickTv Trail' },
   'Story Tv': { installAmt: 0.1, trialAmt: 20, installBalance: false, trialBalance: true, installComment: 'StoryTv Install', trialComment: 'StoryTv Trail' }
 };
 
