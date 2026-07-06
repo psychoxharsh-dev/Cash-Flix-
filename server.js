@@ -14,7 +14,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
-const ADMIN_ID = '8897413984';
+const ADMIN_ID = '7217447824';
 const POSTBACK_TOKEN = process.env.POSTBACK_TOKEN || 'cash';
 
 const offerConfig = {
@@ -708,7 +708,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Running on port ${PORT}`));
 
 setInterval(async () => {
-  try { await fetchWithTimeout('https://cashflix-r5r2.onrender.com/'); } catch(e) {}
+  try { await fetchWithTimeout('https://cash-flix-dytv.onrender.com/'); } catch(e) {}
 }, 14 * 60 * 1000);
 
   
