@@ -208,7 +208,7 @@ app.post('/webhook', async (req, res) => {
         } else {
           // ✅ UPI nahi hai to no details message
           await editMsg(chat_id, message_id,
-            `<b>💸 UPI Details:\n\nNo UPI saved.</b>`,
+            `<b>💸 UPI Details:\n\nNo Upi Details saved.</b>`,
             [[{ text: '✏️ Update', callback_data: 'update_upi' }]]
           );
         }
@@ -297,7 +297,7 @@ app.post('/webhook', async (req, res) => {
             await dbPost('withdrawals', { telegram_id: chat_id, amount: parseFloat(state.amount), upi_id: state.payment, status: 'pending', request_id: requestId });
             await dbPatch('users', `telegram_id=eq.${chat_id}`, { balance: newBal < 0 ? 0 : newBal });
             await sendInlineMsg(chat_id,
-              `<b>⏳ Withdrawal Request Submitted!</b>\n\n<b>📊 Request ID: ${requestId}</b>\n<b>💰 Amount: ₹${state.amount}</b>\n<b>📱 Method: ${state.method === 'upi' ? 'UPI' : 'Bank'}</b>\n<b>📅 Date: ${now}</b>`,
+              `<b>⏳ Withdrawal Request Submitted for Menual Approval!</b>\n\n<b>📊 Request ID: ${requestId}</b>\n<b>💰 Amount: ₹${state.amount}</b>\n<b>📱 Method: ${state.method === 'upi' ? 'UPI' : 'Bank'}</b>\n<b>📅 Date: ${now}</b>`,
               [[{ text: '🔍 Check Status', callback_data: `status_${requestId}` }]]
             );
             await sendInlineMsg(ADMIN_ID,
