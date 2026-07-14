@@ -24,7 +24,7 @@ const offerConfig = {
   'QuickTv Fire': { installAmt: 0.1, trialAmt: 20, installBalance: false, trialBalance: true, installComment: 'QuickTv Install', trialComment: 'QuickTv Trail' },
   'Muthoot': { installAmt: 0.1, trialAmt: 15, installBalance: false, trialBalance: true, installComment: 'Muthoot Install', trialComment: 'Muthoot Register' },
   'Jar Gold': { installAmt: 0.1, trialAmt: 30, installBalance: false, trialBalance: true, installComment: 'Jar Install', trialComment: 'JarGold Buy' },
-  'StoryTv Fire': { installAmt: 0.1, trialAmt: 28, installBalance: false, trialBalance: true, installComment: 'StoryTv Install', trialComment: 'StoryTv Trail' }
+  'StoryTv Fire': { installAmt: 0.1, trialAmt: 20, installBalance: false, trialBalance: true, installComment: 'StoryTv Install', trialComment: 'StoryTv Trail' }
 };
 
 const rateLimitMap = {};
