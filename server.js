@@ -191,7 +191,7 @@ async function gwPayout(orderId, amount, upiId) {
   const res = await fetchWithTimeout(`${GW_BASE}/merchant-paynit-payout`, {
     method: 'POST',
     headers: gwHeaders({ 'X-Idempotency-Key': `idemp_${orderId}` }),
-    body: JSON.stringify({ order_id: orderId, amount, payout_method: 'UPI', upi_id: upiId, note: 'CashFlix Withdrawal' })
+    body: JSON.stringify({ order_id: orderId, amount, payout_method: 'UPI', upi_id: upiId, note: 'CASHFLIX' })
   });
   let j = {}; try { j = await res.json(); } catch (e) {}
   console.log('GW PAYOUT', orderId, res.status, JSON.stringify(j));
