@@ -18,7 +18,7 @@ const ADMIN_ID = '7217447824';
 const POSTBACK_TOKEN = process.env.POSTBACK_TOKEN || 'cash';
 
 const offerConfig = {
-  'Happy You': { installAmt: 0.1, trialAmt: 0, installBalance: false, trialBalance: true, installComment: 'Happy You Install', trialComment: 'Happy You Signup' }, // TODO: trialAmt me cashback amount daalo
+  'BAJAJ CPR': { installAmt: 0.1, trialAmt: 4, installBalance: false, trialBalance: true, installComment: 'Bajaj Install', trialComment: 'Bajaj Signup' }, // TODO: trialAmt me cashback amount daalo
   'Waves': { installAmt: 0.1, trialAmt: 3, installBalance: false, trialBalance: true, installComment: 'Waves Install', trialComment: 'Waves Signup' },
   'PolicyBazar': { installAmt: 0.1, trialAmt: 5, installBalance: false, trialBalance: true, installComment: 'PolicyBazar install', trialComment: 'PolicyBazar Register' },
   'Muthoot': { installAmt: 0.1, trialAmt: 15, installBalance: false, trialBalance: true, installComment: 'Muthoot Install', trialComment: 'Muthoot Register' },
@@ -824,7 +824,7 @@ const CID_MAP = {
   'TONG8X7K2': 'M',
   'BFNS9X3K1': 'bb',
   'STNS5X2K9': 'S',
-  'HAPY7X4Q8': 'X'
+  'BAJA7X4Q8': 'X'
 };
 // offer key -> real offer name (for tracking) + affiliate link (never sent to the browser source)
 const OFFERS = {
@@ -832,7 +832,7 @@ const OFFERS = {
   'M':  { name: 'Toing', param: 'p1', link: 'https://trackxmedia.swiftcashreward.com/go?cid=149&uid=249' },
   'bb': { name: 'bb',    param: 'p1', link: '' }, // TODO: apna affiliate link yaha daalo
   'S':  { name: 'S',     param: 'p1', link: '' }, // TODO: apna affiliate link yaha daalo
-  'X':  { name: 'Happy You', param: 'sub_aff_id', link: 'https://publisher.apnacashy.site/c/?o=53&a=15' }
+  'X':  { name: 'BAJAJ CPR', param: 'sub_aff_id', link: 'https://publisher.apnacashy.site/c/?o=88&a=15' }
 };
 
 app.get('/route', (req, res) => {
