@@ -18,7 +18,7 @@ const ADMIN_ID = '7217447824';
 const POSTBACK_TOKEN = process.env.POSTBACK_TOKEN || 'cash';
 
 const offerConfig = {
-  'BAJAJ CPR': { installAmt: 0.1, trialAmt: 4, installBalance: false, trialBalance: true, installComment: 'Bajaj Install', trialComment: 'Bajaj Signup' }, // TODO: trialAmt me cashback amount daalo
+  'BAJAJ CPR': { installAmt: 0.1, trialAmt: 5, installBalance: false, trialBalance: true, installComment: 'Bajaj Install', trialComment: 'Bajaj Signup' }, // TODO: trialAmt me cashback amount daalo
   'Waves': { installAmt: 0.1, trialAmt: 3, installBalance: false, trialBalance: true, installComment: 'Waves Install', trialComment: 'Waves Signup' },
   'PolicyBazar': { installAmt: 0.1, trialAmt: 5, installBalance: false, trialBalance: true, installComment: 'PolicyBazar install', trialComment: 'PolicyBazar Register' },
   'Muthoot': { installAmt: 0.1, trialAmt: 15, installBalance: false, trialBalance: true, installComment: 'Muthoot Install', trialComment: 'Muthoot Register' },
