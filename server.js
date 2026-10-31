@@ -823,7 +823,7 @@ app.get('/offer-status', async (req, res) => {
 const CID_MAP = {
   'TONG8X7K2': 'M',
   'BFNS9X3K1': 'bb',
-  'STNS5X2K9': 'S',
+  'RUMS5X2K9': 'R',
   'BAJA7X4Q8': 'X'
 };
 // offer key -> real offer name (for tracking) + affiliate link (never sent to the browser source)
@@ -831,7 +831,7 @@ const OFFERS = {
   // param = click id ka parameter naam (p1, affsub, aff_sub, sub1 ... jo network bole)
   'M':  { name: 'Toing', param: 'p1', link: 'https://trackxmedia.swiftcashreward.com/go?cid=149&uid=249' },
   'bb': { name: 'bb',    param: 'p1', link: '' }, // TODO: apna affiliate link yaha daalo
-  'S':  { name: 'S',     param: 'p1', link: '' }, // TODO: apna affiliate link yaha daalo
+  'R':  { name: 'Rummy',     param: 'sub_aff_id', link: 'https://publisher.apnacashy.site/c/?o=89&a=15' }, // TODO: apna affiliate link yaha daalo
   'X':  { name: 'BAJAJ CPR', param: 'sub_aff_id', link: 'https://publisher.apnacashy.site/c/?o=88&a=15' }
 };
 
